@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %} {% load static %}
+{% block content %}
+<div class="uk-card uk-card-default uk-card-body uk-width-1-4@s">
+    <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
+            <li class="uk-nav-header">Menu</li>
+            <li class="uk-active">
+                <a href="{% url 'main:home' %}">
+                    <span uk-icon="icon: home" class="uk-margin-small-right uk-icon"></span> 
+                    <span class="uk-text-middle">Home</span>
+                </a>
+            </li>
+            <li class="uk-parent">
+                    <a href="#">
+                        <span uk-icon="icon: settings" class="uk-margin-small-right uk-icon"></span> 
+                        <span class="uk-text-middle">Settings</span>
+                    </a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="#">Sub item</a></li>
+                        <li><a href="#">Sub item</a></li>
+                    </ul>
+            </li>
+            <li class="uk-nav-header">Lega</li>
+            <li class="uk-parent">
+                    <a href="#">
+                            <span class="uk-margin-small-right uk-icon uk-icon-image" style="background-image: url({% static 'icons/competitions.svg' %});"></span> 
+                        <span class="uk-text-middle">Competitions</span>
+                    </a>
+                    <ul class="uk-nav-sub">
+                            <li class="">
+                                <a href="#">
+                                        <span uk-icon="icon: plus" class="uk-margin-small-right uk-icon"></span> 
+                                        <span class="uk-text-middle">New</span>
+                                    </a>                    
+                                <a href="#">
+                                    <span uk-icon="icon: calendar" class="uk-margin-small-right uk-icon"></span> 
+                                    <span class="uk-text-middle">Calendar</span>
+                                </a>
+                            </li>
+                    </ul>
+            </li>
+            
+            <li class="">
+                    <a href="#">
+                        <span uk-icon="icon: users" class="uk-margin-small-right uk-icon"></span> 
+                        <span class="uk-text-middle">Teams</span>
+                    </a>
+                </li>
+    </ul>
+</div>
+<div class="uk-card uk-card-default uk-card-body uk-width-3-4@s">
+    <h1>Il maiale è nel porcile</h1>
+    <h3>Uè, {{request.user.username}}</h3>
+    
+    <p uk-margin>
+        <a class="uk-button uk-button-primary uk-button-large" href="{% url 'main:new_league' %}">New league</a>        
+        <button class="uk-button uk-button-secondary uk-button-large">Join league</button>
+    </p>
+</div>
+
+{% endblock %}

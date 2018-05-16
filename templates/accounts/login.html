@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %} {% load static %} {% block title %} | Login {% endblock %} {% block content %}
+<div class="uk-grid-divider uk-flex-center uk-position-center" uk-grid>
+    <div class="uk-align-center">
+        {% autoescape off %}{{ telegram_login_widget }}{% endautoescape %} 
+    </div>
+    <div class="">
+        <form method="post" class="uk-form-stacked" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="uk-legend uk-text-center uk-text-uppercase">Login</legend>
+                {% for field in form %}
+                <div class="uk-margin" uk-margin>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: {% if field.name == 'username' %}user{% else %}lock{% endif %}"></span>
+                        <input type="{% if field.name == 'username' %}text{% else %}password{% endif %}" class="uk-input" required name="{{ field.name }}"
+                            id="id_{{ field.name }}" placeholder="{% if field.name == 'username' %}Username{% else %}Password{% endif %}"
+                            {% if field.value %}value="{{ field.value }}{% endif %}">
+                    </div>
+                </div>
+                {% endfor %}
+                <a class="" href="{% url 'accounts:password_reset' %}">Reset password</a>
+                <p>
+                <div class="uk-child-width-1-2 uk-flex uk-flex-center">
+                        <button class="uk-button uk-button-primary">Login</button>
+                        <a class="uk-button uk-button-secondary" href="{% url 'accounts:signup' %}">Sign up</a>
+                    </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript"> 
+    function onTelegramAuth(user) { 
+        alert('Logged in as ' + user.first_name + ' ' + user.last_name + '!'); 
+    } 
+</script>
+{% endblock %}

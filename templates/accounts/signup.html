@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+
+{% block title %}| Sign Up{% endblock %} 
+
+{% block content %}
+<div class="uk-grid-divider uk-flex-center uk-position-center" uk-grid>
+<form method="post" class="uk-form-stacked" action="{% url 'accounts:signup' %}">
+  {% csrf_token %}
+  <fieldset>
+      <legend class="uk-legend uk-text-center uk-text-uppercase">Sign up</legend>
+  {% for field in form %}
+  <div class="uk-margin" uk-margin>
+    <div class="uk-inline">
+      <span class="uk-form-icon" uk-icon="icon: {% if field.name == 'username' %}user{% elif field.name == 'email' %}mail{% else %}lock{% endif %}"></span>
+      <input type="{% if 'password' in field.name %}password{% elif field.name == 'email' %}email{% else %}text{% endif %}"
+             class="uk-input" 
+             name="{{ field.name }}"
+             id="id_{{ field.name }}"
+             required
+             placeholder="{% if field.name == 'password1' %}Password{% elif field.name == 'password2' %}Repeat password{% else %}{{field.name|title}}{% endif %}"
+             {% if field.value %}value="{{ field.value }}{% endif %}">
+      {% if field.help_text%}<a class="uk-form-icon uk-form-icon-flip" uk-icon="info" uk-tooltip="{{field.help_text}}" style="cursor: pointer"></a>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+  <button class="uk-align-center uk-button uk-button-primary">Sign up</button>
+</fieldset>
+</form>
+</div>
+{% endblock %}

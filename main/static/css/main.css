@@ -1,0 +1,19 @@
+.navbar-container {
+    background-color: #1a237e !important;
+}
+
+.active {
+    color: white !important;
+}
+
+.active:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.inactive {
+    color: rgba(200, 200, 200, 0.8) !important;
+}
+
+.inactive:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
