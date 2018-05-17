@@ -1,97 +1,59 @@
 # Create your views here.
-from django.shortcuts import render, get_object_or_404, redirect
-from django.conf import settings
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.urls import reverse_lazy
-from django.views import generic
-from django.contrib.auth import logout, login
-from . forms import UserCreateForm
+from django.contrib.auth.models import User, Group
+from rest_framework import generics, permissions, serializers
+from .models import League
+from .serializers import LeagueSerializer, UserSerializer
+from .permissions import IsOwnerOrReadOnly
 
 
-# Handle Telegram login
-# https://github.com/dmytrostriletskyi/django-telegram-login
+class LeagueList(generics.ListCreateAPIView):
+    queryset = League.objects.all()
+    serializer_class = LeagueSerializer
+    permission_classes = (permissions.IsOwnerOrReadOnly,)
 
-from django_telegram_login.widgets.constants import (
-    SMALL,
-    MEDIUM,
-    LARGE,
-    DISABLE_USER_PHOTO,
-)
-from django_telegram_login.widgets.generator import (
-    create_callback_login_widget,
-    create_redirect_login_widget,
-)
-from django_telegram_login.authentication import verify_telegram_authentication
-from django_telegram_login.errors import (
-    NotTelegramDataError,
-    TelegramDataIsOutdatedError,
-)
-
-bot_name = settings.TELEGRAM_BOT_NAME
-bot_token = settings.TELEGRAM_BOT_TOKEN
-redirect_url = settings.TELEGRAM_LOGIN_REDIRECT_URL
-
-from django_telegram_login.authentication import verify_telegram_authentication
-from django_telegram_login.errors import (
-    NotTelegramDataError,
-    TelegramDataIsOutdatedError,
-)
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
-# handle login
-def login_view(request):
-    if request.method == 'POST':
-        submitted = str(request.POST)
-        print(submitted)
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('main:home')
+class LeagueUserList(generics.ListAPIView):
+    serializer_class = LeagueSerializer
+    permission_classes = (permissions.IsOwnerOrReadOnly,)
 
-    else:
-        form = AuthenticationForm()
-    # pass telegram widget to template
-    telegram_login_widget = create_callback_login_widget(bot_name, size=MEDIUM)
-    data = {
-        'form': form,
-        'telegram_login_widget': telegram_login_widget
-    }
-
-    return render(request, 'accounts/login.html', data)
+    def get_queryset(self):
+        """
+        This view should return a list of all the leagues
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return League.objects.filter(users=user)
 
 
-# handle sign up
-def signup_view(request):
-    submitted = ""
-    new_user = None
+class LeagueUserFromURLList(generics.ListAPIView):
+    serializer_class = LeagueSerializer
+    permission_classes = (permissions.IsOwnerOrReadOnly,)
 
-    if request.method == 'POST':
-        submitted = str(request.POST)
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            new_user = form.save()
-            login(request, new_user)
-            return redirect('main:home')
-
-    else:
-        form = UserCreateForm()
-
-    data = {
-        'form': form,
-        'submitted': submitted,
-        'new_user': new_user,
-    }
-
-    return render(request, 'accounts/signup.html', data)
+    def get_queryset(self):
+        """
+        This view should return a list of all the leagues
+        the user as determined by the username portion of the URL.
+        """
+        username = self.kwargs["username"]
+        return League.objects.filter(users__username=username)
 
 
-def logout_view(request):
-    logout(request)
-    return render(request, 'main/index.html', {})
+class LeagueDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = League.objects.all()
+    serializer_class = LeagueSerializer
+    permission_classes = (permissions.IsOwnerOrReadOnly,)
 
 
-def password_reset(request):
-    return render(request, 'main/index.html', {})
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsOwnerOrReadOnly,)
 
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsOwnerOrReadOnly,)
