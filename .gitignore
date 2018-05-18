@@ -116,3 +116,4 @@ venv.bak/
 *.zip
 *.sketch
 *.vscode/
+*.paw

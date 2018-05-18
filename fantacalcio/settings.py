@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import datetime
 from .secret_keys import django_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -41,6 +42,12 @@ INSTALLED_APPS = [
     'accounts',
     'rest_framework',
     'django_extensions',
+    # https://michaelwashburnjr.com/django-user-authentication/
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
 ]
 
 MIDDLEWARE = [
@@ -129,7 +136,27 @@ STATIC_URL = '/static/'
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
+# Configure the JWTs to expire after 1 hour, and allow users to refresh near-expiration tokens
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_ALLOW_REFRESH': True,
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    # Make JWT Auth the default authentication mechanism for Django
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
+
+# Enables django-rest-auth to use JWT tokens instead of regular tokens.
+REST_USE_JWT = True
+
+# required for django.contrib.sites
+SITE_ID = 1

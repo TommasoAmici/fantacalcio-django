@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from accounts.models import League
+from accounts.models import League, Membership
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,8 +19,36 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("url", "username", "email", "leagues", "founded")
 
 
-class LeagueSerializer(serializers.HyperlinkedModelSerializer):
+class LeagueSerializer(serializers.ModelSerializer):
     founder = serializers.ReadOnlyField(source="founder.username")
+    
+    def create(self, validated_data):
+        try:
+            members_data = validated_data.pop('members')
+        except:
+            members_data = None
+        league = League.objects.create(**validated_data)
+
+        if members_data:
+            for member in members_data:
+                member, created = User.objects.get_or_create(username=member.username)
+                league.members.add(member)
+            league.save()
+        
+        return league
+
+    def update(self, instance, validated_data):
+        members_data = validated_data.pop('members')
+        instance.founder = validated_data.get('founder', instance.founder)
+        instance.created = validated_data.get('created', instance.created)
+        instance.name = validated_data.get('name', instance.name)
+
+        for member in members_data:
+            member, created = User.objects.get_or_create(username=member.username)
+            instance.members.add(member)
+
+        instance.save()
+        return instance           
 
     class Meta:
         model = League

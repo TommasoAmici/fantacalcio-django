@@ -1,6 +1,7 @@
 # Create your views here.
 from django.contrib.auth.models import User
 from rest_framework import permissions, serializers, viewsets
+from rest_framework.generics import CreateAPIView
 from .models import League
 from .serializers import LeagueSerializer, UserSerializer
 from .custom_permissions import IsOwnerOrReadOnly
@@ -13,11 +14,10 @@ class LeagueViewSet(viewsets.ModelViewSet):
     """
     queryset = League.objects.all()
     serializer_class = LeagueSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(founder=self.request.user)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -26,3 +26,4 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,)
