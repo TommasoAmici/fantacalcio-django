@@ -14,6 +14,7 @@ class LeagueViewSet(viewsets.ModelViewSet):
     """
     queryset = League.objects.all()
     serializer_class = LeagueSerializer
+    lookup_field = "slug"
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
