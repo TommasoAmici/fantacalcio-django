@@ -1,5 +1,7 @@
 from main.models import *
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 import random
 import names
 
@@ -17,7 +19,6 @@ for i in range(10):
 for i in range(3):
     League.objects.create(
         name='league_{}'.format(i),
-        founder=User.objects.get(username='user_{}'.format(i))
     )
 
 
@@ -77,5 +78,10 @@ for i in range(10):
         history=random.choice([None, 'la storia della mia squadra'])
     )
     for i in range(5):
-        t.players.add(Player.objects.all()[random.randint(0,19)])
+        r = Roster.objects.create(
+            player=Player.objects.all()[i],
+            team=t,
+            price_paid=random.randint(1,50)
+        )
+        r.save()
     t.save()

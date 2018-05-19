@@ -151,3 +151,5 @@ REST_USE_JWT = True
 
 # required for django.contrib.sites
 SITE_ID = 1
+
+AUTH_USER_MODEL = "main.User"
