@@ -1,10 +1,11 @@
 from main.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-User = get_user_model()
 import random
 import names
 
+
+User = get_user_model()
 
 # create some Users
 for i in range(10):
@@ -19,6 +20,7 @@ for i in range(10):
 for i in range(3):
     League.objects.create(
         name='league_{}'.format(i),
+        creator=User.objects.get(username='user_{}'.format(i))
     )
 
 
@@ -47,9 +49,17 @@ for i in range(20):
     p.save()
 
 
-# create some seasons
+# create some players
 for i in range(20):
+    p=Player.objects.create(
+        name=names.get_full_name()
+    )
+
+
+# create some seasons
+def make_season(i):
     s=Season.objects.create(
+        player=Player.objects.all()[i],
         team_irl=random.choice(['paperopoli', 'topolinia', 'gotham city', 'metropolis']),
         price=random.randint(1,40)
     )
@@ -59,14 +69,9 @@ for i in range(20):
     s.save()
 
 
-# create some players
-for i in range(20):
-    p=Player.objects.create(
-        name=names.get_full_name()
-    )
-    for j in range(3):
-        p.seasons.add(Season.objects.all()[random.randint(0,4)])
-    p.save()
+for j in range(20):
+    for i in range(20):
+        make_season(i)
 
 
 # create some teams
