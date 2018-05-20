@@ -59,6 +59,9 @@ class Performance(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     matchday = models.PositiveSmallIntegerField()
 
+    class Meta:
+        ordering = ('-matchday',)
+
 
 class Role(models.Model):
     """
@@ -71,22 +74,12 @@ class Role(models.Model):
         return self.role
 
 
-class Player(models.Model):
-    """
-    Stores information about a player
-    """
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
 class Season(models.Model):
     """
     Stores information about a player's season
     """
     player = models.ForeignKey(
-        Player, related_name="seasons", on_delete=models.CASCADE, null=True
+        "Player", related_name="seasons", on_delete=models.CASCADE, null=True
     )
     roles = models.ManyToManyField(Role, related_name="roles_of", blank=True)
     team_irl = models.CharField(max_length=100)
@@ -95,6 +88,22 @@ class Season(models.Model):
     performances = models.ManyToManyField(
         Performance, related_name="performances_of", blank=True
     )
+
+    class Meta:
+        ordering = ("-date",)
+
+
+class Player(models.Model):
+    """
+    Stores information about a player
+    """
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+    
+    def current_season(self):
+        return Season.objects.filter(player=self).order_by("date")[0]
 
 
 class Team(models.Model):
@@ -107,6 +116,7 @@ class Team(models.Model):
     )
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=True)
+    slug = AutoSlugField(populate_from="name", unique=True)
     date_joined = models.DateField(auto_now_add=True)
     admin = models.BooleanField(default=False)
     history = models.TextField(blank=True, null=True)

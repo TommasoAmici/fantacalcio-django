@@ -3,7 +3,9 @@ from django.conf import settings
 from rest_framework import permissions, serializers, viewsets
 from rest_framework.generics import CreateAPIView
 from django.contrib.auth import get_user_model
-from .models import League, Role, Player, Season, Performance
+from rest_framework.response import Response
+from rest_framework.decorators import detail_route
+from .models import League, Role, Player, Season, Performance, Team
 from .serializers import (
     LeagueSerializer,
     UserSerializer,
@@ -11,6 +13,10 @@ from .serializers import (
     PlayerSerializer,
     SeasonSerializer,
     PerformanceSerializer,
+    TeamSerializer,
+    UserDetailSerializer,
+    LeagueDetailSerializer,
+    TeamDetailSerializer
 )
 from .custom_permissions import IsOwnerOrReadOnly
 
@@ -24,12 +30,18 @@ class LeagueViewSet(viewsets.ModelViewSet):
     `update` and `destroy` actions.
     """
     queryset = League.objects.all()
-    serializer_class = LeagueSerializer
-    lookup_field = "slug"
+    serializer_class = LeagueDetailSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
+
+    @detail_route()
+    def teams(self, request, pk=None):
+        league = self.get_object()
+        teams = Team.objects.filter(league=league)
+        teams_json = TeamDetailSerializer(teams, many=True, context={'request': request})
+        return Response(teams_json.data)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -39,6 +51,12 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return UserDetailSerializer
+        else:
+            return UserSerializer
 
 
 class RoleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -63,3 +81,10 @@ class PerformanceViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Performance.objects.all()
     serializer_class = PerformanceSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+
+class TeamViewSet(viewsets.ModelViewSet):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+    
