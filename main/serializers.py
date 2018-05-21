@@ -16,13 +16,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         queryset=League.objects.all(),
         allow_null=True,
-        view_name='league-detail'
+        view_name="league-detail",
     )
     teams = serializers.HyperlinkedRelatedField(
-        many=True,
-        queryset=Team.objects.all(),
-        allow_null=True,
-        view_name='team-detail'
+        many=True, queryset=Team.objects.all(), allow_null=True, view_name="team-detail"
     )
 
     class Meta:
@@ -38,9 +35,7 @@ class TeamSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Team
-        fields = (
-            "user", "url", "name", "date_joined", "admin", "history"
-        )
+        fields = ("user", "url", "name", "date_joined", "admin", "history")
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -125,14 +120,11 @@ class TeamDetailSerializer(serializers.HyperlinkedModelSerializer):
     """
     Detailed serializer for Team model in main.models
     """
-    players = RosterSerializer(source='roster_set', many=True)        
+    players = RosterSerializer(source="roster_set", many=True)
 
     class Meta:
         model = Team
-        fields = (
-            "url", "name", "date_joined",
-            "admin", "history", "players", "logo",
-        )
+        fields = ("url", "name", "date_joined", "admin", "history", "players", "logo")
 
 
 class LeagueSerializer(serializers.HyperlinkedModelSerializer):
@@ -151,7 +143,7 @@ class LeagueDetailSerializer(serializers.HyperlinkedModelSerializer):
     Serializer for detailed League model in main.models
     """
     creator = serializers.ReadOnlyField(source="creator.username")
-    teams = TeamDetailSerializer(source='team_set', many=True)
+    teams = TeamDetailSerializer(source="team_set", many=True)
 
     class Meta:
         model = League
@@ -163,12 +155,8 @@ class UserDetailSerializer(serializers.HyperlinkedModelSerializer):
     Serializer for detailed User model
     """
     # leagues User is in
-    leagues = LeagueSerializer(
-        many=True, read_only=True, required=False
-    )
-    teams = TeamDetailSerializer(
-        many=True, read_only=True, required=False
-    )
+    leagues = LeagueSerializer(many=True, read_only=True, required=False)
+    teams = TeamDetailSerializer(many=True, read_only=True, required=False)
 
     class Meta:
         model = User

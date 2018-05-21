@@ -70,7 +70,7 @@ def make_season(i):
 
 
 for j in range(20):
-    for i in range(20):
+    for i in range(random.randint(1,5)):
         make_season(i)
 
 

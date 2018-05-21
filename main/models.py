@@ -25,16 +25,68 @@ class League(models.Model):
     access_code = models.UUIDField(default=uuid.uuid4, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to="league_logos/", null=True, blank=True)    
     slug = AutoSlugField(populate_from="name", unique=True)
     teams = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="leagues", through="Team", blank=True
     )
+    competitions = models.ManyToManyField("Competition", blank=True)
 
     class Meta:
         ordering = ("created",)
 
     def __str__(self):
         return self.name
+
+
+class Team(models.Model):
+    """
+    Stores additional information about User's team.
+    A User can have multiple teams in multiple leagues
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="teams", on_delete=models.CASCADE
+    )
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, blank=True)
+    slug = AutoSlugField(populate_from="name", unique=True)
+    date_joined = models.DateField(auto_now_add=True)
+    admin = models.BooleanField(default=False)
+    history = models.TextField(blank=True, null=True)
+    players = models.ManyToManyField(
+        "Player", related_name="players_of", through="Roster", blank=True
+    )
+    logo = models.ImageField(upload_to="team_logos/", null=True, blank=True)
+
+    class Meta:
+        ordering = ("date_joined",)
+
+
+class Competition(models.Model):
+    name = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to="competition_logos/", null=True, blank=True)    
+    teams = models.ManyToManyField(Team, blank=True)
+    num_matches = models.PositiveSmallIntegerField()
+    first_matchday = models.PositiveSmallIntegerField()
+    last_matchday = models.PositiveSmallIntegerField()
+    bonus_values = models.ManyToManyField("Bonus", through="BonusValue", blank=True)     
+    setup = models.CharField(max_length=100, default="regular_season")
+    # TO DO: design competitions
+
+
+class Performance(models.Model):
+    """
+    Stores information about a player's performance
+    """
+    vote = models.PositiveSmallIntegerField(default=6)
+    bonuses = models.ManyToManyField("Bonus", blank=True)
+    fantavote = models.SmallIntegerField(default=6)
+    against_team_irl = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+    matchday = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ("-matchday",)
 
 
 class Bonus(models.Model):
@@ -48,19 +100,13 @@ class Bonus(models.Model):
         return self.name
 
 
-class Performance(models.Model):
+class BonusValue(models.Model):
     """
-    Stores information about a player's performance
+    Allows each competition to customize bonuses
     """
-    vote = models.PositiveSmallIntegerField(default=6)
-    bonuses = models.ManyToManyField(Bonus, blank=True)
-    fantavote = models.SmallIntegerField(default=6)
-    against_team_irl = models.CharField(max_length=100)
-    date = models.DateTimeField(auto_now_add=True)
-    matchday = models.PositiveSmallIntegerField()
-
-    class Meta:
-        ordering = ('-matchday',)
+    bonus = models.ForeignKey(Bonus, on_delete=models.CASCADE)
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
+    value = models.SmallIntegerField(blank=True)
 
 
 class Role(models.Model):
@@ -101,32 +147,9 @@ class Player(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def current_season(self):
         return Season.objects.filter(player=self).order_by("date")[0]
-
-
-class Team(models.Model):
-    """
-    Stores additional information about User's team.
-    A User can have multiple teams in multiple leagues
-    """
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="teams", on_delete=models.CASCADE
-    )
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, blank=True)
-    slug = AutoSlugField(populate_from="name", unique=True)
-    date_joined = models.DateField(auto_now_add=True)
-    admin = models.BooleanField(default=False)
-    history = models.TextField(blank=True, null=True)
-    players = models.ManyToManyField(
-        Player, related_name="players_of", through="Roster", blank=True
-    )
-    logo = models.ImageField(upload_to="team_logos/", null=True, blank=True)
-
-    class Meta:
-        ordering = ("date_joined",)
 
 
 class Roster(models.Model):

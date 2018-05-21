@@ -16,7 +16,7 @@ from .serializers import (
     TeamSerializer,
     UserDetailSerializer,
     LeagueDetailSerializer,
-    TeamDetailSerializer
+    TeamDetailSerializer,
 )
 from .custom_permissions import IsOwnerOrReadOnly
 
@@ -40,7 +40,9 @@ class LeagueViewSet(viewsets.ModelViewSet):
     def teams(self, request, pk=None):
         league = self.get_object()
         teams = Team.objects.filter(league=league)
-        teams_json = TeamDetailSerializer(teams, many=True, context={'request': request})
+        teams_json = TeamDetailSerializer(
+            teams, many=True, context={"request": request}
+        )
         return Response(teams_json.data)
 
 
@@ -53,38 +55,59 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action == "retrieve":
             return UserDetailSerializer
+
         else:
             return UserSerializer
-
-
-class RoleViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Role.objects.all()
-    serializer_class = RoleSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-
-class PlayerViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Player.objects.all()
-    serializer_class = PlayerSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-
-class SeasonViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Season.objects.all()
-    serializer_class = SeasonSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-
-class PerformanceViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Performance.objects.all()
-    serializer_class = PerformanceSerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
 
 class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    
+
+
+class RoleViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+class PlayerViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+class SeasonViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    serializer_class = SeasonSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = Season.objects.all()
+        year = self.request.query_params.get('year', None)
+        players_pk = self.kwargs['players_pk']
+        if year is not None:
+            queryset = queryset.filter(date__year=year)
+        if players_pk:
+            queryset = queryset.filter(player=players_pk)
+        return queryset
+
+
+class PerformanceViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Performance.objects.all()
+    serializer_class = PerformanceSerializer
+    permission_classes = (permissions.IsAuthenticated,)
