@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.shortcuts import get_object_or_404
 from main.models import (League, Team, Player, Role, Season, Roster, Performance, Bonus)
 from django.contrib.auth import get_user_model
 import datetime
@@ -7,35 +8,34 @@ import datetime
 User = get_user_model()
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     """
     Serializer for User model
     """
     # leagues User is in
-    leagues = serializers.HyperlinkedRelatedField(
+    leagues = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=League.objects.all(),
         allow_null=True,
-        view_name="league-detail",
     )
-    teams = serializers.HyperlinkedRelatedField(
-        many=True, queryset=Team.objects.all(), allow_null=True, view_name="team-detail"
+    teams = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Team.objects.all(), allow_null=True
     )
 
     class Meta:
         model = User
-        fields = ("url", "username", "email", "avatar", "leagues", "teams")
+        fields = ("id", "username", "email", "avatar", "leagues", "teams")
 
 
-class TeamSerializer(serializers.HyperlinkedModelSerializer):
+class TeamSerializer(serializers.ModelSerializer):
     """
     Serializer for Team model in main.models
     """
     user = UserSerializer(required=True)
-
+    
     class Meta:
         model = Team
-        fields = ("user", "url", "name", "date_joined", "admin", "history")
+        fields = ("user", "id", "name", "date_joined", "admin", "history")
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -116,18 +116,29 @@ class RosterSerializer(serializers.ModelSerializer):
         fields = ("player", "price_paid", "date_added", "active", "date_sold")
 
 
-class TeamDetailSerializer(serializers.HyperlinkedModelSerializer):
+class TeamDetailSerializer(serializers.ModelSerializer):
     """
     Detailed serializer for Team model in main.models
     """
     players = RosterSerializer(source="roster_set", many=True)
+    access_code = serializers.ReadOnlyField(source="league.access_code")
 
     class Meta:
         model = Team
-        fields = ("url", "name", "date_joined", "admin", "history", "players", "logo")
+        fields = ("id", "name", "date_joined", "admin", "history", "players", "logo", "access_code")
+
+    def create(self, validated_data):
+        print(validated_data)
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        access_code = validated_data.pop("access_code")
+        league = League.objects.get(access_code=access_code)
+        return Team.objects.create(user=user, league=league, **validated_data)
 
 
-class LeagueSerializer(serializers.HyperlinkedModelSerializer):
+class LeagueSerializer(serializers.ModelSerializer):
     """
     Serializer for League model in main.models
     """
@@ -135,10 +146,10 @@ class LeagueSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = League
-        fields = ("url", "name", "creator", "created")
+        fields = ("id", "name", "creator", "created")
 
 
-class LeagueDetailSerializer(serializers.HyperlinkedModelSerializer):
+class LeagueDetailSerializer(serializers.ModelSerializer):
     """
     Serializer for detailed League model in main.models
     """
@@ -147,10 +158,21 @@ class LeagueDetailSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = League
-        fields = ("url", "name", "creator", "created", "access_code", "teams")
+        fields = ("id", "name", "creator", "created", "access_code", "teams")
+
+    def create(self, validated_data):
+        """
+        POST to create league, requires 'teams' (can be blank)
+        e.g. {'name': 'name of the league', 'teams': []}
+        """
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        return League.objects.create(name=validated_data["name"], creator=user)
 
 
-class UserDetailSerializer(serializers.HyperlinkedModelSerializer):
+class UserDetailSerializer(serializers.ModelSerializer):
     """
     Serializer for detailed User model
     """
@@ -160,7 +182,7 @@ class UserDetailSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ("url", "username", "email", "avatar", "leagues", "teams")
+        fields = ("id", "username", "email", "avatar", "leagues", "teams")
 
 
 def calc_current_season():

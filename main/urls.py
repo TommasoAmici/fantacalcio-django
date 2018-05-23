@@ -9,9 +9,9 @@ from rest_framework_nested import routers
 router = DefaultRouter()
 router.register(r"leagues", views.LeagueViewSet)
 router.register(r"users", views.UserViewSet)
-router.register(r"teams", views.TeamViewSet)
+router.register(r"teams", views.TeamViewSet, base_name='teams')
 router.register(r"roles", views.RoleViewSet)
-router.register(r"players", views.PlayerViewSet, base_name='players')
+router.register(r"players", views.PlayerViewSet, base_name="players")
 
 # Nested routers for players
 # /players/{id}/seasons/{id}/performances/{id}/

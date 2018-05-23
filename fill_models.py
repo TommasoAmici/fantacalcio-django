@@ -9,9 +9,8 @@ User = get_user_model()
 
 # create some Users
 for i in range(10):
-    User.objects.create(
-        username='user_{}'.format(i),
-        email='user_{}@mail.com'.format(i),
+    User.objects.create_user(
+        'user_{}'.format(i),
         password='password'
     )
 

@@ -5,6 +5,7 @@ from rest_framework.generics import CreateAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
+from django.db.models import Q
 from .models import League, Role, Player, Season, Performance, Team
 from .serializers import (
     LeagueSerializer,
@@ -45,6 +46,16 @@ class LeagueViewSet(viewsets.ModelViewSet):
         )
         return Response(teams_json.data)
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return League.objects.all()
+
+        else:
+            return League.objects.filter(
+                Q(teams__username=self.request.user.username)
+                | Q(creator=self.request.user)
+            )
+
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -61,11 +72,22 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         else:
             return UserSerializer
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return User.objects.all()
+        else:
+            return User.objects.filter(id=self.request.user.id)
+
 
 class TeamViewSet(viewsets.ModelViewSet):
-    queryset = Team.objects.all()
-    serializer_class = TeamSerializer
+    serializer_class = TeamDetailSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Team.objects.all()
+        else:
+            return Team.objects.filter(user=self.request.user)
 
 
 class RoleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -95,8 +117,8 @@ class SeasonViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         queryset = Season.objects.all()
-        year = self.request.query_params.get('year', None)
-        players_pk = self.kwargs['players_pk']
+        year = self.request.query_params.get("year", None)
+        players_pk = self.kwargs["players_pk"]
         if year is not None:
             queryset = queryset.filter(date__year=year)
         if players_pk:
