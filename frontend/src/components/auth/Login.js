@@ -1,42 +1,62 @@
 import React from 'react';
-import TelegramLoginButton from 'react-telegram-login';
-import { Link, withRouter } from 'react-router-dom';
+//import TelegramLoginButton from 'react-telegram-login';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import PropTypes from 'prop-types';
+import { loginUser } from '../../actions';
+import { FormFields, renderField, validateEmail, validatePassword } from './AuthFields';
+import UIkit from 'uikit';
 
 
+
+function validate(formProps) {
+  const errors = {};
+  if (!formProps.email) {
+    errors.email = 'Please enter an email address';
+  } else if (!validateEmail(formProps.email)) {
+    errors.email = 'Enter a valid email address';
+  }
+
+  if (!formProps.password) {
+    errors.password = 'Please enter a password';
+  } else if (!validatePassword(formProps.password)) {
+    errors.password = 'Must be at 8 characters long with 1 digit'
+  }
+
+  return errors;
+}
 
 class LoginForm extends React.Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
       showPassword: false,
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange = prop => event => {
-    this.setState({
-      [prop]: event.target.value,
-    });
-  };
-
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
+  submit = (values) => {
+    this.props.loginUser(values);
   }
 
   handleClickShowPassword = () => {
     this.setState({ showPassword: !this.state.showPassword });
   };
 
+  errorMessage() {
+    if (this.props.errorMessage) {
+      return (
+        UIkit.notification(this.props.errorMessage, 'danger')
+      );
+    }
+  }
+
   render() {
-    const { username, password } = this.state;
     const showPassword = this.state.showPassword;
-    const isEnabled =
-      username.length > 0 &&
-      password.length > 0;
+    const { handleSubmit, pristine, submitting } = this.props;
 
     return (
       <div className="uk-flex-center uk-position-center login-form" uk-grid>
@@ -45,45 +65,26 @@ class LoginForm extends React.Component {
         </div>
         <hr />
         <div className="">
-          <form onSubmit id="form2" className="uk-form-stacked">
+          <form onSubmit={handleSubmit(this.submit)} className="uk-form-stacked">
+            <FormFields>
+              <Field name="email" type="text" component={renderField} placeholder="Email" icon="alternate_email" />
+            </FormFields>
 
-            <div className="uk-margin" uk-margin>
-              <div className="uk-inline uk-width-1-1">
-                <span className="uk-form-icon uk-form-icon-flip">
-                  <i className="material-icons">account_circle</i>
-                </span>
-                <input
-                  defaultValue={username}
-                  onChange={this.handleChange('username')}
-                  className="uk-input"
-                  field="username"
-                  id="username"
-                  placeholder='Username' />
-              </div>
-            </div>
-            <div className="uk-margin" uk-margin>
-              <div className="uk-inline uk-width-1-1">
-                <a className="uk-form-icon uk-form-icon-flip no-underline" href="#" onClick={this.handleClickShowPassword}>
-                  <i className="material-icons">{showPassword ? 'visibility_off' : 'visibility'}</i>
-                </a>
-                <input
-                  className="uk-input"
-                  type={showPassword ? 'text' : 'password'}
-                  field="password"
-                  id="password"
-                  placeholder='Password'
-                  onChange={this.handleChange('password')} />
-              </div>
-            </div>
+            <FormFields>
+              <Field placeholder="Password" label="password" name="password" type={showPassword ? 'text' : 'password'} component={renderField} />
+              <a className="uk-form-icon uk-form-icon-flip no-underline" onClick={this.handleClickShowPassword}>
+                <i className="material-icons">{showPassword ? 'visibility_off' : 'visibility'}</i>
+              </a>
+            </FormFields>
 
-            <a className="" href="#">Reset password</a>
+            <Link className="" to="/reset_password">Reset password</Link>
             <br />
             <p uk-margin>
-              <button disabled={!isEnabled} className="uk-button uk-button-primary uk-width-1-1" type='submit'>Login</button>
+              <button disabled={pristine || submitting} className="uk-button uk-button-primary uk-width-1-1" type='submit'>Login</button>
               <Link className="uk-button uk-button-secondary uk-width-1-1" to="/signup">Sign up</Link>
             </p>
           </form>
-
+          {this.errorMessage()}
         </div>
       </div >
 
@@ -91,5 +92,13 @@ class LoginForm extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return { errorMessage: state.auth.error };
+}
 
-export default withRouter(LoginForm);
+const form = reduxForm({
+  form: 'signin',
+  validate
+});
+
+export default connect(mapStateToProps, { loginUser })(form(LoginForm));

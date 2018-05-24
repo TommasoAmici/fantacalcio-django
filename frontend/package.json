@@ -4,15 +4,22 @@
   "private": true,
   "dependencies": {
     "animated": "^0.2.2",
+    "axios": "^0.18.0",
     "classnames": "^2.2.5",
     "react": "^16.3.2",
+    "react-cookie": "^2.1.5",
     "react-dom": "^16.3.2",
     "react-form": "^3.5.5",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "react-telegram-login": "^1.0.2-beta-6",
     "react-transition-group": "^2.3.1",
-    "semantic-ui-react": "^0.80.0"
+    "redux": "^4.0.0",
+    "redux-form": "^7.3.0",
+    "redux-thunk": "^2.2.0",
+    "semantic-ui-react": "^0.80.0",
+    "uikit": "^3.0.0-rc.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-import { Link, BrowserRouter, Route } from "react-router-dom";
-import HomeSideBar from '../home/HomeSideBar';
-import Leagues from '../leagues/Leagues';
-import LoginForm from '../auth/Login';
-import SignUpForm from '../auth/SignUp';
-import Switch from 'react-router-dom/Switch';
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 
 class NavBar extends Component {
@@ -22,50 +18,43 @@ class NavBar extends Component {
     }));
   }
   render() {
-    const isLoggedIn = this.state.isLoggedIn;
+    const authenticated = this.props.authenticated;
     const isHome = this.state.isHome;
     return (
-      <BrowserRouter>
-        <div>
-          <nav className="uk-navbar-container navbar-container" data-uk-navbar>
-            <div className="uk-navbar-left">
-              <ul className="uk-navbar-nav">
-                <li className={isHome ? 'uk-active' : 'inactive'}>
-                  <Link to='/' onClick={this.handleClick}> Home</Link>
-                </li>
-                <li className={isHome ? 'inactive' : 'uk-active'}>
-                  <Link to='/leagues' onClick={this.handleClick}>Leghe</Link>
-                </li>
-                <li>
-                  <a className='inactive' href="#">Item</a>
-                </li>
-              </ul>
-            </div>
-            <div className="uk-navbar-right">
-              <ul className="uk-navbar-nav">
-                {isLoggedIn ? (<li className=""><a className='inactive' href="#">
-                  <span data-uk-icon="icon: sign-out" className="uk-margin-small-right uk-icon"></span>
-                  <span className="uk-text-middle">Logout</span>
-                </a></li>) :
-                  (
-                    <li className=""><Link className='inactive' to='/login'>
-                      <span data-uk-icon="icon: sign-in" className="uk-margin-small-right uk-icon"></span>
-                      <span className="uk-text-middle">Login</span>
-                    </Link></li>)}
-              </ul>
-            </div>
-          </nav>
-
-          <Switch>
-            <Route exact path="/" component={HomeSideBar} />
-            <Route path="/leagues" component={Leagues} />
-            <Route path="/login" component={LoginForm} />
-            <Route path="/signup" component={SignUpForm} />
-          </Switch>
+      <nav className="uk-navbar-container navbar-container" data-uk-navbar>
+        <div className="uk-navbar-left">
+          <ul className="uk-navbar-nav">
+            <li className={isHome ? 'uk-active' : 'inactive'}>
+              <Link to='/' onClick={this.handleClick}> Home</Link>
+            </li>
+            <li className={isHome ? 'inactive' : 'uk-active'}>
+              <Link to='/leagues' onClick={this.handleClick}>Leghe</Link>
+            </li>
+          </ul>
         </div>
-      </BrowserRouter>
+        <div className="uk-navbar-right">
+          <ul className="uk-navbar-nav">
+            {authenticated ? (<li className=""><Link className='inactive' to="/logout">
+              <span data-uk-icon="icon: sign-out" className="uk-margin-small-right uk-icon"></span>
+              <span className="uk-text-middle">Logout</span>
+            </Link></li>) :
+              (
+                <li className=""><Link className='inactive' to='/login'>
+                  <span data-uk-icon="icon: sign-in" className="uk-margin-small-right uk-icon"></span>
+                  <span className="uk-text-middle">Login</span>
+                </Link></li>)}
+          </ul>
+        </div>
+      </nav>
     )
   }
 };
 
-export default NavBar;
+
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated
+  };
+}
+
+export default connect(mapStateToProps)(NavBar);
