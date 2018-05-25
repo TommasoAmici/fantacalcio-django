@@ -6,6 +6,7 @@
     "animated": "^0.2.2",
     "axios": "^0.18.0",
     "classnames": "^2.2.5",
+    "radium": "^0.24.0",
     "react": "^16.3.2",
     "react-cookie": "^2.1.5",
     "react-dom": "^16.3.2",

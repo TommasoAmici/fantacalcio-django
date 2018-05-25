@@ -24,7 +24,7 @@ export function MaterialIcon(props) {
     }
 }
 
-var errorStyle = {
+const errorStyle = {
     color: '#d32f2f',
 };
 

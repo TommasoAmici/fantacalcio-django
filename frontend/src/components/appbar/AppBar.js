@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { logoutUser } from '../../actions';
 
 
 class NavBar extends Component {
@@ -17,6 +18,11 @@ class NavBar extends Component {
       isHome: !prevState.isHome
     }));
   }
+
+  handleLogout() {
+    this.props.logoutUser();
+  }
+
   render() {
     const authenticated = this.props.authenticated;
     const isHome = this.state.isHome;
@@ -34,7 +40,7 @@ class NavBar extends Component {
         </div>
         <div className="uk-navbar-right">
           <ul className="uk-navbar-nav">
-            {authenticated ? (<li className=""><Link className='inactive' to="/logout">
+            {authenticated ? (<li className=""><Link className='inactive' onClick={this.handleLogout} to="/logout">
               <span data-uk-icon="icon: sign-out" className="uk-margin-small-right uk-icon"></span>
               <span className="uk-text-middle">Logout</span>
             </Link></li>) :

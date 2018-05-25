@@ -1,4 +1,3 @@
-import cookie from 'react-cookie';
 import axios from 'axios';
 import history from '../history';
 import {
@@ -54,16 +53,8 @@ export function loginUser({ email, password }) {
 
 
 export function registerUser({ username, email, password1, password2 }) {
-    const body = { username, email, password1, password2 };
     return function (dispatch) {
-        fetch('/register/', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(body),
-            redirect: 'error'
-        }).then(response => {
+        axios.post('/register/', { username, email, password1, password2 }).then(response => {
             localStorage.setItem('user', response.data.token);
             dispatch({ type: AUTH_USER });
             history.push('/dashboard');
@@ -74,11 +65,17 @@ export function registerUser({ username, email, password1, password2 }) {
     }
 }
 
-export function logoutUser() {
-    localStorage.clear();
-    return {
-        type: UNAUTH_USER
-    };
+export function logoutUser(token) {
+    return function (dispatch) {
+        axios.post('/logout/', { token });
+        localStorage.clear();
+        dispatch(
+            {
+                type: UNAUTH_USER
+            }
+        );
+        history.push('/');
+    }
 }
 
 export function getLeagues() {

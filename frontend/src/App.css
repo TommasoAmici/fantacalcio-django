@@ -22,3 +22,11 @@ body {
 .login-form {
   width: 300px
 }
+
+.valid-style {
+  color: #43A047
+}
+
+.valid-style:hover {
+  color: #1B5E20
+}

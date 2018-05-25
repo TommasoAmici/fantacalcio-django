@@ -3,8 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import Radium from 'radium';
 import { registerUser } from '../../actions';
-import { FormFields, renderField, validateEmail, validatePassword } from './AuthFields';
+import { FormFields, renderField, validateEmail, validatePassword, MaterialIcon } from './AuthFields';
 
 
 function validate(formProps) {
@@ -58,20 +59,33 @@ class SignUpForm extends React.Component {
 		super(props);
 		this.state = {
 			showPassword: false,
-		}
+			password1: "",
+			password2: ""
+		};
+		this.handleChange = this.handleChange.bind(this);
 	};
 
 	submit = (values) => {
 		this.props.registerUser(values);
-	}
+	};
 
 	handleClickShowPassword = () => {
 		this.setState({ showPassword: !this.state.showPassword });
 	};
 
+	handleChange(event) {
+		this.setState({
+			[event.target.name]: event.target.value
+		});
+	};
+
 	render() {
 		const { handleSubmit, pristine, submitting } = this.props;
-		const showPassword = this.state.showPassword;
+		const { password1, password2, showPassword } = this.state;
+		const errorStyle = {
+			color: '#d32f2f',
+		};
+
 
 		return (
 			<div className="uk-flex-center uk-position-center login-form" uk-grid>
@@ -89,18 +103,46 @@ class SignUpForm extends React.Component {
 							<Field name="email" type="text" component={renderField} placeholder="Email" icon="alternate_email" />
 						</FormFields>
 
-						<FormFields>
-							<Field placeholder="Password" label="password1" name="password1" type={showPassword ? 'text' : 'password'} component={renderField} />
-							<a className="uk-form-icon uk-form-icon-flip no-underline" onClick={this.handleClickShowPassword}>
-								<i className="material-icons">{showPassword ? 'visibility_off' : 'visibility'}</i>
-							</a>
-						</FormFields>
+
 
 						<FormFields>
-							<Field placeholder="Repeat password" label="password2" name="password2" type={showPassword ? 'text' : 'password'} component={renderField} />
-							<a className="uk-form-icon uk-form-icon-flip no-underline" onClick={this.handleClickShowPassword}>
-								<i className="material-icons">{showPassword ? 'visibility_off' : 'visibility'}</i>
-							</a>
+							<Field placeholder="Password" label="password1" name="password1" type={showPassword ? 'text' : 'password'} onChange={this.handleChange} component={renderField} />
+							{(password1 === password2 && password1.length > 0) ? (
+								<a
+									className="uk-form-icon uk-form-icon-flip no-underline"
+									onClick={this.handleClickShowPassword}>
+									<i className="material-icons valid-style">check_circle</i>
+								</a>
+							) : (
+									<a
+										className="uk-form-icon uk-form-icon-flip no-underline"
+										uk-tooltip={"title: At least 8 characters and 1 digit;pos:right;"}
+										onClick={this.handleClickShowPassword}>
+										<i
+											className="material-icons"
+											style={(!validatePassword(password1) && password1.length > 0) ? errorStyle : null}>{showPassword ? 'visibility_off' : 'visibility'}
+										</i>
+									</a>)}
+						</FormFields>
+						<FormFields>
+							<Field placeholder="Repeat password" label="password2" name="password2" type={showPassword ? 'text' : 'password'} onChange={this.handleChange} component={renderField} />
+							{(password1 === password2 && password1.length > 0) ? (
+								<a
+									className="uk-form-icon uk-form-icon-flip no-underline"
+									onClick={this.handleClickShowPassword}>
+									<i className="material-icons valid-style">check_circle
+								</i>
+								</a>
+							) : (
+									<a
+										className="uk-form-icon uk-form-icon-flip no-underline"
+										uk-tooltip={"title: At least 8 characters and 1 digit;pos:right;"}
+										onClick={this.handleClickShowPassword}>
+										<i
+											className="material-icons"
+											style={(!validatePassword(password2) && password2.length > 0) ? errorStyle : null}>{showPassword ? 'visibility_off' : 'visibility'}
+										</i>
+									</a>)}
 						</FormFields>
 
 						<Link className="" to="/reset_password">Reset password</Link>
