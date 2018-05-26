@@ -1,16 +1,22 @@
-import React from 'react';
-import { Modal } from './SignUp';
-
+import React, { PropTypes } from "react";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/index";
+import UIkit from "uikit";
 
 class LogoutPage extends React.Component {
-    render() {
-        return (
-            <div className="uk-flex-center uk-position-center login-form" uk-grid>
-                <Modal text='Logged out!' />
-            </div >
-        );
-    }
+  componentWillMount() {
+    this.props.logoutUser();
+  }
+
+  render() {
+    return null;
+  }
 }
 
+function mapStateToProps(state) {
+  return {
+    errorMessage: state.auth.error
+  };
+}
 
-export default LogoutPage;
+export default connect(mapStateToProps, { logoutUser })(LogoutPage);

@@ -1,11 +1,10 @@
 import React from 'react';
 //import TelegramLoginButton from 'react-telegram-login';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import Radium from 'radium';
 import { registerUser } from '../../actions';
-import { FormFields, renderField, validateEmail, validatePassword, MaterialIcon } from './AuthFields';
+import { FormFields, renderField, validateEmail, validatePassword } from './AuthFields';
 
 
 function validate(formProps) {
@@ -36,21 +35,6 @@ function validate(formProps) {
 	}
 
 	return errors;
-}
-
-
-export function Modal(props) {
-	return (
-		<div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
-			<h3 class="uk-card-title">{props.title}</h3>
-			<p>
-				{props.text}
-				{props.username ? ("Username: " + props.username) : ("")}
-				<br />
-				{props.email ? ("Email: " + props.email) : ("")}
-			</p>
-		</div>
-	)
 }
 
 
@@ -91,7 +75,7 @@ class SignUpForm extends React.Component {
 			<div className="uk-flex-center uk-position-center login-form" uk-grid>
 				<div className="uk-align-center">
 					Telegram Widget
-        </div>
+        		</div>
 				<hr />
 				<div className="">
 					<form onSubmit={handleSubmit(this.submit)} className="uk-form-stacked">
@@ -102,9 +86,6 @@ class SignUpForm extends React.Component {
 						<FormFields>
 							<Field name="email" type="text" component={renderField} placeholder="Email" icon="alternate_email" />
 						</FormFields>
-
-
-
 						<FormFields>
 							<Field placeholder="Password" label="password1" name="password1" type={showPassword ? 'text' : 'password'} onChange={this.handleChange} component={renderField} />
 							{(password1 === password2 && password1.length > 0) ? (

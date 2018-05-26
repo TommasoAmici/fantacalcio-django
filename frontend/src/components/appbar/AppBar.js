@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions';
-
 
 class NavBar extends Component {
   constructor(props) {
@@ -19,36 +18,20 @@ class NavBar extends Component {
     }));
   }
 
-  handleLogout() {
-    this.props.logoutUser();
-  }
-
   render() {
     const authenticated = this.props.authenticated;
     const isHome = this.state.isHome;
     return (
-      <nav className="uk-navbar-container navbar-container" data-uk-navbar>
+      <nav className="uk-navbar uk-navbar-container navbar-container" data-uk-navbar={true}>
         <div className="uk-navbar-left">
           <ul className="uk-navbar-nav">
-            <li className={isHome ? 'uk-active' : 'inactive'}>
-              <Link to='/' onClick={this.handleClick}> Home</Link>
-            </li>
-            <li className={isHome ? 'inactive' : 'uk-active'}>
-              <Link to='/leagues' onClick={this.handleClick}>Leghe</Link>
-            </li>
+            <li><NavLink activeClassName={'uk-active'} className={'inactive'} to={authenticated ? '/dashboard' : '/'}>Home</NavLink></li>
+            <li><NavLink activeClassName={'uk-active'} className={'inactive'} to='/leagues'>Leagues</NavLink></li>
           </ul>
         </div>
         <div className="uk-navbar-right">
           <ul className="uk-navbar-nav">
-            {authenticated ? (<li className=""><Link className='inactive' onClick={this.handleLogout} to="/logout">
-              <span data-uk-icon="icon: sign-out" className="uk-margin-small-right uk-icon"></span>
-              <span className="uk-text-middle">Logout</span>
-            </Link></li>) :
-              (
-                <li className=""><Link className='inactive' to='/login'>
-                  <span data-uk-icon="icon: sign-in" className="uk-margin-small-right uk-icon"></span>
-                  <span className="uk-text-middle">Login</span>
-                </Link></li>)}
+            <li> {authenticated ? (<NavLink to='/logout'>Logout</NavLink>) : (<NavLink to='/login'>Login</NavLink>)}</li>
           </ul>
         </div>
       </nav>
