@@ -6,7 +6,7 @@ import "./App.css";
 
 // import Redux components to set up and handle authentication on first load
 import reducers from "./reducers/index";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { AUTH_USER } from "./actions/types";
@@ -24,6 +24,7 @@ import RequireAuth from "./components/auth/RequireAuth";
 import NewLeague from "./components/leagues/NewLeague";
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+// adds support for Redux browser extension
 const store = createStoreWithMiddleware(
   reducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

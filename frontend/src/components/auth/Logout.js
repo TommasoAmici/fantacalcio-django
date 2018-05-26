@@ -1,7 +1,6 @@
-import React, { PropTypes } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/index";
-import UIkit from "uikit";
 
 class LogoutPage extends React.Component {
   componentWillMount() {
