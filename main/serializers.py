@@ -1,11 +1,23 @@
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from main.models import (League, Team, Player, Role, Season, Roster, Performance, Bonus)
+from main.models import (League, Team, Player, Role,
+                         Season, Roster, Performance, Bonus)
 from django.contrib.auth import get_user_model
 import datetime
 
 
 User = get_user_model()
+
+
+class LeagueSerializer(serializers.ModelSerializer):
+    """
+    Serializer for League model in main.models
+    """
+    creator = serializers.ReadOnlyField(source="creator.username")
+
+    class Meta:
+        model = League
+        fields = ("id", "name", "creator", "created")
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,13 +30,15 @@ class UserSerializer(serializers.ModelSerializer):
         queryset=League.objects.all(),
         allow_null=True,
     )
+    leagues_created = LeagueSerializer(many=True)
     teams = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Team.objects.all(), allow_null=True
     )
 
     class Meta:
         model = User
-        fields = ("id", "username", "email", "avatar", "leagues", "teams")
+        fields = ("id", "username", "email", "avatar",
+                  "leagues", "teams", "leagues_created")
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -32,7 +46,7 @@ class TeamSerializer(serializers.ModelSerializer):
     Serializer for Team model in main.models
     """
     user = UserSerializer(required=True)
-    
+
     class Meta:
         model = Team
         fields = ("user", "id", "name", "date_joined", "admin", "history")
@@ -75,12 +89,14 @@ class SeasonSerializer(serializers.ModelSerializer):
     """
     Serializer for Season model in main.models
     """
-    performances = PerformanceSerializer(many=True, read_only=True, required=False)
+    performances = PerformanceSerializer(
+        many=True, read_only=True, required=False)
     roles = RoleSerializer(many=True, read_only=True, required=False)
 
     class Meta:
         model = Season
-        fields = ("player", "roles", "team_irl", "price", "date", "performances")
+        fields = ("player", "roles", "team_irl",
+                  "price", "date", "performances")
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -125,7 +141,8 @@ class TeamDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ("id", "name", "date_joined", "admin", "history", "players", "logo", "access_code")
+        fields = ("id", "name", "date_joined", "admin",
+                  "history", "players", "logo", "access_code")
 
     def create(self, validated_data):
         print(validated_data)
@@ -136,17 +153,6 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         access_code = validated_data.pop("access_code")
         league = League.objects.get(access_code=access_code)
         return Team.objects.create(user=user, league=league, **validated_data)
-
-
-class LeagueSerializer(serializers.ModelSerializer):
-    """
-    Serializer for League model in main.models
-    """
-    creator = serializers.ReadOnlyField(source="creator.username")
-
-    class Meta:
-        model = League
-        fields = ("id", "name", "creator", "created")
 
 
 class LeagueDetailSerializer(serializers.ModelSerializer):

@@ -64,12 +64,14 @@ class Team(models.Model):
 
 class Competition(models.Model):
     name = models.CharField(max_length=100)
-    logo = models.ImageField(upload_to="competition_logos/", null=True, blank=True)
+    logo = models.ImageField(
+        upload_to="competition_logos/", null=True, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
     num_matches = models.PositiveSmallIntegerField()
     first_matchday = models.PositiveSmallIntegerField()
     last_matchday = models.PositiveSmallIntegerField()
-    bonus_values = models.ManyToManyField("Bonus", through="BonusValue", blank=True)
+    bonus_values = models.ManyToManyField(
+        "Bonus", through="BonusValue", blank=True)
     setup = models.CharField(max_length=100, default="regular_season")
 
 
