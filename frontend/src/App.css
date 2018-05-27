@@ -30,3 +30,7 @@ body {
 .valid-style:hover {
   color: #1B5E20
 }
+
+.dashboard {
+  margin-top: 3%;
+}

@@ -1,6 +1,11 @@
 import axios from "axios";
-import history from "../history";
-import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, USER } from "./types";
+import {
+  AUTH_USER,
+  AUTH_ERROR,
+  UNAUTH_USER,
+  USER,
+  LEAGUE_CREATED
+} from "./types";
 import UIkit from "uikit";
 import StringsActions from "../localization/Strings";
 
@@ -33,14 +38,14 @@ export function errorHandler(error, type) {
   };
 }
 
-export function loginUser({ email, password }) {
+export function loginUser({ email, password }, history) {
   return function(dispatch) {
     axios
       .post("/login/", { email, password })
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/dashboard");
+        history.push("/home/welcome");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -48,14 +53,17 @@ export function loginUser({ email, password }) {
   };
 }
 
-export function registerUser({ username, email, password1, password2 }) {
+export function registerUser(
+  { username, email, password1, password2 },
+  history
+) {
   return function(dispatch) {
     axios
       .post("/register/", { username, email, password1, password2 })
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/dashboard");
+        history.push("/home/welcome");
         UIkit.modal.alert(StringsActions.signup);
       })
       .catch(error => {
@@ -64,7 +72,7 @@ export function registerUser({ username, email, password1, password2 }) {
   };
 }
 
-export function logoutUser() {
+export function logoutUser(history) {
   return function(dispatch) {
     const token = localStorage.getItem("user");
     axios
@@ -99,17 +107,22 @@ export function getUser() {
   };
 }
 
-export function newLeague() {
+export function newLeague({ name }, history) {
   return function(dispatch) {
     axios
-      .get("/leagues/", {
-        headers: { Authorization: "JWT " + localStorage.getItem("user") }
-      })
+      .post(
+        "/leagues/",
+        { name, teams: [] },
+        {
+          headers: { Authorization: "JWT " + localStorage.getItem("user") }
+        }
+      )
       .then(response => {
         dispatch({
-          type: USER,
-          payload: response.data.content
+          type: LEAGUE_CREATED,
+          payload: response.data
         });
+        history.push("/dashboard/league-created");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);

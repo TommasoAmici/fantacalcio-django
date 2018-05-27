@@ -42,7 +42,7 @@ function validate(formProps) {
   return errors;
 }
 
-class SignUpForm extends React.Component {
+class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,7 +54,7 @@ class SignUpForm extends React.Component {
   }
 
   submit = values => {
-    this.props.registerUser(values);
+    this.props.registerUser(values, this.props.history);
   };
 
   handleClickShowPassword = () => {
@@ -214,4 +214,4 @@ const form = reduxForm({
   validate
 });
 
-export default connect(mapStateToProps, { registerUser })(form(SignUpForm));
+export default connect(mapStateToProps, { registerUser })(form(SignUp));

@@ -17,15 +17,15 @@ import StringsLogin from "../../localization/Strings";
 function validate(formProps) {
   const errors = {};
   if (!formProps.email) {
-    errors.email = "Please enter an email address";
+    errors.email = StringsLogin.noEmail;
   } else if (!validateEmail(formProps.email)) {
-    errors.email = "Enter a valid email address";
+    errors.email = StringsLogin.invalidEmail;
   }
 
   if (!formProps.password) {
-    errors.password = "Please enter a password";
+    errors.password = StringsLogin.noPassword;
   } else if (!validatePassword(formProps.password)) {
-    errors.password = "Must be at 8 characters long with 1 digit";
+    errors.password = StringsLogin.invalidPassword;
   }
 
   return errors;
@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
   }
 
   submit = values => {
-    this.props.loginUser(values);
+    this.props.loginUser(values, this.props.history);
   };
 
   handleClickShowPassword = () => {

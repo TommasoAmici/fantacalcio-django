@@ -42,7 +42,10 @@ const StringsDashboard = new LocalizedStrings({
     competitions: "Competitions",
     new: "New",
     calendar: "Calendar",
-    teams: "Teams"
+    teams: "Teams",
+    welcome: "Welcome to Fantacalcio ReactJS",
+    welcomeBody:
+      "Hi {0}! It looks like you're new here, you may want to join a league or create one of your own."
   },
   it: {}
 });
@@ -51,9 +54,10 @@ const StringsNewLeague = new LocalizedStrings({
   en: {
     noName: "Enter a name for your league",
     invalidName: "Must be 40 characters or fewer",
-    newLeague: "Create a new league",
-    joinLeague: "Join a league",
-    name: "Name"
+    newLeague: "New league",
+    joinLeague: "Join league",
+    name: "Name",
+    avatar: "Avatar"
   },
   it: {}
 });
@@ -64,7 +68,12 @@ const StringsActions = new LocalizedStrings({
     signup: "Thanks for signing up!",
     logout: "Successfully logged out!"
   },
-  it: {}
+  it: {
+    error401:
+      "Non sei autorizzato ad eseguire quest'operazione. Effettua il login e riprova.",
+    signup: "Grazie per esserti registrato!",
+    logout: "Logout effettuato con successo!"
+  }
 });
 export { StringsDashboard, StringsNewLeague, StringsActions };
 export default StringsLogin;

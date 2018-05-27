@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { newLeague } from "../../actions";
-import { FormFields, renderField, FieldFileInput } from "../auth/AuthFields";
+import { FormFields, renderField } from "../auth/AuthFields";
 import { StringsNewLeague } from "../../localization/Strings";
 
 function validate(formProps) {
@@ -18,7 +18,7 @@ function validate(formProps) {
   return errors;
 }
 
-class NewLeague extends React.Component {
+class JoinLeague extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +28,7 @@ class NewLeague extends React.Component {
   }
 
   submit = values => {
-    this.props.newLeague(values, this.props.history);
+    this.props.newLeague(values);
   };
 
   handleChange(event) {
@@ -39,7 +39,7 @@ class NewLeague extends React.Component {
 
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
-    const { name } = this.state;
+    const { name, showPassword } = this.state;
     const errorStyle = {
       color: "#d32f2f"
     };
@@ -56,10 +56,42 @@ class NewLeague extends React.Component {
               icon="group"
             />
           </FormFields>
-          {/*
-          TO DO: FILE UPLOAD FIELD FOR LEAGUE LOGO
-          */}
+          <FormFields>
+            <Field
+              name="name"
+              type="text"
+              component={renderField}
+              placeholder={StringsNewLeague.name}
+              icon="group"
+            />
+          </FormFields>
+          <FormFields>
+            <Field
+              name="name"
+              type="text"
+              component={renderField}
+              placeholder={StringsNewLeague.name}
+              icon="group"
+            />
+          </FormFields>
+          <FormFields>
+            <Field
+              name="name"
+              type="text"
+              component={renderField}
+              placeholder={StringsNewLeague.name}
+              icon="group"
+            />
+          </FormFields>
           <p uk-margin={true}>
+            <Link
+              className="uk-button uk-button-secondary uk-width-1-1"
+              to={{
+                pathname: "/dashboard/new-league"
+              }}
+            >
+              {StringsNewLeague.joinLeague}
+            </Link>
             <button
               disabled={pristine || submitting}
               className="uk-button uk-button-primary uk-width-1-1"
@@ -79,8 +111,8 @@ function mapStateToProps(state) {
 }
 
 const form = reduxForm({
-  form: "newleague",
+  form: "joinleague",
   validate
 });
 
-export default connect(mapStateToProps, { newLeague })(form(NewLeague));
+export default connect(mapStateToProps, { newLeague })(form(JoinLeague));
