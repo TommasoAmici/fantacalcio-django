@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from main.models import (League, Team, Player, Role,
-                         Season, Roster, Performance, Bonus)
+from main.models import (
+    League, Team, Player, Role, Season, Roster, RosterPlayer, Performance, Bonus
+)
 from django.contrib.auth import get_user_model
 import datetime
 
@@ -17,7 +18,7 @@ class LeagueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = League
-        fields = ("id", "name", "creator", "created")
+        fields = ("access_code", "name", "creator", "created")
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -26,9 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     # leagues User is in
     leagues = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=League.objects.all(),
-        allow_null=True,
+        many=True, queryset=League.objects.all(), allow_null=True
     )
     leagues_created = LeagueSerializer(many=True)
     teams = serializers.PrimaryKeyRelatedField(
@@ -37,8 +36,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "username", "email", "avatar",
-                  "leagues", "teams", "leagues_created")
+        fields = (
+            "id", "username", "email", "avatar", "leagues", "teams", "leagues_created"
+        )
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -121,14 +121,14 @@ class PlayerCurrentSeasonSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "current_season")
 
 
-class RosterSerializer(serializers.ModelSerializer):
+class RosterPlayerSerializer(serializers.ModelSerializer):
     """
     Serializer for Roster model in main.models
     """
     player = PlayerCurrentSeasonSerializer(required=True)
 
     class Meta:
-        model = Roster
+        model = RosterPlayer
         fields = ("player", "price_paid", "date_added", "active", "date_sold")
 
 
@@ -136,13 +136,21 @@ class TeamDetailSerializer(serializers.ModelSerializer):
     """
     Detailed serializer for Team model in main.models
     """
-    players = RosterSerializer(source="roster_set", many=True)
-    access_code = serializers.ReadOnlyField(source="league.access_code")
+    # players = RosterSerializer(source="roster_set", many=True)
+    access_code = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = Team
-        fields = ("id", "name", "date_joined", "admin",
-                  "history", "players", "logo", "access_code")
+        fields = (
+            "id",
+            "name",
+            "date_joined",
+            "admin",
+            "history",
+            "rosters",
+            "logo",
+            "access_code",
+        )
 
     def create(self, validated_data):
         print(validated_data)
@@ -164,7 +172,7 @@ class LeagueDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = League
-        fields = ("id", "name", "creator", "created", "access_code", "teams")
+        fields = ("name", "creator", "created", "access_code", "teams")
 
     def create(self, validated_data):
         """

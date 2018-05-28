@@ -5,20 +5,16 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions";
-import {
-  FormFields,
-  renderField,
-  validateEmail,
-  validatePassword
-} from "./AuthFields";
+import { FormFields, renderField, validatePassword } from "./AuthFields";
 import UIkit from "uikit";
 import StringsLogin from "../../localization/Strings";
+import { isEmail } from "validator";
 
 function validate(formProps) {
   const errors = {};
   if (!formProps.email) {
     errors.email = StringsLogin.noEmail;
-  } else if (!validateEmail(formProps.email)) {
+  } else if (!isEmail(formProps.email)) {
     errors.email = StringsLogin.invalidEmail;
   }
 
@@ -117,7 +113,6 @@ class LoginForm extends React.Component {
               </Link>
             </p>
           </form>
-          {this.errorMessage()}
         </div>
       </div>
     );

@@ -8,9 +8,10 @@ import registerServiceWorker from "./registerServiceWorker";
 import { createStore, applyMiddleware } from "redux";
 import createHistory from "history/createBrowserHistory";
 import { routerMiddleware } from "react-router-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import reducers from "./reducers/index";
-import { AUTH_USER, AUTH_ERROR } from "./actions/types";
+import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED } from "./actions/types";
 import { errorHandler } from "./actions/index";
 import axios from "axios";
 
@@ -22,7 +23,10 @@ const middleware = routerMiddleware(history);
 
 // Add the reducer to your store on the `router` key
 // Also apply our middleware for navigating
-const store = createStore(reducers, applyMiddleware(middleware, thunk));
+const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(middleware, thunk))
+);
 
 // token expires after 7 days, refresh on first load
 const token = localStorage.getItem("user");
@@ -36,6 +40,13 @@ if (token) {
     .catch(error => {
       errorHandler(store.dispatch, error.response, AUTH_ERROR);
     });
+}
+const leagueSelected = localStorage.getItem("league");
+if (leagueSelected) {
+  store.dispatch({
+    type: LEAGUE_SELECTED,
+    payload: leagueSelected
+  });
 }
 
 ReactDOM.render(

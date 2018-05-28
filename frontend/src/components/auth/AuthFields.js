@@ -79,11 +79,6 @@ export function renderField({
   );
 }
 
-// basic validation of email and password
-export function validateEmail(email) {
-  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-}
-
 export function validatePassword(password) {
   return password.length > 8 && /\d/.test(password);
 }

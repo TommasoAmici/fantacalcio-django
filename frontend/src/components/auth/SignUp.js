@@ -4,26 +4,22 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { registerUser } from "../../actions";
-import {
-  FormFields,
-  renderField,
-  validateEmail,
-  validatePassword
-} from "./AuthFields";
+import { FormFields, renderField, validatePassword } from "./AuthFields";
 import StringsLogin from "../../localization/Strings";
+import { isEmail, isLength } from "validator";
 
 function validate(formProps) {
   const errors = {};
 
   if (!formProps.username) {
     errors.username = StringsLogin.noUsername;
-  } else if (formProps.username.length > 15) {
+  } else if (!isLength(formProps.username, { min: 1, max: 15 })) {
     errors.username = StringsLogin.invalidUsername;
   }
 
   if (!formProps.email) {
     errors.email = StringsLogin.noEmail;
-  } else if (!validateEmail(formProps.email)) {
+  } else if (!isEmail(formProps.email)) {
     errors.email = StringsLogin.invalidEmail;
   }
 

@@ -11,6 +11,7 @@ import SignUp from "./auth/SignUp";
 import StringsLogin from "../localization/Strings";
 import HomeLoggedIn from "./home/HomeLoggedIn";
 import HomeLoggedOut from "./home/HomeLoggedOut";
+import ChooseLeague from "./leagues/ChooseLeague";
 
 function Leagues() {
   return <h1>Hola hola hola</h1>;
@@ -22,8 +23,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const authenticated = this.props.authenticated;
-    const username = this.props.username;
+    const { authenticated, username, league } = this.props;
 
     return (
       <div>
@@ -82,7 +82,22 @@ class NavBar extends Component {
               authenticated ? <Redirect to="/dashboard" /> : <HomeLoggedOut />
             }
           />
-          <Route path="/dashboard" component={HomeLoggedIn} />
+          <Route
+            path="/dashboard"
+            render={() =>
+              league.selected ? (
+                <HomeLoggedIn />
+              ) : (
+                <Redirect to="/choose-league" />
+              )
+            }
+          />
+          <Route
+            path="/choose-league"
+            render={() =>
+              league.selected ? <HomeLoggedIn /> : <ChooseLeague />
+            }
+          />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <Route path="/logout" component={Logout} />
@@ -96,7 +111,8 @@ class NavBar extends Component {
 function mapStateToProps(state) {
   return {
     authenticated: state.auth.authenticated,
-    username: state.user.info.username
+    username: state.user.info.username,
+    league: state.user.league
   };
 }
 

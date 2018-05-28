@@ -5,13 +5,14 @@ import { Field, reduxForm } from "redux-form";
 import { newLeague } from "../../actions";
 import { FormFields, renderField, FieldFileInput } from "../auth/AuthFields";
 import { StringsNewLeague } from "../../localization/Strings";
+import { isLength } from "validator";
 
 function validate(formProps) {
   const errors = {};
 
   if (!formProps.name) {
     errors.name = StringsNewLeague.noName;
-  } else if (formProps.name.length > 40) {
+  } else if (!isLength(formProps.name, { min: 1, max: 40 })) {
     errors.name = StringsNewLeague.invalidName;
   }
 
@@ -45,7 +46,7 @@ class NewLeague extends React.Component {
     };
     return (
       <div className="uk-width-3-4@s ">
-        <h2>Create new league</h2>
+        <h2>{StringsNewLeague.titleCreate}</h2>
         <form onSubmit={handleSubmit(this.submit)} className="uk-form-stacked">
           <FormFields>
             <Field

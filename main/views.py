@@ -39,6 +39,7 @@ class LeagueViewSet(viewsets.ModelViewSet):
 
     @detail_route()
     def teams(self, request, pk=None):
+        print('ue')
         league = self.get_object()
         teams = Team.objects.filter(league=league)
         teams_json = TeamDetailSerializer(
@@ -54,7 +55,7 @@ class LeagueViewSet(viewsets.ModelViewSet):
             return League.objects.filter(
                 Q(teams__username=self.request.user.username)
                 | Q(creator=self.request.user)
-            )
+            ).distinct()
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -75,6 +76,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return User.objects.all()
+
         else:
             return User.objects.filter(id=self.request.user.id)
 
@@ -86,6 +88,7 @@ class TeamViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Team.objects.all()
+
         else:
             return Team.objects.filter(user=self.request.user)
 

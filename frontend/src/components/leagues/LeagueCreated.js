@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { ClipboardTextIcon, ClipboardCheckIcon } from "mdi-react";
 
 class LeagueCreated extends React.Component {
   constructor(props) {
@@ -35,9 +36,11 @@ class LeagueCreated extends React.Component {
             />
             <CopyToClipboard text={this.state.accessCode} onCopy={this.onCopy}>
               <a className="uk-form-icon uk-form-icon-flip no-underline">
-                <i className="material-icons">
-                  {copied === true ? "check_circle" : "file_copy"}
-                </i>
+                {copied === true ? (
+                  <ClipboardCheckIcon />
+                ) : (
+                  <ClipboardTextIcon />
+                )}
               </a>
             </CopyToClipboard>
           </div>

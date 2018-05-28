@@ -34,3 +34,15 @@ body {
 .dashboard {
   margin-top: 3%;
 }
+
+.mdi-icon {
+  fill: #999
+}
+
+.mdi-icon:hover {
+  fill: #666
+}
+
+.league-name {
+  text-transform: capitalize;
+}

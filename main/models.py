@@ -22,7 +22,8 @@ class League(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
-    access_code = models.UUIDField(default=uuid.uuid4, editable=False)
+    access_code = models.UUIDField(
+        default=uuid.uuid4, editable=False, primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=100)
     logo = models.ImageField(upload_to="league_logos/", null=True, blank=True)
@@ -53,9 +54,7 @@ class Team(models.Model):
     date_joined = models.DateField(auto_now_add=True)
     admin = models.BooleanField(default=False)
     history = models.TextField(blank=True, null=True)
-    players = models.ManyToManyField(
-        "Player", related_name="players_of", through="Roster", blank=True
-    )
+    rosters = models.ManyToManyField("Roster", blank=True)
     logo = models.ImageField(upload_to="team_logos/", null=True, blank=True)
 
     class Meta:
@@ -158,8 +157,19 @@ class Player(models.Model):
 
 class Roster(models.Model):
     """
+    A team can have multiple rosters
+    """
+    players = models.ManyToManyField(
+        "Player", related_name="players_of", through="RosterPlayer", blank=True
+    )
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
+
+
+class RosterPlayer(models.Model):
+    """
     Stores additional information about instances of Player in a Team
     """
+    roster = models.ForeignKey(Roster, on_delete=models.CASCADE)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     price_paid = models.PositiveSmallIntegerField(blank=True)

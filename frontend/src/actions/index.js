@@ -45,7 +45,7 @@ export function loginUser({ email, password }, history) {
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/home/welcome");
+        history.push("/dashboard");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -63,7 +63,7 @@ export function registerUser(
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/home/welcome");
+        history.push("/dashboard/welcome");
         UIkit.modal.alert(StringsActions.signup);
       })
       .catch(error => {
@@ -98,7 +98,7 @@ export function getUser() {
       .then(response => {
         dispatch({
           type: USER,
-          payload: response.data.results[0]
+          payload: response.data[0]
         });
       })
       .catch(error => {
@@ -123,6 +123,30 @@ export function newLeague({ name }, history) {
           payload: response.data
         });
         history.push("/dashboard/league-created");
+      })
+      .catch(error => {
+        errorHandler(dispatch, error.response, AUTH_ERROR);
+      });
+  };
+}
+
+export function joinLeague({ name, access_code, history }, browserHistory) {
+  return function(dispatch) {
+    axios
+      .post(
+        "/teams/",
+        { name, access_code, history },
+        {
+          headers: { Authorization: "JWT " + localStorage.getItem("user") }
+        }
+      )
+      .then(response => {
+        console.log(response);
+        dispatch({
+          type: LEAGUE_CREATED,
+          payload: response.data
+        });
+        browserHistory.push("/dashboard/");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
