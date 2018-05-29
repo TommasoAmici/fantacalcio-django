@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { NavLink, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { getUser } from "../actions";
+import { getUser, logoutUser } from "../actions";
 
 import axios from "axios";
 
 import RequireAuth from "./auth/RequireAuth";
-import Logout from "./auth/Logout";
 
 import StringsLogin, { StringsDashboard } from "../localization/Strings";
 import HomeLoggedIn from "./home/HomeLoggedIn";
@@ -17,10 +16,13 @@ import LoadingSpinner from "./spinner/LoadingSpinner";
 import { NavBarDropDown, NavBarSection } from "./NavBar";
 
 class NavBarLoggedIn extends React.Component {
-  state = {
-    externalData: null
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      externalData: null
+    };
+    this.handleLogout = this.handleLogout.bind(this);
+  }
   static getDerivedStateFromProps(props, state) {
     // Store prevId in state so we can compare when props change.
     // Clear out previously-loaded data (so we don't render stale stuff).
@@ -50,7 +52,9 @@ class NavBarLoggedIn extends React.Component {
       this._asyncRequest.cancel();
     }
   }
-
+  handleLogout() {
+    this.props.logoutUser(this.props.history);
+  }
   render() {
     const authenticated = this.props.authenticated;
 
@@ -88,7 +92,7 @@ class NavBarLoggedIn extends React.Component {
             <NavBarSection side={"right"}>
               <NavBarDropDown title={username}>
                 <li>
-                  <NavLink to="/logout">{StringsLogin.logout}</NavLink>{" "}
+                  <a onClick={this.handleLogout}>{StringsLogin.logout}</a>
                 </li>
               </NavBarDropDown>
             </NavBarSection>
@@ -102,7 +106,6 @@ class NavBarLoggedIn extends React.Component {
               }
             />
             <Route path="/choose-league" component={ChooseLeague} />
-            <Route path="/logout" component={Logout} />
           </div>
         </div>
       );
@@ -131,4 +134,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { getUser })(NavBarLoggedIn);
+export default connect(mapStateToProps, { getUser, logoutUser })(
+  NavBarLoggedIn
+);

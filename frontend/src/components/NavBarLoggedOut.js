@@ -7,7 +7,6 @@ import axios from "axios";
 
 import RequireAuth from "./auth/RequireAuth";
 import Login from "./auth/Login";
-import Logout from "./auth/Logout";
 import SignUp from "./auth/SignUp";
 
 import StringsLogin, { StringsDashboard } from "../localization/Strings";
