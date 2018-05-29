@@ -5,6 +5,7 @@ from rest_framework.generics import CreateAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from .models import League, Role, Player, Season, Performance, Team
 from .serializers import (
@@ -19,7 +20,9 @@ from .serializers import (
     LeagueDetailSerializer,
     TeamDetailSerializer,
 )
-from .custom_permissions import IsOwnerOrReadOnly
+from.custom_permissions import IsOwnerOrReadOnly
+import operator
+from functools import reduce
 
 
 User = get_user_model()
@@ -39,7 +42,7 @@ class LeagueViewSet(viewsets.ModelViewSet):
 
     @detail_route()
     def teams(self, request, pk=None):
-        print('ue')
+        print("ue")
         league = self.get_object()
         teams = Team.objects.filter(league=league)
         teams_json = TeamDetailSerializer(
@@ -79,6 +82,32 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
         else:
             return User.objects.filter(id=self.request.user.id)
+
+    def list(self, request):
+        if self.request.user.is_superuser:
+            queryset = User.objects.all()
+
+        else:
+            queryset = User.objects.filter(id=self.request.user.id)
+        serializer = UserSerializer(queryset, many=True)
+        data = serializer.data
+        for d in data:
+            # merge leagues created and leagues a user is in
+            leagues_created = d.pop('leagues_created')
+            leagues = d.pop('leagues')
+            d['leagues'] = reduce(operator.concat, [leagues_created, leagues])
+        return Response(data)
+
+    def retrieve(self, request, pk=None):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = UserSerializer(user)
+        data = serializer.data
+        # merge leagues created and leagues a user is in
+        leagues_created = data.pop('leagues_created')
+        leagues = data.pop('leagues')
+        data['leagues'] = reduce(operator.concat, [leagues_created, leagues])
+        return Response(data)
 
 
 class TeamViewSet(viewsets.ModelViewSet):

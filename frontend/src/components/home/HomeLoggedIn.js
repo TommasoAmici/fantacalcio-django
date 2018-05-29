@@ -17,7 +17,7 @@ class HomeLoggedIn extends React.Component {
     super(props);
     this.state = { hideMenu: false };
   }
-  componentWillMount() {
+  componentDidMount() {
     // if the user does not belong to any league render welcome page
     if (this.props.leagues && this.props.leagues.length === 0) {
       this.props.history.push(`${this.props.match.url}/welcome`);
@@ -30,7 +30,11 @@ class HomeLoggedIn extends React.Component {
         <div className="uk-grid uk-grid-medium">
           <DashboardSidebar />
           <Dashboard>
-            <Route exact path={`${this.props.match.url}/`} component={Home} />
+            <Route
+              exact
+              path={`${this.props.match.url}/`}
+              render={() => <Home id={this.props.league} />}
+            />
             <Route
               path={`${this.props.match.url}/welcome`}
               component={NoLeagues}
@@ -56,7 +60,6 @@ class HomeLoggedIn extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    username: state.user.info.username,
     leagues: state.user.info.leagues,
     league: state.user.league
   };

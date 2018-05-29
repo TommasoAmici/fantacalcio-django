@@ -4,7 +4,8 @@ import {
   AUTH_ERROR,
   UNAUTH_USER,
   USER,
-  LEAGUE_CREATED
+  LEAGUE_CREATED,
+  LOADING
 } from "./types";
 import UIkit from "uikit";
 import StringsActions from "../localization/Strings";
@@ -96,6 +97,7 @@ export function getUser() {
         headers: { Authorization: "JWT " + localStorage.getItem("user") }
       })
       .then(response => {
+        console.log(response);
         dispatch({
           type: USER,
           payload: response.data[0]
@@ -151,5 +153,14 @@ export function joinLeague({ name, access_code, history }, browserHistory) {
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
       });
+  };
+}
+
+export function setLoading(bool) {
+  return function(dispatch) {
+    dispatch({
+      type: LOADING,
+      payload: bool
+    });
   };
 }

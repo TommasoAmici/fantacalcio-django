@@ -22,8 +22,7 @@ class League(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
-    access_code = models.UUIDField(
-        default=uuid.uuid4, editable=False, primary_key=True)
+    access_code = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=100)
     logo = models.ImageField(upload_to="league_logos/", null=True, blank=True)
@@ -63,14 +62,12 @@ class Team(models.Model):
 
 class Competition(models.Model):
     name = models.CharField(max_length=100)
-    logo = models.ImageField(
-        upload_to="competition_logos/", null=True, blank=True)
+    logo = models.ImageField(upload_to="competition_logos/", null=True, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
     num_matches = models.PositiveSmallIntegerField()
     first_matchday = models.PositiveSmallIntegerField()
     last_matchday = models.PositiveSmallIntegerField()
-    bonus_values = models.ManyToManyField(
-        "Bonus", through="BonusValue", blank=True)
+    bonus_values = models.ManyToManyField("Bonus", through="BonusValue", blank=True)
     setup = models.CharField(max_length=100, default="regular_season")
 
 

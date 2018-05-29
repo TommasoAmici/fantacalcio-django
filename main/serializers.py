@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from main.models import (
     League, Team, Player, Role, Season, Roster, RosterPlayer, Performance, Bonus
 )
+from django.db.models import Q
 from django.contrib.auth import get_user_model
 import datetime
 
@@ -26,10 +27,8 @@ class UserSerializer(serializers.ModelSerializer):
     Serializer for User model
     """
     # leagues User is in
-    leagues = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=League.objects.all(), allow_null=True
-    )
-    leagues_created = LeagueSerializer(many=True)
+    leagues = LeagueSerializer(many=True, allow_null=True)
+    leagues_created = LeagueSerializer(many=True, allow_null=True)
     teams = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Team.objects.all(), allow_null=True
     )

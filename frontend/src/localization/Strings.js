@@ -43,6 +43,7 @@ const StringsDashboard = new LocalizedStrings({
     new: "New",
     calendar: "Calendar",
     teams: "Teams",
+    leagues: "Leagues",
     welcome: "Welcome to Fantacalcio ReactJS",
     welcomeBody:
       "Hi {0}! It looks like you're new here, you may want to join a league or create one of your own."
