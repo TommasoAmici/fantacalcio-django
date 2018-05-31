@@ -61,53 +61,39 @@ class NavBarLoggedIn extends React.Component {
     if (this.state.externalData === null) {
       return <LoadingSpinner />;
     } else {
-      const { league } = this.props;
-      console.log(league);
       const { username, leagues } = this.state.externalData;
       const listLeagues = leagues.map(league => (
         <li key={league.name.toString()}>{league.name}</li>
       ));
       return (
-        <div>
-          <nav
-            className="uk-navbar uk-navbar-container navbar-container"
-            data-uk-navbar={true}
-          >
-            <NavBarSection side={"left"}>
-              <li>
-                <NavLink
-                  activeClassName={"uk-active"}
-                  className={"inactive"}
-                  to="/"
-                >
-                  {StringsLogin.home}
-                </NavLink>
-              </li>
-              <li>
-                <NavBarDropDown title={StringsDashboard.leagues}>
-                  {listLeagues}
-                </NavBarDropDown>
-              </li>
-            </NavBarSection>
-            <NavBarSection side={"right"}>
-              <NavBarDropDown title={username}>
-                <li>
-                  <a onClick={this.handleLogout}>{StringsLogin.logout}</a>
-                </li>
+        <nav
+          className="uk-navbar uk-navbar-container navbar-container"
+          data-uk-navbar={true}
+        >
+          <NavBarSection side={"left"}>
+            <li>
+              <NavLink
+                activeClassName={"uk-active"}
+                className={"inactive"}
+                to="/"
+              >
+                {StringsLogin.home}
+              </NavLink>
+            </li>
+            <li>
+              <NavBarDropDown title={StringsDashboard.leagues}>
+                {listLeagues}
               </NavBarDropDown>
-            </NavBarSection>
-          </nav>
-          <div>
-            <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
-            <Route
-              path="/dashboard"
-              render={() =>
-                league ? <HomeLoggedIn /> : <Redirect to="/choose-league" />
-              }
-            />
-            <Route path="/choose-league" component={ChooseLeague} />
-          </div>
-        </div>
+            </li>
+          </NavBarSection>
+          <NavBarSection side={"right"}>
+            <NavBarDropDown title={username}>
+              <li>
+                <a onClick={this.handleLogout}>{StringsLogin.logout}</a>
+              </li>
+            </NavBarDropDown>
+          </NavBarSection>
+        </nav>
       );
     }
   }
@@ -118,7 +104,6 @@ class NavBarLoggedIn extends React.Component {
         headers: { Authorization: "JWT " + localStorage.getItem("user") }
       })
       .then(externalData => {
-        console.log(externalData.data);
         this._asyncRequest = null;
         this.setState({ externalData: externalData.data[0] });
       });
@@ -129,8 +114,7 @@ function mapStateToProps(state) {
   return {
     authenticated: state.auth.authenticated,
     username: state.user.info.username,
-    leagues: state.user.info.leagues,
-    league: state.user.league
+    leagues: state.user.info.leagues
   };
 }
 

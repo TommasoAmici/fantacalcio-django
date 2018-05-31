@@ -5,14 +5,14 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 // Redux dependencies
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import createHistory from "history/createBrowserHistory";
-import { routerMiddleware } from "react-router-redux";
+import { routerMiddleware, routerReducer } from "react-router-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
 import reducers from "./reducers/index";
 import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED } from "./actions/types";
 import { errorHandler } from "./actions/index";
+import thunk from "redux-thunk";
 import axios from "axios";
 
 // Create a history of your choosing (we're using a browser history in this case)

@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, withRouter, Route } from "react-router-dom";
 import { StringsDashboard, StringsNewLeague } from "../../localization/Strings";
 import axios from "axios";
-import withRouter from "react-router-dom/withRouter";
+import LoadingSpinner from "../spinner/LoadingSpinner";
+import { selectLeague } from "../../actions/index";
 
 /*
  * Creates a menu to choose the league,
@@ -17,19 +18,19 @@ class ListItem extends React.Component {
   }
   toLeague() {
     localStorage.setItem("league", this.props.accessCode);
+    this.props.handleSelectLeague();
   }
   render() {
     return (
-      <Link
+      <a
         key={this.props.accessCode}
         className={"no-underline"}
         onClick={this.toLeague}
-        to={"/dashboard"}
       >
         <div class="uk-card uk-card-default uk-card-hover uk-card-body">
           <h3 className={"uk-card-title league-name"}>{this.props.name}</h3>
         </div>
-      </Link>
+      </a>
     );
   }
 }
@@ -38,7 +39,11 @@ class RenderList extends React.Component {
   render() {
     const leagues = this.props.leagues;
     const listItems = leagues.map(league => (
-      <ListItem name={league.name} accessCode={league.access_code} />
+      <ListItem
+        name={league.name}
+        accessCode={league.access_code}
+        handleSelectLeague={this.props.handleSelectLeague}
+      />
     ));
     return (
       <div class="uk-align-center uk-grid-match uk-width-1-3@s" uk-grid={true}>
@@ -51,33 +56,74 @@ class RenderList extends React.Component {
 class ChooseLeague extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { leagues: [{}] };
+    this.state = { externalData: null };
+    this.handleSelectLeague = this.handleSelectLeague.bind(this);
   }
 
-  componentWillMount() {
-    if (this.props.league.selected) {
-      this.props.history.push(`/dashboard`);
+  static getDerivedStateFromProps(props, state) {
+    // Store prevId in state so we can compare when props change.
+    // Clear out previously-loaded data (so we don't render stale stuff).
+    if (props.id !== state.prevId) {
+      return {
+        externalData: null,
+        prevId: props.id
+      };
+    }
+
+    // No state update necessary
+    return null;
+  }
+
+  componentDidMount() {
+    if (!this.props.league.selected) {
+      this._loadAsyncData(this.props.id);
     } else {
-      axios
-        .get("/leagues/", {
-          headers: { Authorization: "JWT " + localStorage.getItem("user") }
-        })
-        .then(response => {
-          this.setState({ leagues: response.data });
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.props.history.push(`/dashboard`);
     }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.externalData === null) {
+      this._loadAsyncData(this.props.id);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._asyncRequest) {
+      this._asyncRequest.cancel();
+    }
+  }
+  handleSelectLeague() {
+    console.log("selecting league");
+    this.props.selectLeague(this.props.history);
+  }
+
   render() {
-    const leagues = this.state.leagues;
-    return (
-      <div className="uk-container dashboard uk-text-center">
-        <h1>{StringsDashboard.welcome}</h1>
-        <RenderList leagues={leagues} />
-      </div>
-    );
+    if (this.state.externalData === null) {
+      return <LoadingSpinner />;
+    } else {
+      const leagues = this.state.externalData;
+      return (
+        <div className="uk-container dashboard uk-text-center">
+          <h1>{StringsDashboard.welcome}</h1>
+          <RenderList
+            leagues={leagues}
+            handleSelectLeague={this.handleSelectLeague}
+          />
+        </div>
+      );
+    }
+  }
+
+  _loadAsyncData(id) {
+    this._asyncRequest = axios
+      .get("/leagues/", {
+        headers: { Authorization: "JWT " + localStorage.getItem("user") }
+      })
+      .then(externalData => {
+        this._asyncRequest = null;
+        this.setState({ externalData: externalData.data });
+      });
   }
 }
 
@@ -85,4 +131,6 @@ function mapStateToProps(state) {
   return { league: state.user.league };
 }
 
-export default connect(mapStateToProps, {})(ChooseLeague);
+export default withRouter(
+  connect(mapStateToProps, { selectLeague })(ChooseLeague)
+);

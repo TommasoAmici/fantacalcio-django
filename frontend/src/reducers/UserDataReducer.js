@@ -13,8 +13,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         league: {
-          accessCode: action.payload,
-          selected: true
+          accessCode: action.payload
         }
       };
     default:

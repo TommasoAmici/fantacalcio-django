@@ -82,35 +82,3 @@ export function renderField({
 export function validatePassword(password) {
   return password.length > 8 && /\d/.test(password);
 }
-
-export class FieldFileInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange(e) {
-    const {
-      input: { onChange }
-    } = this.props;
-    onChange(e.target.files[0]);
-  }
-
-  render() {
-    const {
-      input: { value }
-    } = this.props;
-    const { input, label, required, meta } = this.props; //whatever props you send to the component from redux-form Field
-    return (
-      <div>
-        <div>
-          <input
-            type="file"
-            accept=".jpg, .png, .jpeg"
-            onChange={this.onChange}
-          />
-        </div>
-      </div>
-    );
-  }
-}

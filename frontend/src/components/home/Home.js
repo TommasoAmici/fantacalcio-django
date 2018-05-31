@@ -58,6 +58,7 @@ class Home extends React.Component {
   }
 
   _loadAsyncData(id) {
+    console.log("siam qua", id);
     this._asyncRequest = axios
       .get("/leagues/" + id.accessCode + "/", {
         headers: { Authorization: "JWT " + localStorage.getItem("user") }
