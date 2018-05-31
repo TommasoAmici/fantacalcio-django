@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, Redirect, withRouter, Route } from "react-router-dom";
-import { StringsDashboard, StringsNewLeague } from "../../localization/Strings";
+import { withRouter } from "react-router-dom";
+import { StringsDashboard } from "../../localization/Strings";
 import axios from "axios";
 import LoadingSpinner from "../spinner/LoadingSpinner";
 import { selectLeague } from "../../actions/index";
@@ -78,7 +78,7 @@ class ChooseLeague extends React.Component {
     if (!this.props.league.selected) {
       this._loadAsyncData(this.props.id);
     } else {
-      this.props.history.push(`/dashboard`);
+      this.props.history.push(`/`);
     }
   }
 
@@ -88,11 +88,6 @@ class ChooseLeague extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    if (this._asyncRequest) {
-      this._asyncRequest.cancel();
-    }
-  }
   handleSelectLeague() {
     console.log("selecting league");
     this.props.selectLeague(this.props.history);

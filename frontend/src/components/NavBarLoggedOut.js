@@ -1,9 +1,8 @@
 import React from "react";
-import { NavLink, Route } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
 import StringsLogin from "../localization/Strings";
-import HomeLoggedOut from "./home/HomeLoggedOut";
 
 import { NavBarSection } from "./NavBar";
 

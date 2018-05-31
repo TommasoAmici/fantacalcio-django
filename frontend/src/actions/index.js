@@ -47,7 +47,7 @@ export function loginUser({ email, password }, history) {
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/dashboard");
+        history.push("/");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -65,7 +65,7 @@ export function registerUser(
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/dashboard/welcome");
+        history.push("/welcome");
         UIkit.modal.alert(StringsActions.signup);
       })
       .catch(error => {
@@ -74,7 +74,7 @@ export function registerUser(
   };
 }
 
-export function logoutUser(history) {
+export function logoutUser() {
   return function(dispatch) {
     const token = localStorage.getItem("user");
     axios
@@ -82,8 +82,6 @@ export function logoutUser(history) {
       .then(response => {
         localStorage.clear();
         dispatch({ type: UNAUTH_USER });
-        history.push("/");
-        UIkit.modal.alert(StringsActions.logout);
       })
       .catch(error => {
         errorHandler(error.response, AUTH_ERROR);
@@ -124,7 +122,7 @@ export function newLeague({ name }, history) {
           type: LEAGUE_CREATED,
           payload: response.data
         });
-        history.push("/dashboard/league-created");
+        history.push("/league-created");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -147,7 +145,7 @@ export function joinLeague({ name, access_code, history }, browserHistory) {
           type: LEAGUE_CREATED,
           payload: response.data
         });
-        browserHistory.push("/dashboard/");
+        browserHistory.push("/");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -168,8 +166,11 @@ export function selectLeague(history) {
   return function(dispatch) {
     dispatch({
       type: LEAGUE_SELECTED,
-      payload: localStorage.getItem("league")
+      payload: {
+        accessCode: localStorage.getItem("league"),
+        selected: true
+      }
     });
-    history.push("/dashboard");
+    history.push("/");
   };
 }

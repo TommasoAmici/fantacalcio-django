@@ -5,9 +5,9 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 // Redux dependencies
-import { createStore, applyMiddleware, combineReducers } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import createHistory from "history/createBrowserHistory";
-import { routerMiddleware, routerReducer } from "react-router-redux";
+import { routerMiddleware } from "react-router-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducers from "./reducers/index";
 import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED } from "./actions/types";
@@ -41,11 +41,11 @@ if (token) {
       errorHandler(store.dispatch, error.response, AUTH_ERROR);
     });
 }
-const leagueSelected = localStorage.getItem("league");
-if (leagueSelected) {
+const leagueAccessCode = localStorage.getItem("league");
+if (leagueAccessCode) {
   store.dispatch({
     type: LEAGUE_SELECTED,
-    payload: leagueSelected
+    payload: { accessCode: leagueAccessCode, selected: true }
   });
 }
 

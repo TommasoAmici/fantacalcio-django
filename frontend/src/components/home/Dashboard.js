@@ -1,8 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Switch, Route, withRouter } from "react-router-dom";
+import React from "react";
 
-class Dashboard extends Component {
+class Dashboard extends React.Component {
   render() {
     return <div className="uk-width-3-4@s">{this.props.children}</div>;
   }

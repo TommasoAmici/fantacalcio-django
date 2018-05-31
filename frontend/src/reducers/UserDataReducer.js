@@ -12,9 +12,12 @@ export default function(state = INITIAL_STATE, action) {
     case LEAGUE_SELECTED:
       return {
         ...state,
-        league: {
-          accessCode: action.payload
-        }
+        league: action.payload
+      };
+    case UNAUTH_USER:
+      return {
+        ...state,
+        league: { accessCode: "", selected: false }
       };
     default:
       return state;

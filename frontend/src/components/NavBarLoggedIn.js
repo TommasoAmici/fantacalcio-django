@@ -1,19 +1,18 @@
-import React, { Component } from "react";
-import { NavLink, Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
+import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUser, logoutUser } from "../actions";
 
 import axios from "axios";
 
-import RequireAuth from "./auth/RequireAuth";
-
-import StringsLogin, { StringsDashboard } from "../localization/Strings";
-import HomeLoggedIn from "./home/HomeLoggedIn";
-import HomeLoggedOut from "./home/HomeLoggedOut";
-import ChooseLeague from "./leagues/ChooseLeague";
+import StringsLogin, {
+  StringsDashboard,
+  StringsActions
+} from "../localization/Strings";
 
 import LoadingSpinner from "./spinner/LoadingSpinner";
 import { NavBarDropDown, NavBarSection } from "./NavBar";
+import UIkit from "uikit";
 
 class NavBarLoggedIn extends React.Component {
   constructor(props) {
@@ -47,17 +46,12 @@ class NavBarLoggedIn extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    if (this._asyncRequest) {
-      this._asyncRequest.cancel();
-    }
-  }
   handleLogout() {
     this.props.logoutUser(this.props.history);
+    this.props.history.push("/");
+    UIkit.modal.alert(StringsActions.logout);
   }
   render() {
-    const authenticated = this.props.authenticated;
-
     if (this.state.externalData === null) {
       return <LoadingSpinner />;
     } else {
@@ -111,13 +105,9 @@ class NavBarLoggedIn extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    authenticated: state.auth.authenticated,
-    username: state.user.info.username,
-    leagues: state.user.info.leagues
-  };
+  return {};
 }
 
-export default connect(mapStateToProps, { getUser, logoutUser })(
-  NavBarLoggedIn
+export default withRouter(
+  connect(mapStateToProps, { getUser, logoutUser })(NavBarLoggedIn)
 );

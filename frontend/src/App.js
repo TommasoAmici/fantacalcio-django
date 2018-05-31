@@ -1,12 +1,10 @@
 import React from "react";
 import "./App.css";
 import { Provider, connect } from "react-redux";
-import { Router, Route, Redirect } from "react-router-dom";
-import NavBarLoggedIn from "./components/NavBarLoggedIn";
-import NavBarLoggedOut from "./components/NavBarLoggedOut";
+import { Router, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
 import PageNotFound from "./components/PageNotFound";
-import HomeLoggedIn from "./components/home/HomeLoggedIn";
-import HomeLoggedOut from "./components/home/HomeLoggedOut";
+import Home from "./components/home/Home";
 import ChooseLeague from "./components/leagues/ChooseLeague";
 
 import Login from "./components/auth/Login";
@@ -16,66 +14,32 @@ import Switch from "react-router-dom/Switch";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { leagueSelected: "" };
+    this.state = {};
   }
-  componentDidMount() {
-    const league = localStorage.getItem("league");
-    if (league) {
-      this.setState({
-        leagueSelected: true
-      });
-    } else {
-      this.setState({
-        leagueSelected: false
-      });
-    }
-  }
+
   render() {
     const authenticated = this.props.authenticated;
-    const leagueSelected = this.state.leagueSelected;
 
     return (
       <Provider store={this.props.store}>
         <Router history={this.props.history}>
-          {authenticated ? (
-            <div>
-              <Route
-                path="/"
-                render={() => (
-                  <NavBarLoggedIn id={localStorage.getItem("user")} />
-                )}
-              />
+          <div>
+            <Route
+              path="/"
+              render={() => <NavBar authenticated={authenticated} />}
+            />
+            <Switch>
               <Route
                 exact
                 path="/"
-                render={() => <Redirect to="/dashboard" />}
+                render={() => <Home authenticated={authenticated} />}
               />
-              <Route
-                path="/dashboard"
-                render={() =>
-                  leagueSelected ? (
-                    <HomeLoggedIn />
-                  ) : (
-                    <Redirect to="/choose-league" />
-                  )
-                }
-              />
-              <Route
-                path="/choose-league"
-                render={() => <ChooseLeague history={this.props.history} />}
-              />
-            </div>
-          ) : (
-            <div>
-              <Route path="/" component={NavBarLoggedOut} />
-              <Switch>
-                <Route exact path="/" component={HomeLoggedOut} />
-                <Route path="/login" component={Login} />
-                <Route path="/signup" component={SignUp} />
-                <Route component={PageNotFound} />
-              </Switch>
-            </div>
-          )}
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={SignUp} />
+              <Route path="/choose-league" component={ChooseLeague} />
+              <Route component={PageNotFound} />
+            </Switch>
+          </div>
         </Router>
       </Provider>
     );

@@ -6,37 +6,29 @@ import Dashboard from "./Dashboard";
 import NewLeague from "../leagues/NewLeague";
 import JoinLeague from "../leagues/JoinLeague";
 import NoLeagues from "../leagues/NoLeagues";
-import RequireAuth from "../auth/RequireAuth";
 import LeagueCreated from "../leagues/LeagueCreated";
-import ChooseLeague from "../leagues/ChooseLeague";
-import Home from "./Home";
-import axios from "axios";
+import Overview from "./Overview";
 
 class HomeLoggedIn extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hideMenu: false };
+    this.state = {};
   }
   componentDidMount() {
     // if the user does not belong to any league render welcome page
     if (this.props.leagues && this.props.leagues.length === 0) {
       this.props.history.push(`${this.props.match.url}/welcome`);
-    } else if (this.props.league && this.props.league.length === 0) {
-      this.props.history.push("/choose-team");
+    } else if (this.props.league.selected === false) {
+      this.props.history.push("/choose-league");
     }
   }
   render() {
-    const hideMenu = this.state;
     return (
       <div className="uk-container dashboard">
         <div className="uk-grid uk-grid-medium">
           <DashboardSidebar />
           <Dashboard>
-            <Route
-              exact
-              path={`${this.props.match.url}/`}
-              render={() => <Home id={this.props.league} />}
-            />
+            <Route path={`${this.props.match.url}/`} component={Overview} />
             <Route
               path={`${this.props.match.url}/welcome`}
               component={NoLeagues}

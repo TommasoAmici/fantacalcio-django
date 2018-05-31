@@ -1,4 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
+import NavBarLoggedIn from "./NavBarLoggedIn";
+import NavBarLoggedOut from "./NavBarLoggedOut";
 
 export function NavBarDropDown(props) {
   return (
@@ -20,3 +23,26 @@ export function NavBarSection(props) {
     </div>
   );
 }
+
+class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    const authenticated = this.props.authenticated;
+    if (authenticated) {
+      return <NavBarLoggedIn />;
+    } else {
+      return <NavBarLoggedOut />;
+    }
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated
+  };
+}
+
+export default connect(mapStateToProps, {})(NavBar);

@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { newLeague } from "../../actions";
-import { FormFields, renderField, FieldFileInput } from "../auth/AuthFields";
+import { FormFields, renderField } from "../auth/AuthFields";
 import { StringsNewLeague } from "../../localization/Strings";
 import { isLength } from "validator";
 
@@ -22,9 +21,7 @@ function validate(formProps) {
 class NewLeague extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: ""
-    };
+    this.state = {};
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -40,10 +37,6 @@ class NewLeague extends React.Component {
 
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
-    const { name } = this.state;
-    const errorStyle = {
-      color: "#d32f2f"
-    };
     return (
       <div className="uk-width-3-4@s ">
         <h2>{StringsNewLeague.titleCreate}</h2>

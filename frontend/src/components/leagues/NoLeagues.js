@@ -10,10 +10,10 @@ class NoLeagues extends React.Component {
   }
 
   handleCreateClick() {
-    this.props.history.push("/dashboard/new-league");
+    this.props.history.push("/new-league");
   }
   handleJoinClick() {
-    this.props.history.push("/dashboard/join-league");
+    this.props.history.push("/join-league");
   }
 
   render() {
