@@ -89,7 +89,6 @@ class ChooseLeague extends React.Component {
   }
 
   handleSelectLeague() {
-    console.log("selecting league");
     this.props.selectLeague(this.props.history);
   }
 

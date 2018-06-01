@@ -122,7 +122,17 @@ venv.bak/
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+/frontend/node_modules
+# Ignore native extensions in the node_modules folder (things changed by npm rebuild)
+/frontend/node_modules/**/*.node
+/frontend/node_modules/**/*.o
+/frontend/node_modules/**/*.a
+/frontend/node_modules/**/*.mk
+/frontend/node_modules/**/*.gypi
+/frontend/node_modules/**/*.target
+/frontend/node_modules/**/.deps/
+/frontend/node_modules/**/build/Makefile
+/frontend/node_modules/**/**/build/Makefile
 
 # testing
 /coverage

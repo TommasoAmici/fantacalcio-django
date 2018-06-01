@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Provider, connect } from "react-redux";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import PageNotFound from "./components/PageNotFound";
 import Home from "./components/home/Home";
@@ -10,6 +10,7 @@ import ChooseLeague from "./components/leagues/ChooseLeague";
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
 import Switch from "react-router-dom/Switch";
+import HomeLoggedOut from "./components/home/HomeLoggedOut";
 
 class App extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends React.Component {
 
   render() {
     const authenticated = this.props.authenticated;
+    const league = this.props.league;
 
     return (
       <Provider store={this.props.store}>
@@ -26,14 +28,23 @@ class App extends React.Component {
           <div>
             <Route
               path="/"
-              render={() => <NavBar authenticated={authenticated} />}
+              render={() => (
+                <NavBar authenticated={authenticated} league={league} />
+              )}
             />
             <Switch>
               <Route
                 exact
                 path="/"
-                render={() => <Home authenticated={authenticated} />}
+                render={() =>
+                  authenticated ? (
+                    <Redirect to="/dashboard" />
+                  ) : (
+                    <HomeLoggedOut />
+                  )
+                }
               />
+              <Route path="/dashboard" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
               <Route path="/choose-league" component={ChooseLeague} />
@@ -48,7 +59,8 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
+    league: state.user.league
   };
 }
 

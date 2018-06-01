@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { registerUser } from "../../actions";
 import { FormFields, renderField, validatePassword } from "./AuthFields";
-import StringsLogin from "../../localization/Strings";
+import { StringsLogin } from "../../localization/Strings";
 import { isEmail, isLength } from "validator";
 
 function validate(formProps) {

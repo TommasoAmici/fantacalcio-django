@@ -9,7 +9,7 @@ import {
   LOADING
 } from "./types";
 import UIkit from "uikit";
-import StringsActions from "../localization/Strings";
+import { StringsActions } from "../localization/Strings";
 
 //const API_URL = '';
 //const CLIENT_ROOT_URL = 'http://localhost:3000';
@@ -47,7 +47,7 @@ export function loginUser({ email, password }, history) {
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/");
+        history.push("/dashboard");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -65,7 +65,7 @@ export function registerUser(
       .then(response => {
         localStorage.setItem("user", response.data.token);
         dispatch({ type: AUTH_USER });
-        history.push("/welcome");
+        history.push("/dashboard/welcome");
         UIkit.modal.alert(StringsActions.signup);
       })
       .catch(error => {
@@ -122,7 +122,7 @@ export function newLeague({ name }, history) {
           type: LEAGUE_CREATED,
           payload: response.data
         });
-        history.push("/league-created");
+        history.push("/dashboard/league-created");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -145,7 +145,7 @@ export function joinLeague({ name, access_code, history }, browserHistory) {
           type: LEAGUE_CREATED,
           payload: response.data
         });
-        browserHistory.push("/");
+        browserHistory.push("/dashboard");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -164,13 +164,21 @@ export function setLoading(bool) {
 
 export function selectLeague(history) {
   return function(dispatch) {
-    dispatch({
-      type: LEAGUE_SELECTED,
-      payload: {
-        accessCode: localStorage.getItem("league"),
-        selected: true
-      }
-    });
-    history.push("/");
+    const accessCode = localStorage.getItem("league");
+    axios
+      .get("/leagues/" + accessCode + "/", {
+        headers: { Authorization: "JWT " + localStorage.getItem("user") }
+      })
+      .then(response => {
+        dispatch({
+          type: LEAGUE_SELECTED,
+          payload: {
+            accessCode: accessCode,
+            selected: true,
+            name: response.data.name
+          }
+        });
+        history.push("/dashboard");
+      });
   };
 }

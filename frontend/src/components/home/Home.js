@@ -1,7 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 import HomeLoggedIn from "./HomeLoggedIn";
 import HomeLoggedOut from "./HomeLoggedOut";
+import NewLeague from "../leagues/NewLeague";
+import JoinLeague from "../leagues/JoinLeague";
+import NoLeagues from "../leagues/NoLeagues";
+import LeagueCreated from "../leagues/LeagueCreated";
+import Overview from "./Overview";
 
 class Home extends React.Component {
   constructor(props) {
@@ -12,7 +18,33 @@ class Home extends React.Component {
   render() {
     const authenticated = this.props.authenticated;
     if (authenticated) {
-      return <HomeLoggedIn />;
+      return (
+        <HomeLoggedIn>
+          <Switch>
+            <Route
+              exact
+              path={`${this.props.match.url}/`}
+              component={Overview}
+            />
+            <Route
+              path={`${this.props.match.url}/welcome`}
+              component={NoLeagues}
+            />
+            <Route
+              path={`${this.props.match.url}/new-league`}
+              component={NewLeague}
+            />
+            <Route
+              path={`${this.props.match.url}/join-league`}
+              component={JoinLeague}
+            />
+            <Route
+              path={`${this.props.match.url}/league-created`}
+              component={LeagueCreated}
+            />
+          </Switch>
+        </HomeLoggedIn>
+      );
     } else {
       return <HomeLoggedOut />;
     }

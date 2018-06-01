@@ -41,12 +41,23 @@ if (token) {
       errorHandler(store.dispatch, error.response, AUTH_ERROR);
     });
 }
+
 const leagueAccessCode = localStorage.getItem("league");
 if (leagueAccessCode) {
-  store.dispatch({
-    type: LEAGUE_SELECTED,
-    payload: { accessCode: leagueAccessCode, selected: true }
-  });
+  axios
+    .get("/leagues/" + leagueAccessCode + "/", {
+      headers: { Authorization: "JWT " + localStorage.getItem("user") }
+    })
+    .then(response => {
+      store.dispatch({
+        type: LEAGUE_SELECTED,
+        payload: {
+          accessCode: leagueAccessCode,
+          selected: true,
+          name: response.data.name
+        }
+      });
+    });
 }
 
 ReactDOM.render(

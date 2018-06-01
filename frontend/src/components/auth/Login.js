@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { loginUser } from "../../actions";
 import { FormFields, renderField, validatePassword } from "./AuthFields";
 import UIkit from "uikit";
-import StringsLogin from "../../localization/Strings";
+import { StringsLogin } from "../../localization/Strings";
 import { isEmail } from "validator";
 
 function validate(formProps) {

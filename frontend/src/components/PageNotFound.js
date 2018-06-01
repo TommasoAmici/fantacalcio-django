@@ -15,7 +15,7 @@ const strings = new LocalizedStrings({
 class PageNotFound extends Component {
   render() {
     return (
-      <div>
+      <div className={"uk-flex-center uk-position-center login-form"}>
         <h1>{strings.title}</h1>
         <p>{strings.text}</p>
       </div>
