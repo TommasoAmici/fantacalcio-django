@@ -16,3 +16,5 @@ before_script:
 script:
   - yarn
   - yarn build
+notifications:
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
