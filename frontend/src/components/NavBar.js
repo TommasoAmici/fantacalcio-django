@@ -2,6 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import NavBarLoggedIn from "./NavBarLoggedIn";
 import NavBarLoggedOut from "./NavBarLoggedOut";
+import { Link } from "react-router-dom";
+import logo from "../images/logo.png";
+import "./NavBar.css";
 
 export function NavBarDropDown(props) {
   return (
@@ -37,6 +40,14 @@ class NavBar extends React.Component {
       return <NavBarLoggedOut />;
     }
   }
+}
+
+export function NavBarLogo() {
+  return (
+    <Link className="uk-navbar-item uk-logo" to="/">
+      <img className={"logo"} src={logo} alt="Logo Fantacalcio React" />
+    </Link>
+  );
 }
 
 function mapStateToProps(state) {

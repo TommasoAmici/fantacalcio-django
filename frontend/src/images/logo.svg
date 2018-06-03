@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="716px" height="716px" viewBox="0 0 716 716" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50 (54983) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="145.264466 13.614419 278.055308 109.608308 227.333719 264.929683 63.1952124 264.929683 12.4736242 109.608308"></polygon>
+    </defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(389.000000, 352.500000) rotate(90.000000) translate(-389.000000, -352.500000) translate(13.000000, -41.000000)">
+            <polygon id="Polygon-2" fill="#178B9C" points="443.929368 261.623697 587.245148 344.267465 587.245148 509.555003 443.929368 592.198771 300.613588 509.555003 300.613588 344.267465"></polygon>
+            <polygon id="Polygon-Copy" fill="#2D2D2D" transform="translate(165.287537, 412.429849) rotate(-18.000000) translate(-165.287537, -412.429849) " points="165.287537 286.591603 297.617439 382.723468 247.071914 538.268095 83.5031605 538.268095 32.9576359 382.723468"></polygon>
+            <circle id="Oval-2" stroke="#00DFFF" stroke-width="19" cx="440.933219" cy="426.911234" r="225.210512"></circle>
+            <polygon id="Polygon-Copy-2" fill="#2D2D2D" transform="translate(569.113177, 182.166276) rotate(-42.000000) translate(-569.113177, -182.166276) " points="569.113177 56.3280299 701.443079 152.459896 650.897554 308.004522 487.3288 308.004522 436.783276 152.459896"></polygon>
+            <circle id="Oval-2-Copy" stroke="#00DFFF" stroke-width="19" cx="440.433861" cy="426.411876" r="280.639263"></circle>
+            <g id="Oval-2-Copy-2" transform="translate(432.444131, 507.307891)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#2D2D2D" transform="translate(145.264466, 139.272051) rotate(6.000000) translate(-145.264466, -139.272051) " xlink:href="#path-1"></use>
+                <ellipse stroke="#00DFFF" stroke-width="19" mask="url(#mask-2)" cx="9.30004561" cy="-80.4748685" rx="225.526106" ry="224.394002"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

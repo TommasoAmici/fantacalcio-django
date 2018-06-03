@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { StringsLogin } from "../localization/Strings";
 
-import { NavBarSection } from "./NavBar";
+import { NavBarSection, NavBarLogo } from "./NavBar";
 
 class NavBarLoggedOut extends React.Component {
   render() {
@@ -14,6 +14,7 @@ class NavBarLoggedOut extends React.Component {
         data-uk-navbar={true}
       >
         <NavBarSection side={"left"}>
+          <NavBarLogo />
           <li>
             <NavLink
               activeClassName={"uk-active"}

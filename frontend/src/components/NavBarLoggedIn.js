@@ -2,7 +2,6 @@ import React from "react";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUser, logoutUser } from "../actions";
-
 import axios from "axios";
 
 import {
@@ -12,7 +11,7 @@ import {
 } from "../localization/Strings";
 
 import LoadingSpinner from "./spinner/LoadingSpinner";
-import { NavBarDropDown, NavBarSection } from "./NavBar";
+import { NavBarDropDown, NavBarSection, NavBarLogo } from "./NavBar";
 import UIkit from "uikit";
 import { PlusIcon } from "mdi-react";
 
@@ -69,6 +68,7 @@ class NavBarLoggedIn extends React.Component {
           data-uk-navbar={true}
         >
           <NavBarSection side={"left"}>
+            <NavBarLogo />
             <li>
               <NavLink
                 activeClassName={"uk-active"}
