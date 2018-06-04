@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import NavBarLoggedIn from "./NavBarLoggedIn";
 import NavBarLoggedOut from "./NavBarLoggedOut";
 import { Link } from "react-router-dom";
-import logo from "../images/logo.png";
+import logo from "../../images/logo.png";
 import "./NavBar.css";
 
 export function NavBarDropDown(props) {

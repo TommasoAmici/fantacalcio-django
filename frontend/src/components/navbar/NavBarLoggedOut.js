@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { StringsLogin } from "../localization/Strings";
+import { StringsLogin } from "../../localization/Strings";
 
 import { NavBarSection, NavBarLogo } from "./NavBar";
 

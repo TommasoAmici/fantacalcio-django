@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Provider, connect } from "react-redux";
 import { Router, Route, Redirect } from "react-router-dom";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/navbar/NavBar";
 import PageNotFound from "./components/PageNotFound";
 import Home from "./components/home/Home";
 import ChooseLeague from "./components/leagues/ChooseLeague";

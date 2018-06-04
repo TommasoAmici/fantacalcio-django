@@ -1,16 +1,16 @@
 import React from "react";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getUser, logoutUser } from "../actions";
+import { getUser, logoutUser } from "../../actions";
 import axios from "axios";
 
 import {
   StringsLogin,
   StringsActions,
   StringsNewLeague
-} from "../localization/Strings";
+} from "../../localization/Strings";
 
-import LoadingSpinner from "./spinner/LoadingSpinner";
+import LoadingSpinner from "../spinner/LoadingSpinner";
 import { NavBarDropDown, NavBarSection, NavBarLogo } from "./NavBar";
 import UIkit from "uikit";
 import { PlusIcon } from "mdi-react";
