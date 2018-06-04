@@ -12,6 +12,7 @@ import {
 
 import LoadingSpinner from "../spinner/LoadingSpinner";
 import { NavBarDropDown, NavBarSection, NavBarLogo } from "./NavBar";
+import NavBarLeagueLi from "./NavBarLeagueLi";
 import UIkit from "uikit";
 import { PlusIcon } from "mdi-react";
 
@@ -60,7 +61,7 @@ class NavBarLoggedIn extends React.Component {
       const { username, leagues } = this.state.externalData;
       const leagueSelected = this.props.leagueSelected;
       const listLeagues = leagues.map(league => (
-        <li key={league.name.toString()}>{league.name}</li>
+        <NavBarLeagueLi league={league} />
       ));
       return (
         <nav
