@@ -5,6 +5,7 @@ import StringsActions from "./StringsActions";
 import StringsDashboard from "./StringsDashboard";
 import StringsLogin from "./StringsLogin";
 import StringsLeagueSettings from "./StringsLeagueSettings";
+import StringsSettings from "./StringsSettings";
 
 export {
   StringsDashboard,
@@ -12,5 +13,6 @@ export {
   StringsActions,
   StringsDate,
   StringsLogin,
-  StringsLeagueSettings
+  StringsLeagueSettings,
+  StringsSettings
 };

@@ -35,22 +35,6 @@ export default class DashboardSidebar extends Component {
               />
             </Link>
           </li>
-          <li className="uk-parent">
-            <Link to="/settings">
-              <SidebarLink
-                title={StringsDashboard.settings}
-                icon={<SettingsIcon size={20} />}
-              />
-            </Link>
-            <ul className="uk-nav-sub">
-              <li>
-                <Link to="/account">Sub item</Link>
-              </li>
-              <li>
-                <Link to="/account">Sub item</Link>
-              </li>
-            </ul>
-          </li>
           <SidebarHeader title="Lega" />
           <li>
             <Link to={"/dashboard/league/settings"}>

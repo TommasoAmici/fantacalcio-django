@@ -28,5 +28,8 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(mapStateToProps, { selectLeague })(NavBarLeagueLi)
+  connect(
+    mapStateToProps,
+    { selectLeague }
+  )(NavBarLeagueLi)
 );

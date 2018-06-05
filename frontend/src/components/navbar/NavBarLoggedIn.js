@@ -7,14 +7,15 @@ import axios from "axios";
 import {
   StringsLogin,
   StringsActions,
-  StringsNewLeague
+  StringsNewLeague,
+  StringsSettings
 } from "../../localization/Strings";
 
 import LoadingSpinner from "../spinner/LoadingSpinner";
 import { NavBarDropDown, NavBarSection, NavBarLogo } from "./NavBar";
 import NavBarLeagueLi from "./NavBarLeagueLi";
 import UIkit from "uikit";
-import { PlusIcon } from "mdi-react";
+import { PlusIcon, LogoutVariantIcon, SettingsIcon } from "mdi-react";
 
 class NavBarLoggedIn extends React.Component {
   constructor(props) {
@@ -105,7 +106,20 @@ class NavBarLoggedIn extends React.Component {
           <NavBarSection side={"right"}>
             <NavBarDropDown title={username}>
               <li>
-                <a onClick={this.handleLogout}>{StringsLogin.logout}</a>
+                <NavLink to="/dashboard/settings">
+                  <span className={"uk-icon uk-margin-small-right"}>
+                    <SettingsIcon size={20} />
+                  </span>
+                  {StringsSettings.settings}
+                </NavLink>
+              </li>
+              <li>
+                <a onClick={this.handleLogout}>
+                  <span className={"uk-icon uk-margin-small-right"}>
+                    <LogoutVariantIcon size={20} />
+                  </span>
+                  {StringsLogin.logout}
+                </a>
               </li>
             </NavBarDropDown>
           </NavBarSection>
@@ -130,5 +144,8 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(mapStateToProps, { getUser, logoutUser })(NavBarLoggedIn)
+  connect(
+    mapStateToProps,
+    { getUser, logoutUser }
+  )(NavBarLoggedIn)
 );

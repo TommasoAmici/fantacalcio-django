@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { StringsLogin } from "../../localization/Strings";
 
 import { NavBarSection, NavBarLogo } from "./NavBar";
+import { LoginVariantIcon } from "mdi-react";
 
 class NavBarLoggedOut extends React.Component {
   render() {
@@ -27,7 +28,12 @@ class NavBarLoggedOut extends React.Component {
         </NavBarSection>
         <NavBarSection side={"right"}>
           <li>
-            <NavLink to="/login">{StringsLogin.login}</NavLink>
+            <NavLink to="/login">
+              {StringsLogin.login}
+              <span className={"uk-icon uk-margin-small-left"}>
+                <LoginVariantIcon size={20} />
+              </span>
+            </NavLink>
           </li>
         </NavBarSection>
       </nav>
@@ -39,4 +45,7 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, {})(NavBarLoggedOut);
+export default connect(
+  mapStateToProps,
+  {}
+)(NavBarLoggedOut);
