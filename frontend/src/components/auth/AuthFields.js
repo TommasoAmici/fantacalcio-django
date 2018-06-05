@@ -59,8 +59,10 @@ export function renderField({
   placeholder,
   icon,
   type,
+  size,
   meta: { touched, error }
 }) {
+  const baseClass = "uk-input uk-width-" + size;
   return (
     <div>
       <input
@@ -68,7 +70,7 @@ export function renderField({
         placeholder={placeholder}
         type={type}
         className={
-          touched ? (error ? "uk-input error" : "uk-input") : "uk-input"
+          touched ? (error ? baseClass + " error" : baseClass) : baseClass
         }
       />
       {/* password fields have visibility toggle instead of an icon */}
