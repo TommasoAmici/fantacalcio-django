@@ -3,7 +3,9 @@ import { Link, NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUser, logoutUser } from "../../actions";
 import axios from "axios";
-
+// avatar test
+import avatarDev from "../../images/avatar_test.png";
+import "./NavBar.css";
 import {
   StringsLogin,
   StringsActions,
@@ -60,6 +62,7 @@ class NavBarLoggedIn extends React.Component {
       return <LoadingSpinner />;
     } else {
       const { username, leagues } = this.state.externalData;
+      console.log(avatarDev);
       const leagueSelected = this.props.leagueSelected;
       const listLeagues = leagues.map(league => (
         <NavBarLeagueLi league={league} />
@@ -122,6 +125,13 @@ class NavBarLoggedIn extends React.Component {
                 </a>
               </li>
             </NavBarDropDown>
+            <Link className="uk-navbar-item uk-logo" to="/dashboard/settings">
+              <img
+                className={"avatar uk-border-circle"}
+                src={avatarDev}
+                alt="User avatar"
+              />
+            </Link>
           </NavBarSection>
         </nav>
       );
