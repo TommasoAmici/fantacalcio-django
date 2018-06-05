@@ -10,10 +10,10 @@ class NoLeagues extends React.Component {
   }
 
   handleCreateClick() {
-    this.props.history.push("/new-league");
+    this.props.history.push("/dashboard/leagues/new");
   }
   handleJoinClick() {
-    this.props.history.push("/join-league");
+    this.props.history.push("/dashboard/leagues/join");
   }
 
   render() {
@@ -52,4 +52,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(NoLeagues);
+export default connect(
+  mapStateToProps,
+  {}
+)(NoLeagues);

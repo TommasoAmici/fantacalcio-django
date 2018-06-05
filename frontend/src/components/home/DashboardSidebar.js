@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { StringsDashboard } from "../../localization/Strings";
 import { Link } from "react-router-dom";
-import { SettingsIcon, HomeIcon, TrophyIcon } from "mdi-react";
+import {
+  SettingsIcon,
+  HomeIcon,
+  TrophyIcon,
+  PlusIcon,
+  CalendarIcon
+} from "mdi-react";
 import "./Dashboard.css";
 
 function SidebarHeader(props) {
@@ -10,7 +16,7 @@ function SidebarHeader(props) {
 
 function SidebarLink(props) {
   return (
-    <div className={""}>
+    <div>
       <span className="uk-margin-small-right uk-icon">{props.icon}</span>
       <span className="uk-text-middle sidebar-span">{props.title}</span>
     </div>
@@ -19,7 +25,6 @@ function SidebarLink(props) {
 
 export default class DashboardSidebar extends Component {
   render() {
-    const leagueId = 1;
     return (
       <div className="uk-card uk-card-default uk-card-body uk-width-1-4@s">
         <ul
@@ -37,7 +42,7 @@ export default class DashboardSidebar extends Component {
           </li>
           <SidebarHeader title="Lega" />
           <li>
-            <Link to={"/dashboard/league/settings"}>
+            <Link to={"/dashboard/leagues/settings"}>
               <SidebarLink
                 title={StringsDashboard.settings}
                 icon={<SettingsIcon size={20} />}
@@ -45,30 +50,30 @@ export default class DashboardSidebar extends Component {
             </Link>
           </li>
           <li className="uk-parent">
-            <Link to={"/leagues/" + leagueId + "/competitions"}>
-              <SidebarLink
-                title={StringsDashboard.competitions}
-                icon={<TrophyIcon size={20} />}
-              />
-            </Link>
+            <a>
+              <span className="uk-margin-small-right uk-icon">
+                <TrophyIcon size={20} />
+              </span>
+              <span className="uk-text-middle sidebar-span">
+                {StringsDashboard.competitions}
+              </span>
+            </a>
             <ul className="uk-nav-sub">
               <li className="">
-                <a>
-                  <span
-                    uk-icon="icon: plus"
-                    className="uk-margin-small-right uk-icon"
-                  />
+                <Link to={"/dashboard/competitions/new"}>
+                  <span className="uk-margin-small-right uk-icon">
+                    <PlusIcon />
+                  </span>
                   <span className="uk-text-middle">{StringsDashboard.new}</span>
-                </a>
-                <a>
-                  <span
-                    uk-icon="icon: calendar"
-                    className="uk-margin-small-right uk-icon"
-                  />
+                </Link>
+                <Link to={"/dashboard/competitions/calendar"}>
+                  <span className="uk-margin-small-right uk-icon">
+                    <CalendarIcon />
+                  </span>
                   <span className="uk-text-middle">
                     {StringsDashboard.calendar}
                   </span>
-                </a>
+                </Link>
               </li>
             </ul>
           </li>

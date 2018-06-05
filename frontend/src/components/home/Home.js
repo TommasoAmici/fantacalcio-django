@@ -9,6 +9,7 @@ import NoLeagues from "../leagues/NoLeagues";
 import LeagueCreated from "../leagues/LeagueCreated";
 import Overview from "./Overview";
 import SettingsLeague from "../leagues/SettingsLeague";
+import NewCompetition from "../competitions/NewCompetition";
 
 class Home extends React.Component {
   constructor(props) {
@@ -32,11 +33,11 @@ class Home extends React.Component {
               component={NoLeagues}
             />
             <Route
-              path={`${this.props.match.url}/new-league`}
+              path={`${this.props.match.url}/leagues/new`}
               component={NewLeague}
             />
             <Route
-              path={`${this.props.match.url}/join-league`}
+              path={`${this.props.match.url}/leagues/join`}
               component={JoinLeague}
             />
             <Route
@@ -44,8 +45,12 @@ class Home extends React.Component {
               component={LeagueCreated}
             />
             <Route
-              path={`${this.props.match.url}/league/settings`}
+              path={`${this.props.match.url}/leagues/settings`}
               component={SettingsLeague}
+            />
+            <Route
+              path={`${this.props.match.url}/competitions/new`}
+              component={NewCompetition}
             />
           </Switch>
         </HomeLoggedIn>

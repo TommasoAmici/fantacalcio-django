@@ -89,7 +89,7 @@ class NavBarLoggedIn extends React.Component {
                   {listLeagues}
                   <li class="uk-nav-divider" />
                   <li>
-                    <Link to="/dashboard/new-league">
+                    <Link to="/dashboard/leagues/new">
                       <PlusIcon size={20} />
                       {StringsNewLeague.newLeague}
                     </Link>
