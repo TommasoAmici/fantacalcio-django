@@ -8,6 +8,7 @@ import JoinLeague from "../leagues/JoinLeague";
 import NoLeagues from "../leagues/NoLeagues";
 import LeagueCreated from "../leagues/LeagueCreated";
 import Overview from "./Overview";
+import SettingsLeague from "../leagues/SettingsLeague";
 
 class Home extends React.Component {
   constructor(props) {
@@ -42,6 +43,10 @@ class Home extends React.Component {
               path={`${this.props.match.url}/league-created`}
               component={LeagueCreated}
             />
+            <Route
+              path={`${this.props.match.url}/league/settings`}
+              component={SettingsLeague}
+            />
           </Switch>
         </HomeLoggedIn>
       );
@@ -57,4 +62,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(
+  mapStateToProps,
+  {}
+)(Home);

@@ -50,6 +50,12 @@ class LeagueViewSet(viewsets.ModelViewSet):
         )
         return Response(teams_json.data)
 
+    def update(self, request, *args, **kwargs):
+        league = self.get_object()
+        league.name = request.data['name']
+        league.save()
+        return Response(LeagueDetailSerializer(league).data)
+
     def get_queryset(self):
         if self.request.user.is_superuser:
             return League.objects.all()
@@ -86,7 +92,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
         if self.request.user.is_superuser:
             queryset = User.objects.all()
-
         else:
             queryset = User.objects.filter(id=self.request.user.id)
         serializer = UserSerializer(queryset, many=True)

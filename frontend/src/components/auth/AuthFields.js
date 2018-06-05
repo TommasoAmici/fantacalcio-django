@@ -72,7 +72,7 @@ export function renderField({
         }
       />
       {/* password fields have visibility toggle instead of an icon */}
-      {placeholder.indexOf("assword") !== -1
+      {placeholder && placeholder.indexOf("assword") !== -1
         ? null
         : makeIcons(touched, error, icon)}
     </div>

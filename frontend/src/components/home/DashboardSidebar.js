@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import { StringsDashboard } from "../../localization/Strings";
 import { Link } from "react-router-dom";
+import { SettingsIcon, HomeIcon, TrophyIcon } from "mdi-react";
+import "./Dashboard.css";
 
 function SidebarHeader(props) {
   return <li className="uk-nav-header">{props.title}</li>;
 }
 
 function SidebarLink(props) {
-  return [
-    <span className="uk-margin-small-right uk-icon">{props.icon}</span>,
-    <span className="uk-text-middle">{props.title}</span>
-  ];
+  return (
+    <div className={""}>
+      <span className="uk-margin-small-right uk-icon">{props.icon}</span>
+      <span className="uk-text-middle sidebar-span">{props.title}</span>
+    </div>
+  );
 }
 
 export default class DashboardSidebar extends Component {
@@ -25,12 +29,18 @@ export default class DashboardSidebar extends Component {
           <SidebarHeader title={StringsDashboard.menu} />
           <li className="uk-active">
             <Link to="/">
-              <SidebarLink title={StringsDashboard.home} />
+              <SidebarLink
+                title={StringsDashboard.home}
+                icon={<HomeIcon size={20} />}
+              />
             </Link>
           </li>
           <li className="uk-parent">
             <Link to="/settings">
-              <SidebarLink title={StringsDashboard.settings} />
+              <SidebarLink
+                title={StringsDashboard.settings}
+                icon={<SettingsIcon size={20} />}
+              />
             </Link>
             <ul className="uk-nav-sub">
               <li>
@@ -42,9 +52,20 @@ export default class DashboardSidebar extends Component {
             </ul>
           </li>
           <SidebarHeader title="Lega" />
+          <li>
+            <Link to={"/dashboard/league/settings"}>
+              <SidebarLink
+                title={StringsDashboard.settings}
+                icon={<SettingsIcon size={20} />}
+              />
+            </Link>
+          </li>
           <li className="uk-parent">
             <Link to={"/leagues/" + leagueId + "/competitions"}>
-              <SidebarLink title={StringsDashboard.competitions} />
+              <SidebarLink
+                title={StringsDashboard.competitions}
+                icon={<TrophyIcon size={20} />}
+              />
             </Link>
             <ul className="uk-nav-sub">
               <li className="">

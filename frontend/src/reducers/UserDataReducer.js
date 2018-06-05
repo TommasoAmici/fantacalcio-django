@@ -1,4 +1,10 @@
-import { USER, LEAGUE_SELECTED, UNAUTH_USER } from "../actions/types";
+import {
+  USER,
+  UNAUTH_USER,
+  LEAGUE_SELECTED,
+  LEAGUE_CREATED,
+  LEAGUE_UPDATED
+} from "../actions/types";
 
 const INITIAL_STATE = {
   info: "",
@@ -14,6 +20,10 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         league: action.payload
       };
+    case LEAGUE_CREATED:
+      return { ...state, league: action.payload };
+    case LEAGUE_UPDATED:
+      return { ...state, league: action.payload };
     case UNAUTH_USER:
       return {
         ...state,
