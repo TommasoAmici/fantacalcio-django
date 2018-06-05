@@ -1,9 +1,0 @@
-{% extends 'main/base.html' %} {% load static %} {% block content %}
-
-<div class="uk-column-1-2">
-    <h1>Fantacazzo</h1>
-    {% if request.user.username %}<h3>Uè, {{request.user.username}}</h3>
-    {% else %}<h3>Fai il login, merda</h3>{% endif %}
-</div>
-
-{% endblock %}
