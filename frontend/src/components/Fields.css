@@ -1,0 +1,22 @@
+.form-label-error {
+  color: #d32f2f;
+}
+.error {
+  border: 1px solid red;
+}
+
+.login-form {
+  width: 300px;
+}
+
+.valid-style {
+  fill: #43a047;
+}
+
+.valid-style:hover {
+  fill: #1b5e20;
+}
+
+.error-style {
+  fill: #d32f2f;
+}

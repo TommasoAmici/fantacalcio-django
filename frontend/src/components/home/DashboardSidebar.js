@@ -6,7 +6,8 @@ import {
   HomeIcon,
   TrophyIcon,
   PlusIcon,
-  CalendarIcon
+  CalendarIcon,
+  AccountGroupIcon
 } from "mdi-react";
 import "./Dashboard.css";
 
@@ -79,13 +80,12 @@ export default class DashboardSidebar extends Component {
           </li>
 
           <li className="">
-            <a>
-              <span
-                uk-icon="icon: users"
-                className="uk-margin-small-right uk-icon"
-              />
+            <Link to={"/dashboard/competitions/calendar"}>
+              <span className="uk-margin-small-right uk-icon">
+                <AccountGroupIcon size={20} />
+              </span>
               <span className="uk-text-middle">{StringsDashboard.teams}</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

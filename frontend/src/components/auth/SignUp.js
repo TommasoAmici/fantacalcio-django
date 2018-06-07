@@ -4,9 +4,16 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { registerUser } from "../../actions";
-import { FormFields, renderField, validatePassword } from "./AuthFields";
+import { FormFields, RenderField, validatePassword } from "../Fields";
 import { StringsLogin } from "../../localization/Strings";
 import { isEmail, isLength } from "validator";
+import {
+  AccountCircleIcon,
+  AlternateEmailIcon,
+  VisibilityIcon,
+  VisibilityOffIcon,
+  CheckCircleIcon
+} from "mdi-react";
 
 function validate(formProps) {
   const errors = {};
@@ -64,7 +71,7 @@ class SignUp extends React.Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
     const { password1, password2, showPassword } = this.state;
     const errorStyle = {
       color: "#d32f2f"
@@ -83,9 +90,9 @@ class SignUp extends React.Component {
               <Field
                 name="username"
                 type="text"
-                component={renderField}
-                placeholder="Username"
-                icon="account_circle"
+                component={RenderField}
+                label="Username"
+                icon={<AccountCircleIcon />}
               />
             </FormFields>
 
@@ -93,84 +100,96 @@ class SignUp extends React.Component {
               <Field
                 name="email"
                 type="text"
-                component={renderField}
-                placeholder="Email"
-                icon="alternate_email"
+                component={RenderField}
+                label="Email"
+                icon={<AlternateEmailIcon />}
               />
             </FormFields>
             <FormFields>
               <Field
-                placeholder="Password"
-                label="password1"
+                label="Password"
                 name="password1"
+                password={true}
                 type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
-                component={renderField}
+                component={RenderField}
+                icon={
+                  password1 === password2 && validatePassword(password1) ? (
+                    <a
+                      className="uk-form-icon uk-form-icon-flip no-underline"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      <CheckCircleIcon className={"valid-style"} />
+                    </a>
+                  ) : (
+                    <a
+                      className="uk-form-icon uk-form-icon-flip no-underline"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {showPassword ? (
+                        <VisibilityOffIcon
+                          style={
+                            !validatePassword(password1) && password1.length > 0
+                              ? errorStyle
+                              : null
+                          }
+                        />
+                      ) : (
+                        <VisibilityIcon
+                          style={
+                            !validatePassword(password1) && password1.length > 0
+                              ? errorStyle
+                              : null
+                          }
+                        />
+                      )}
+                    </a>
+                  )
+                }
               />
-              {password1 === password2 && password1.length > 0 ? (
-                <a
-                  className="uk-form-icon uk-form-icon-flip no-underline"
-                  onClick={this.handleClickShowPassword}
-                >
-                  <i className="material-icons valid-style">check_circle</i>
-                </a>
-              ) : (
-                <a
-                  className="uk-form-icon uk-form-icon-flip no-underline"
-                  uk-tooltip={
-                    "title:" + StringsLogin.invalidPassword + ";pos:right;"
-                  }
-                  onClick={this.handleClickShowPassword}
-                >
-                  <i
-                    className="material-icons"
-                    style={
-                      !validatePassword(password1) && password1.length > 0
-                        ? errorStyle
-                        : null
-                    }
-                  >
-                    {showPassword ? "visibility_off" : "visibility"}
-                  </i>
-                </a>
-              )}
             </FormFields>
             <FormFields>
               <Field
-                placeholder={StringsLogin.repeatPassword}
-                label="password2"
+                label={StringsLogin.repeatPassword}
                 name="password2"
+                password={true}
                 type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
-                component={renderField}
+                component={RenderField}
+                icon={
+                  password1 === password2 && validatePassword(password1) ? (
+                    <a
+                      className="uk-form-icon uk-form-icon-flip no-underline"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      <CheckCircleIcon className={"valid-style"} />
+                    </a>
+                  ) : (
+                    <a
+                      className="uk-form-icon uk-form-icon-flip no-underline"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {showPassword ? (
+                        <VisibilityOffIcon
+                          style={
+                            !validatePassword(password2) && password2.length > 0
+                              ? errorStyle
+                              : null
+                          }
+                        />
+                      ) : (
+                        <VisibilityIcon
+                          style={
+                            !validatePassword(password2) && password2.length > 0
+                              ? errorStyle
+                              : null
+                          }
+                        />
+                      )}
+                    </a>
+                  )
+                }
               />
-              {password1 === password2 && password1.length > 0 ? (
-                <a
-                  className="uk-form-icon uk-form-icon-flip no-underline"
-                  onClick={this.handleClickShowPassword}
-                >
-                  <i className="material-icons valid-style">check_circle</i>
-                </a>
-              ) : (
-                <a
-                  className="uk-form-icon uk-form-icon-flip no-underline"
-                  uk-tooltip={
-                    "title:" + StringsLogin.invalidPassword + ";pos:right;"
-                  }
-                  onClick={this.handleClickShowPassword}
-                >
-                  <i
-                    className="material-icons"
-                    style={
-                      !validatePassword(password2) && password2.length > 0
-                        ? errorStyle
-                        : null
-                    }
-                  >
-                    {showPassword ? "visibility_off" : "visibility"}
-                  </i>
-                </a>
-              )}
             </FormFields>
 
             <Link className="" to="/reset_password">
@@ -187,7 +206,7 @@ class SignUp extends React.Component {
                 {StringsLogin.login}
               </Link>
               <button
-                disabled={pristine || submitting}
+                disabled={pristine || submitting || invalid}
                 className="uk-button uk-button-primary uk-width-1-1"
                 type="submit"
               >
@@ -210,4 +229,7 @@ const form = reduxForm({
   validate
 });
 
-export default connect(mapStateToProps, { registerUser })(form(SignUp));
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(form(SignUp));

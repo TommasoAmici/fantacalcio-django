@@ -12,23 +12,7 @@ body {
 }
 
 .no-underline:hover {
-  text-decoration: none !important
-}
-
-.error {
-  border: 1px solid red;
-}
-
-.login-form {
-  width: 300px
-}
-
-.valid-style {
-  color: #43A047
-}
-
-.valid-style:hover {
-  color: #1B5E20
+  text-decoration: none !important;
 }
 
 .dashboard {
@@ -36,11 +20,11 @@ body {
 }
 
 .mdi-icon {
-  fill: #999
+  fill: #999;
 }
 
 .mdi-icon:hover {
-  fill: #666
+  fill: #666;
 }
 
 .league-name {

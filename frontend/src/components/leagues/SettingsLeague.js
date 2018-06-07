@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { editLeague } from "../../actions";
-import { FormFields, renderField } from "../auth/AuthFields";
+import { FormFields, RenderField } from "../Fields";
 import {
   StringsNewLeague,
   StringsLeagueSettings
@@ -68,7 +68,7 @@ class SettingsLeague extends React.Component {
             className={"team-name-field"}
             name="name"
             type="text"
-            component={renderField}
+            component={RenderField}
             placeholder={league.name ? league.name : "Team name"}
             placeholderAsValue={true}
             icon="edit"

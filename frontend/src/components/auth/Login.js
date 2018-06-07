@@ -5,10 +5,15 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions";
-import { FormFields, renderField, validatePassword } from "./AuthFields";
+import { FormFields, RenderField, validatePassword } from "../Fields";
 import UIkit from "uikit";
 import { StringsLogin } from "../../localization/Strings";
 import { isEmail } from "validator";
+import {
+  AlternateEmailIcon,
+  VisibilityOffIcon,
+  VisibilityIcon
+} from "mdi-react";
 
 function validate(formProps) {
   const errors = {};
@@ -54,7 +59,7 @@ class LoginForm extends React.Component {
 
   render() {
     const showPassword = this.state.showPassword;
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
       <div className="uk-flex-center uk-position-center login-form" uk-grid>
@@ -69,28 +74,30 @@ class LoginForm extends React.Component {
               <Field
                 name="email"
                 type="text"
-                component={renderField}
-                placeholder="Email"
-                icon="alternate_email"
+                component={RenderField}
+                label="Email"
+                size={"1-1"}
+                icon={<AlternateEmailIcon />}
               />
             </FormFields>
 
             <FormFields>
               <Field
-                placeholder="Password"
-                label="password"
+                label="Password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                component={renderField}
+                component={RenderField}
+                password={true}
+                size={"1-1"}
+                icon={
+                  <a
+                    className="uk-form-icon uk-form-icon-flip no-underline"
+                    onClick={this.handleClickShowPassword}
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </a>
+                }
               />
-              <a
-                className="uk-form-icon uk-form-icon-flip no-underline"
-                onClick={this.handleClickShowPassword}
-              >
-                <i className="material-icons">
-                  {showPassword ? "visibility_off" : "visibility"}
-                </i>
-              </a>
             </FormFields>
 
             <Link className="" to="/reset_password">
@@ -99,7 +106,7 @@ class LoginForm extends React.Component {
             <br />
             <p uk-margin>
               <button
-                disabled={pristine || submitting}
+                disabled={pristine || submitting || invalid}
                 className="uk-button uk-button-primary uk-width-1-1"
                 type="submit"
               >
@@ -128,4 +135,7 @@ const form = reduxForm({
   validate
 });
 
-export default connect(mapStateToProps, { loginUser })(form(LoginForm));
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(form(LoginForm));

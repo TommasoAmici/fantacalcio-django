@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { newLeague } from "../../actions";
-import { FormFields, renderField } from "../auth/AuthFields";
+import { FormFields, RenderField } from "../Fields";
 import { StringsNewLeague } from "../../localization/Strings";
 import { isLength } from "validator";
 
@@ -45,7 +45,7 @@ class NewLeague extends React.Component {
             <Field
               name="name"
               type="text"
-              component={renderField}
+              component={RenderField}
               placeholder={StringsNewLeague.name}
               icon="group"
             />
@@ -77,4 +77,7 @@ const form = reduxForm({
   validate
 });
 
-export default connect(mapStateToProps, { newLeague })(form(NewLeague));
+export default connect(
+  mapStateToProps,
+  { newLeague }
+)(form(NewLeague));

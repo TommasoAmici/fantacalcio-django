@@ -2,10 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { newLeague } from "../../actions";
-import { FormFields, renderField } from "../auth/AuthFields";
+import { FormFields, RenderField } from "../Fields";
 import { StringsNewCompetition } from "../../localization/Strings";
 import { isNumeric, isLength } from "validator";
-import { KeyboardArrowDownIcon } from "mdi-react";
+import { KeyboardArrowDownIcon, EditIcon } from "mdi-react";
 
 function validate(formProps) {
   const errors = {};
@@ -47,7 +47,7 @@ class NewCompetition extends React.Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
     return (
       <div className="uk-width-3-4@s ">
         <h2>{StringsNewCompetition.titleCreate}</h2>
@@ -56,9 +56,10 @@ class NewCompetition extends React.Component {
             <Field
               name="name"
               type="text"
-              component={renderField}
-              placeholder={StringsNewCompetition.name}
-              icon="edit"
+              component={RenderField}
+              label={StringsNewCompetition.name}
+              icon={<EditIcon />}
+              size={"1-1"}
             />
           </FormFields>
 
@@ -66,9 +67,10 @@ class NewCompetition extends React.Component {
             <Field
               name="matchdays"
               type="number"
-              component={renderField}
-              size={"1-4"}
-              placeholder={StringsNewCompetition.matchdays}
+              min="1"
+              component={RenderField}
+              label={StringsNewCompetition.matchdays}
+              size={"1-6"}
             />
           </FormFields>
 
@@ -104,7 +106,7 @@ class NewCompetition extends React.Component {
 
           <p uk-margin={true}>
             <button
-              disabled={pristine || submitting}
+              disabled={pristine || submitting || invalid}
               className="uk-button uk-button-primary uk-width-1-1"
               type="submit"
             >

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { joinLeague } from "../../actions";
-import { FormFields, renderField } from "../auth/AuthFields";
+import { FormFields, RenderField } from "../Fields";
 import { StringsNewLeague } from "../../localization/Strings";
 import { VpnKeyIcon, ErrorIcon } from "mdi-react";
 import axios from "axios";
@@ -174,7 +174,7 @@ class JoinLeague extends React.Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
     const { accessCode, name, touched, joining } = this.state;
     const errorStyle = {
       fill: "#d32f2f"
@@ -192,7 +192,7 @@ class JoinLeague extends React.Component {
               <Field
                 name="name"
                 type="text"
-                component={renderField}
+                component={RenderField}
                 placeholder={StringsNewLeague.teamName}
                 icon="edit"
               />
@@ -212,7 +212,7 @@ class JoinLeague extends React.Component {
 
             <p uk-margin>
               <button
-                disabled={pristine || submitting}
+                disabled={pristine || submitting || invalid}
                 className="uk-button uk-button-primary uk-width-1-1"
                 type="submit"
               >
@@ -262,4 +262,7 @@ const form = reduxForm({
   validate
 });
 
-export default connect(mapStateToProps, { joinLeague })(form(JoinLeague));
+export default connect(
+  mapStateToProps,
+  { joinLeague }
+)(form(JoinLeague));
