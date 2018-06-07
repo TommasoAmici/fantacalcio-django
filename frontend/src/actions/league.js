@@ -70,7 +70,7 @@ function selectLeague(history) {
           payload: {
             accessCode: accessCode,
             selected: true,
-            name: response.data.name
+            data: response.data
           }
         });
         history.push("/dashboard");
@@ -94,7 +94,7 @@ function editLeague({ name, history, accessCode }) {
           payload: {
             accessCode: accessCode,
             selected: true,
-            name: response.data.name
+            data: response.data
           }
         });
       })

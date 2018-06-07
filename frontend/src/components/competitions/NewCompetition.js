@@ -14,7 +14,6 @@ import {
 import "./Competitions.css";
 
 function validate(formProps) {
-  console.log(formProps);
   const errors = {};
   const MAXMATCHDAYS = 38;
 
@@ -28,9 +27,9 @@ function validate(formProps) {
     errors.matchdays = StringsNewCompetition.noMatchdays;
   } else if (!isNumeric(formProps.matchdays)) {
     errors.matchdays = StringsNewCompetition.negativeMatchdays;
-  } else if (formProps.matchdays < 1) {
+  } else if (parseInt(formProps.matchdays) < 1) {
     errors.matchdays = StringsNewCompetition.negativeMatchdays;
-  } else if (formProps.matchdays > MAXMATCHDAYS) {
+  } else if (parseInt(formProps.matchdays) > MAXMATCHDAYS) {
     errors.matchdays = StringsNewCompetition.invalidMatchdays;
   }
 
@@ -38,9 +37,9 @@ function validate(formProps) {
     errors.firstMatch = StringsNewCompetition.noFirstMatch;
   } else if (!isNumeric(formProps.firstMatch)) {
     errors.firstMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (formProps.firstMatch < 1) {
+  } else if (parseInt(formProps.firstMatch) < 1) {
     errors.firstMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (formProps.firstMatch > MAXMATCHDAYS) {
+  } else if (parseInt(formProps.firstMatch) > MAXMATCHDAYS) {
     errors.firstMatch = StringsNewCompetition.invalidMatchdays;
   }
 
@@ -48,14 +47,13 @@ function validate(formProps) {
     errors.lastMatch = StringsNewCompetition.noFirstMatch;
   } else if (!isNumeric(formProps.lastMatch)) {
     errors.lastMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (formProps.lastMatch < 1) {
+  } else if (parseInt(formProps.lastMatch) < 1) {
     errors.lastMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (formProps.lastMatch > MAXMATCHDAYS) {
+  } else if (parseInt(formProps.lastMatch) > MAXMATCHDAYS) {
     errors.lastMatch = StringsNewCompetition.invalidMatchdays;
-  } else if (formProps.firstMatch > formProps.lastMatch) {
+  } else if (parseInt(formProps.firstMatch) > parseInt(formProps.lastMatch)) {
     errors.lastMatch = StringsNewCompetition.lastMatchBeforeFirstMatch;
   }
-  console.log(errors);
   return errors;
 }
 
@@ -128,7 +126,7 @@ class NewCompetition extends React.Component {
       <div className="uk-width-3-4@s ">
         <h2>{StringsNewCompetition.titleCreate}</h2>
         <form onSubmit={handleSubmit(this.submit)} className="uk-form-stacked">
-          <Accordion title={"General info"}>
+          <Accordion title={StringsNewCompetition.general}>
             <FormFields>
               <Field
                 name="name"
@@ -172,7 +170,7 @@ class NewCompetition extends React.Component {
               </div>
             </FormFields>
           </Accordion>
-          <Accordion title={"Calendar"}>
+          <Accordion title={StringsNewCompetition.calendar}>
             <FormFields>
               <Field
                 name="matchdays"
@@ -202,6 +200,29 @@ class NewCompetition extends React.Component {
                 min="1"
                 component={RenderField}
                 label={StringsNewCompetition.lastMatch}
+                size={"1-6"}
+              />
+            </FormFields>
+          </Accordion>
+          <Accordion title={StringsNewCompetition.bonuses}>
+            <FormFields>
+              <Field
+                name="goals"
+                type="number"
+                component={RenderField}
+                label={StringsNewCompetition.goals}
+                size={"1-6"}
+              />
+            </FormFields>
+          </Accordion>
+          <Accordion title={StringsNewCompetition.teams}>
+            <FormFields>
+              <Field
+                name="numberOfTeams"
+                type="number"
+                min="1"
+                component={RenderField}
+                label={StringsNewCompetition.numberOfTeams}
                 size={"1-6"}
               />
             </FormFields>

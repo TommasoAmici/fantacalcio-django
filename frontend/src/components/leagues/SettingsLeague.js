@@ -10,6 +10,7 @@ import {
 import { isLength } from "validator";
 import LoadingSpinner from "../spinner/LoadingSpinner";
 import "./League.css";
+import { EditIcon } from "mdi-react";
 
 /*
  * league settings view
@@ -37,25 +38,15 @@ class SettingsLeague extends React.Component {
 
   submit = values => {
     if (values.name === undefined) {
-      values.name = this.state.league.name;
+      values.name = this.props.league.data.name;
     }
-    values = { ...values, accessCode: this.state.league.accessCode };
+    values = { ...values, accessCode: this.props.league.accessCode };
     this.props.editLeague(values);
   };
 
-  componentDidMount() {
-    this.setState({ league: this.props.league });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.league !== this.props.league) {
-      this.setState({ league: this.props.league });
-    }
-  }
-
   render() {
     const { handleSubmit, submitting } = this.props;
-    const league = this.state.league;
+    const league = this.props.league;
 
     const editLeagueForm = (
       <form
@@ -69,9 +60,9 @@ class SettingsLeague extends React.Component {
             name="name"
             type="text"
             component={RenderField}
-            placeholder={league.name ? league.name : "Team name"}
+            placeholder={league.data.name ? league.data.name : "Team name"}
             placeholderAsValue={true}
-            icon="edit"
+            icon={<EditIcon />}
           />
         </FormFields>
         <FormFields>
@@ -80,7 +71,7 @@ class SettingsLeague extends React.Component {
             type="text"
             component="textarea"
             placeholder={StringsLeagueSettings.history}
-            icon="edit"
+            icon={<EditIcon />}
             className="uk-textarea"
           />
         </FormFields>
@@ -96,7 +87,7 @@ class SettingsLeague extends React.Component {
         </p>
       </form>
     );
-    if (this.state.league === null) {
+    if (this.props.league === null) {
       return <LoadingSpinner />;
     } else {
       return (

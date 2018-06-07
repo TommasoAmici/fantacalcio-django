@@ -62,7 +62,6 @@ class NavBarLoggedIn extends React.Component {
       return <LoadingSpinner />;
     } else {
       const { username, leagues } = this.state.externalData;
-      console.log(avatarDev);
       const leagueSelected = this.props.leagueSelected;
       const listLeagues = leagues.map(league => (
         <NavBarLeagueLi league={league} />
@@ -85,7 +84,7 @@ class NavBarLoggedIn extends React.Component {
             </li>
             <li>
               {leagueSelected.selected ? (
-                <NavBarDropDown title={leagueSelected.name}>
+                <NavBarDropDown title={leagueSelected.data.name}>
                   {listLeagues}
                   <li class="uk-nav-divider" />
                   <li>

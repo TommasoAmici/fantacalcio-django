@@ -24,7 +24,7 @@ function SidebarLink(props) {
   );
 }
 
-export default class DashboardSidebar extends Component {
+class DashboardSidebar extends Component {
   render() {
     return (
       <div className="uk-card uk-card-default uk-card-body uk-width-1-4@s">
@@ -80,7 +80,7 @@ export default class DashboardSidebar extends Component {
           </li>
 
           <li className="">
-            <Link to={"/dashboard/competitions/calendar"}>
+            <Link to={"/dashboard/leagues/teams"}>
               <span className="uk-margin-small-right uk-icon">
                 <AccountGroupIcon size={20} />
               </span>
@@ -92,3 +92,5 @@ export default class DashboardSidebar extends Component {
     );
   }
 }
+
+export default DashboardSidebar;

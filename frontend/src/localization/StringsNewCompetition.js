@@ -18,7 +18,13 @@ const StringsNewCompetition = new LocalizedStrings({
     season: "Regular season",
     singleElimination: "Single elimination tournament",
     doubleElimination: "Double elimination tournament",
-    roundRobin: "Round Robin tournament"
+    roundRobin: "Round Robin tournament",
+    general: "General info",
+    calendar: "Calendar",
+    bonuses: "Bonuses",
+    teams: "Teams",
+    numberOfTeams: "Number of teams in the competition",
+    goals: "Goals"
   },
   it: {}
 });

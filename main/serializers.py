@@ -88,12 +88,14 @@ class SeasonSerializer(serializers.ModelSerializer):
     """
     Serializer for Season model in main.models
     """
-    performances = PerformanceSerializer(many=True, read_only=True, required=False)
+    performances = PerformanceSerializer(
+        many=True, read_only=True, required=False)
     roles = RoleSerializer(many=True, read_only=True, required=False)
 
     class Meta:
         model = Season
-        fields = ("player", "roles", "team_irl", "price", "date", "performances")
+        fields = ("player", "roles", "team_irl",
+                  "price", "date", "performances")
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -134,7 +136,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
     Detailed serializer for Team model in main.models
     """
     # players = RosterSerializer(source="roster_set", many=True)
-    access_code = serializers.CharField(write_only=True, required=True)
+    user = UserSerializer(required=True)
 
     class Meta:
         model = Team
@@ -146,7 +148,8 @@ class TeamDetailSerializer(serializers.ModelSerializer):
             "history",
             "rosters",
             "logo",
-            "access_code",
+            "user",
+            "slug"
         )
 
     def create(self, validated_data):

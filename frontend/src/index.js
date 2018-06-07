@@ -10,10 +10,7 @@ import createHistory from "history/createBrowserHistory";
 import { routerMiddleware } from "react-router-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducers from "./reducers/index";
-import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED } from "./actions/types";
-import { errorHandler } from "./actions/index";
 import thunk from "redux-thunk";
-import axios from "axios";
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory();
@@ -27,38 +24,6 @@ const store = createStore(
   reducers,
   composeWithDevTools(applyMiddleware(middleware, thunk))
 );
-
-// token expires after 7 days, refresh on first load
-const token = localStorage.getItem("user");
-if (token) {
-  axios
-    .post("/refresh-token/", { token })
-    .then(response => {
-      localStorage.setItem("user", response.data.token);
-      store.dispatch({ type: AUTH_USER });
-    })
-    .catch(error => {
-      errorHandler(store.dispatch, error.response, AUTH_ERROR);
-    });
-}
-
-const leagueAccessCode = localStorage.getItem("league");
-if (leagueAccessCode) {
-  axios
-    .get("/leagues/" + leagueAccessCode + "/", {
-      headers: { Authorization: "JWT " + localStorage.getItem("user") }
-    })
-    .then(response => {
-      store.dispatch({
-        type: LEAGUE_SELECTED,
-        payload: {
-          accessCode: leagueAccessCode,
-          selected: true,
-          name: response.data.name
-        }
-      });
-    });
-}
 
 ReactDOM.render(
   <App store={store} history={history} />,

@@ -22,6 +22,7 @@ export class RenderField extends React.Component {
       min,
       label,
       password,
+      placeholder,
       meta: { touched, error }
     } = this.props;
     const baseClass = "uk-input uk-width-" + size;
@@ -45,6 +46,7 @@ export class RenderField extends React.Component {
             <input
               {...input}
               type={type}
+              placeholder={placeholder}
               className={touched && error ? baseClass + " error" : baseClass}
               min={min}
             />
