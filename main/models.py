@@ -30,7 +30,9 @@ class League(models.Model):
     teams = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="leagues", through="Team", blank=True
     )
-    competitions = models.ManyToManyField("Competition", blank=True)
+    competitions = models.ManyToManyField(
+        "Competition", related_name="competitions", blank=True
+    )
 
     class Meta:
         ordering = ("created",)
@@ -61,6 +63,7 @@ class Team(models.Model):
 
 
 class Competition(models.Model):
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     logo = models.ImageField(upload_to="competition_logos/", null=True, blank=True)
     teams = models.ManyToManyField(Team, blank=True)

@@ -1,0 +1,42 @@
+.accordion {
+  margin-top: 30px;
+}
+
+.accordion-header {
+  display: flex;
+}
+
+.collapse-toggle {
+  margin-left: auto;
+  vertical-align: middle;
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  background-color: #eee;
+  box-shadow: 2px 2px 1px #bbb;
+}
+
+.collapse-toggle:hover {
+  box-shadow: 3px 3px 2px #aaa;
+  cursor: pointer;
+}
+
+.rotate-toggle {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+}
+
+.rotate-toggle:hover {
+  box-shadow: 3px 3px 2px #aaa;
+  cursor: pointer;
+}
+
+.accordion-content {
+  padding-left: 5%;
+}
+
+.accordion-content-hide {
+  display: none;
+  padding-left: 5%;
+}

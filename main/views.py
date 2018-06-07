@@ -20,7 +20,7 @@ from .serializers import (
     LeagueDetailSerializer,
     TeamDetailSerializer,
 )
-from.custom_permissions import IsOwnerOrReadOnly
+from .custom_permissions import IsOwnerOrReadOnly
 import operator
 from functools import reduce
 
@@ -52,7 +52,7 @@ class LeagueViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         league = self.get_object()
-        league.name = request.data['name']
+        league.name = request.data["name"]
         league.save()
         return Response(LeagueDetailSerializer(league).data)
 
@@ -98,9 +98,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         data = serializer.data
         for d in data:
             # merge leagues created and leagues a user is in
-            leagues_created = d.pop('leagues_created')
-            leagues = d.pop('leagues')
-            d['leagues'] = reduce(operator.concat, [leagues_created, leagues])
+            leagues_created = d.pop("leagues_created")
+            leagues = d.pop("leagues")
+            d["leagues"] = reduce(operator.concat, [leagues_created, leagues])
         return Response(data)
 
     def retrieve(self, request, pk=None):
@@ -109,9 +109,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = UserSerializer(user)
         data = serializer.data
         # merge leagues created and leagues a user is in
-        leagues_created = data.pop('leagues_created')
-        leagues = data.pop('leagues')
-        data['leagues'] = reduce(operator.concat, [leagues_created, leagues])
+        leagues_created = data.pop("leagues_created")
+        leagues = data.pop("leagues")
+        data["leagues"] = reduce(operator.concat, [leagues_created, leagues])
         return Response(data)
 
 

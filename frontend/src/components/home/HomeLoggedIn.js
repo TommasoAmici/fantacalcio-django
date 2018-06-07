@@ -36,4 +36,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, {})(HomeLoggedIn));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    {}
+  )(HomeLoggedIn)
+);

@@ -88,14 +88,12 @@ class SeasonSerializer(serializers.ModelSerializer):
     """
     Serializer for Season model in main.models
     """
-    performances = PerformanceSerializer(
-        many=True, read_only=True, required=False)
+    performances = PerformanceSerializer(many=True, read_only=True, required=False)
     roles = RoleSerializer(many=True, read_only=True, required=False)
 
     class Meta:
         model = Season
-        fields = ("player", "roles", "team_irl",
-                  "price", "date", "performances")
+        fields = ("player", "roles", "team_irl", "price", "date", "performances")
 
 
 class PlayerSerializer(serializers.ModelSerializer):

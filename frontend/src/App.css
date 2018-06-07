@@ -8,15 +8,12 @@ body,
 body {
   margin: 0;
   padding: 0;
+  overflow-y: scroll;
   font-family: sans-serif;
 }
 
 .no-underline:hover {
   text-decoration: none !important;
-}
-
-.dashboard {
-  margin-top: 3%;
 }
 
 .mdi-icon {
@@ -25,8 +22,4 @@ body {
 
 .mdi-icon:hover {
   fill: #666;
-}
-
-.league-name {
-  text-transform: capitalize;
 }
