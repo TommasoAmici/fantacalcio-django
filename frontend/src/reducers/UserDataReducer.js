@@ -8,7 +8,7 @@ import {
 
 const INITIAL_STATE = {
   info: "",
-  league: []
+  league: { selected: false }
 };
 
 export default function(state = INITIAL_STATE, action) {

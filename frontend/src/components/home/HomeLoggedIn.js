@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import DashboardSidebar from "./DashboardSidebar";
 import Dashboard from "./Dashboard";
+import _ from "lodash";
 
 class HomeLoggedIn extends React.Component {
   constructor(props) {
@@ -10,10 +11,14 @@ class HomeLoggedIn extends React.Component {
     this.state = {};
   }
   componentDidMount() {
+    console.log(this.props.league);
     // if the user does not belong to any league render welcome page
     if (this.props.leagues && this.props.leagues.length === 0) {
       this.props.history.push(`${this.props.match.url}/welcome`);
-    } else if (this.props.league.selected === false) {
+    } else if (
+      this.props.league.selected === false ||
+      _.isEmpty(this.props.league)
+    ) {
       this.props.history.push(`/choose-league`);
     }
   }
