@@ -27,9 +27,9 @@ function validate(formProps) {
     errors.matchdays = StringsNewCompetition.noMatchdays;
   } else if (!isNumeric(formProps.matchdays)) {
     errors.matchdays = StringsNewCompetition.negativeMatchdays;
-  } else if (parseInt(formProps.matchdays) < 1) {
+  } else if (parseInt(formProps.matchdays, 10) < 1) {
     errors.matchdays = StringsNewCompetition.negativeMatchdays;
-  } else if (parseInt(formProps.matchdays) > MAXMATCHDAYS) {
+  } else if (parseInt(formProps.matchdays, 10) > MAXMATCHDAYS) {
     errors.matchdays = StringsNewCompetition.invalidMatchdays;
   }
 
@@ -37,9 +37,9 @@ function validate(formProps) {
     errors.firstMatch = StringsNewCompetition.noFirstMatch;
   } else if (!isNumeric(formProps.firstMatch)) {
     errors.firstMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (parseInt(formProps.firstMatch) < 1) {
+  } else if (parseInt(formProps.firstMatch, 10) < 1) {
     errors.firstMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (parseInt(formProps.firstMatch) > MAXMATCHDAYS) {
+  } else if (parseInt(formProps.firstMatch, 10) > MAXMATCHDAYS) {
     errors.firstMatch = StringsNewCompetition.invalidMatchdays;
   }
 
@@ -47,11 +47,13 @@ function validate(formProps) {
     errors.lastMatch = StringsNewCompetition.noFirstMatch;
   } else if (!isNumeric(formProps.lastMatch)) {
     errors.lastMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (parseInt(formProps.lastMatch) < 1) {
+  } else if (parseInt(formProps.lastMatch, 10) < 1) {
     errors.lastMatch = StringsNewCompetition.negativeMatchdays;
-  } else if (parseInt(formProps.lastMatch) > MAXMATCHDAYS) {
+  } else if (parseInt(formProps.lastMatch, 10) > MAXMATCHDAYS) {
     errors.lastMatch = StringsNewCompetition.invalidMatchdays;
-  } else if (parseInt(formProps.firstMatch) > parseInt(formProps.lastMatch)) {
+  } else if (
+    parseInt(formProps.firstMatch, 10) > parseInt(formProps.lastMatch, 10)
+  ) {
     errors.lastMatch = StringsNewCompetition.lastMatchBeforeFirstMatch;
   }
   return errors;

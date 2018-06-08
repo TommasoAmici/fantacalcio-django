@@ -55,6 +55,8 @@ class App extends React.Component {
           });
           this.setState({ loading: false });
         });
+    } else {
+      this.setState({ loading: false });
     }
   }
 
