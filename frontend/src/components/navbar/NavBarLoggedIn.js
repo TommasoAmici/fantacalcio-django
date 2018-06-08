@@ -95,13 +95,16 @@ class NavBarLoggedIn extends React.Component {
                   </li>
                 </NavBarDropDown>
               ) : (
-                <NavLink
-                  activeClassName={"uk-active"}
-                  className={"inactive"}
-                  to="/choose-league"
-                >
-                  {StringsLogin.chooseLeague}
-                </NavLink>
+                leagues &&
+                leagues.length !== 0 && (
+                  <NavLink
+                    activeClassName={"uk-active"}
+                    className={"inactive"}
+                    to="/choose-league"
+                  >
+                    {StringsLogin.chooseLeague}
+                  </NavLink>
+                )
               )}
             </li>
           </NavBarSection>

@@ -27,9 +27,9 @@ export default function(state = INITIAL_STATE, action) {
     case UNAUTH_USER:
       return {
         ...state,
-        league: { accessCode: "", selected: false, name: "" }
+        league: {}
       };
     default:
-      return state;
+      return { ...state };
   }
 }

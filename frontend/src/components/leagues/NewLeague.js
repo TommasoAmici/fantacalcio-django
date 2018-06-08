@@ -5,6 +5,7 @@ import { newLeague } from "../../actions";
 import { FormFields, RenderField } from "../Fields";
 import { StringsNewLeague } from "../../localization/Strings";
 import { isLength } from "validator";
+import { EditIcon } from "mdi-react";
 
 function validate(formProps) {
   const errors = {};
@@ -47,7 +48,7 @@ class NewLeague extends React.Component {
               type="text"
               component={RenderField}
               placeholder={StringsNewLeague.name}
-              icon="group"
+              icon={<EditIcon />}
             />
           </FormFields>
           {/*

@@ -8,6 +8,7 @@ class LeagueCreated extends React.Component {
     super(props);
     this.state = {
       accessCode: "",
+      leagueName: "",
       copied: false
     };
     this.onCopy = this.onCopy.bind(this);
@@ -16,12 +17,15 @@ class LeagueCreated extends React.Component {
   onCopy() {
     this.setState({ copied: true });
   }
-  componentWillMount() {
-    this.setState({ accessCode: this.props.accessCode });
+  componentDidMount() {
+    this.setState({
+      accessCode: this.props.league.data.access_code,
+      leagueName: this.props.league.data.name
+    });
   }
+
   render() {
-    const { leagueName } = this.props;
-    const { accessCode, copied } = this.state;
+    const { copied, accessCode, leagueName } = this.state;
     return (
       <div>
         <h1>{leagueName}</h1>
@@ -52,9 +56,11 @@ class LeagueCreated extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    leagueName: state.league.content.name,
-    accessCode: state.league.content.access_code
+    league: state.user.league
   };
 }
 
-export default connect(mapStateToProps, {})(LeagueCreated);
+export default connect(
+  mapStateToProps,
+  {}
+)(LeagueCreated);

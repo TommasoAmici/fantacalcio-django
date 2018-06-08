@@ -43,7 +43,7 @@ class Home extends React.Component {
               component={JoinLeague}
             />
             <Route
-              path={`${this.props.match.url}/league-created`}
+              path={`${this.props.match.url}/leagues/created`}
               component={LeagueCreated}
             />
             <Route

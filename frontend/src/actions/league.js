@@ -22,11 +22,16 @@ function newLeague({ name }, history) {
         }
       )
       .then(response => {
+        localStorage.setItem("league", response.data.access_code);
         dispatch({
-          type: LEAGUE_CREATED,
-          payload: response.data
+          type: LEAGUE_SELECTED,
+          payload: {
+            accessCode: response.data.access_code,
+            selected: true,
+            data: response.data
+          }
         });
-        history.push("/dashboard/league-created");
+        history.push("/dashboard/leagues/created");
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
