@@ -38,7 +38,9 @@ function loginUser({ email, password }, history) {
     axios
       .post("/login/", { email, password })
       .then(response => {
-        localStorage.setItem("user", response.data.token);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("username", response.data.user.username);
+        localStorage.setItem("pk", response.data.user.pk);
         dispatch({ type: AUTH_USER });
         history.push("/dashboard");
       })
@@ -53,7 +55,8 @@ function registerUser({ username, email, password1, password2 }, history) {
     axios
       .post("/register/", { username, email, password1, password2 })
       .then(response => {
-        localStorage.setItem("user", response.data.token);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("username", response.data.user.username);
         dispatch({ type: AUTH_USER });
         history.push("/dashboard/welcome");
         UIkit.modal.alert(StringsActions.signup);
@@ -66,7 +69,7 @@ function registerUser({ username, email, password1, password2 }, history) {
 
 function logoutUser() {
   return function(dispatch) {
-    const token = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
     axios
       .post("/logout/", { token })
       .then(response => {
@@ -83,7 +86,7 @@ function getUser() {
   return function(dispatch) {
     axios
       .get("/users/", {
-        headers: { Authorization: "JWT " + localStorage.getItem("user") }
+        headers: { Authorization: "JWT " + localStorage.getItem("token") }
       })
       .then(response => {
         dispatch({

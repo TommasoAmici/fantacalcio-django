@@ -10,8 +10,9 @@ import LeagueCreated from "../leagues/LeagueCreated";
 import Overview from "./Overview";
 import SettingsLeague from "../leagues/SettingsLeague";
 import NewCompetition from "../competitions/NewCompetition";
-import Teams from "./Teams";
-import TeamDetail from "./TeamDetail";
+import Teams from "../teams/Teams";
+import TeamDetail from "../teams/TeamDetail";
+import NewTeam from "../teams/NewTeam";
 
 class Home extends React.Component {
   constructor(props) {
@@ -53,6 +54,10 @@ class Home extends React.Component {
             <Route
               path={`${this.props.match.url}/leagues/teams`}
               component={Teams}
+            />
+            <Route
+              path={`${this.props.match.url}/teams/new`}
+              component={NewTeam}
             />
             <Route
               path={`${this.props.match.url}/user/:userName/:teamSlug`}

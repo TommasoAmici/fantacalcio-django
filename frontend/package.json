@@ -23,8 +23,7 @@
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.80.0",
-    "uikit": "^3.0.0-rc.2",
+    "uikit": "^3.0.0-rc.5",
     "validator": "^10.2.0"
   },
   "scripts": {

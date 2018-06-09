@@ -112,7 +112,7 @@ class ChooseLeague extends React.Component {
   _loadAsyncData(id) {
     this._asyncRequest = axios
       .get("/leagues/", {
-        headers: { Authorization: "JWT " + localStorage.getItem("user") }
+        headers: { Authorization: "JWT " + localStorage.getItem("token") }
       })
       .then(externalData => {
         this._asyncRequest = null;

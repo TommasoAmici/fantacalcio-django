@@ -7,3 +7,4 @@ export const USER = "user_info";
 export const LEAGUE_CREATED = "new_leauge";
 export const LEAGUE_SELECTED = "league_selected";
 export const LEAGUE_UPDATED = "league_updated";
+export const TEAM = "team_info";

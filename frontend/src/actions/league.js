@@ -18,7 +18,7 @@ function newLeague({ name }, history) {
         "/leagues/",
         { name, teams: [] },
         {
-          headers: { Authorization: "JWT " + localStorage.getItem("user") }
+          headers: { Authorization: "JWT " + localStorage.getItem("token") }
         }
       )
       .then(response => {
@@ -46,7 +46,7 @@ function joinLeague({ name, access_code, history }, browserHistory) {
         "/teams/",
         { name, access_code, history },
         {
-          headers: { Authorization: "JWT " + localStorage.getItem("user") }
+          headers: { Authorization: "JWT " + localStorage.getItem("token") }
         }
       )
       .then(response => {
@@ -67,7 +67,7 @@ function selectLeague(history) {
     const accessCode = localStorage.getItem("league");
     axios
       .get("/leagues/" + accessCode + "/", {
-        headers: { Authorization: "JWT " + localStorage.getItem("user") }
+        headers: { Authorization: "JWT " + localStorage.getItem("token") }
       })
       .then(response => {
         dispatch({
@@ -90,7 +90,7 @@ function editLeague({ name, history, accessCode }) {
         "/leagues/" + accessCode + "/",
         { name, teams: [] },
         {
-          headers: { Authorization: "JWT " + localStorage.getItem("user") }
+          headers: { Authorization: "JWT " + localStorage.getItem("token") }
         }
       )
       .then(response => {

@@ -6,6 +6,7 @@ import {
   getUser
 } from "./auth";
 import { newLeague, joinLeague, selectLeague, editLeague } from "./league";
+import { newTeam } from "./teams";
 export {
   newLeague,
   joinLeague,
@@ -15,5 +16,6 @@ export {
   registerUser,
   logoutUser,
   getUser,
-  editLeague
+  editLeague,
+  newTeam
 };

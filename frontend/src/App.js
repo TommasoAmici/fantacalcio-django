@@ -25,12 +25,12 @@ class App extends React.Component {
 
   componentDidMount() {
     // token expires after 7 days, refresh on first load
-    const token = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
     if (token) {
       axios
         .post("/refresh-token/", { token })
         .then(response => {
-          localStorage.setItem("user", response.data.token);
+          localStorage.setItem("token", response.data.token);
           this.props.store.dispatch({ type: AUTH_USER });
         })
         .catch(error => {
@@ -42,7 +42,9 @@ class App extends React.Component {
     if (leagueAccessCode) {
       axios
         .get("/leagues/" + leagueAccessCode + "/", {
-          headers: { Authorization: "JWT " + localStorage.getItem("user") }
+          headers: {
+            Authorization: "JWT " + localStorage.getItem("token")
+          }
         })
         .then(response => {
           this.props.store.dispatch({

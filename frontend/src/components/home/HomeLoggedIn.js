@@ -11,7 +11,6 @@ class HomeLoggedIn extends React.Component {
     this.state = {};
   }
   componentDidMount() {
-    console.log(this.props.league);
     // if the user does not belong to any league render welcome page
     if (this.props.leagues && this.props.leagues.length === 0) {
       this.props.history.push(`${this.props.match.url}/welcome`);

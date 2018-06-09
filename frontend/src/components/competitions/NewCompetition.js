@@ -125,7 +125,7 @@ class NewCompetition extends React.Component {
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
     return (
-      <div className="uk-width-3-4@s ">
+      <div className="">
         <h2>{StringsNewCompetition.titleCreate}</h2>
         <form onSubmit={handleSubmit(this.submit)} className="uk-form-stacked">
           <Accordion title={StringsNewCompetition.general}>

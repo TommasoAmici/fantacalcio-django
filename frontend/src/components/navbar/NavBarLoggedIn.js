@@ -142,7 +142,7 @@ class NavBarLoggedIn extends React.Component {
 
   _loadAsyncData(id) {
     const headers = {
-      headers: { Authorization: "JWT " + localStorage.getItem("user") }
+      headers: { Authorization: "JWT " + localStorage.getItem("token") }
     };
     this._asyncRequest = axios.get("/users/", headers).then(externalData => {
       this._asyncRequest = null;

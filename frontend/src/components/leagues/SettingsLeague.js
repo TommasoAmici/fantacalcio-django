@@ -91,7 +91,7 @@ class SettingsLeague extends React.Component {
       return <LoadingSpinner />;
     } else {
       return (
-        <div className="uk-width-3-4@s ">
+        <div className="">
           <h2>{StringsLeagueSettings.title}</h2>
           {editLeagueForm}
         </div>

@@ -158,7 +158,7 @@ class JoinLeague extends React.Component {
       axios
         .get("/leagues/" + this.state.accessCode + "/", {
           headers: {
-            Authorization: "JWT " + localStorage.getItem("user"),
+            Authorization: "JWT " + localStorage.getItem("token"),
             "Content-Type": "application/json; charset=utf-8"
           }
         })
@@ -245,7 +245,7 @@ class JoinLeague extends React.Component {
     }
 
     return (
-      <div className="uk-width-3-4@s ">
+      <div className="">
         <h2>{StringsNewLeague.titleJoin}</h2>
         {joinForm}
       </div>
