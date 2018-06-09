@@ -126,6 +126,28 @@ class TeamViewSet(viewsets.ModelViewSet):
         else:
             return Team.objects.filter(user=self.request.user)
 
+    def create(self, request):
+        print(request.data)
+        user = User.objects.get(username=request.data["username"])
+        league = League.objects.get(access_code=request.data["access_code"])
+        # remove headers from base64
+        try:
+            logo = request.data["logo"].split("base64,")[1]
+        except:
+            logo = None
+        try:
+            history = request.data["history"]
+        except:
+            history = None
+        team = Team.objects.create(
+            name=request.data["name"],
+            history=history,
+            logo=logo,
+            user=user,
+            league=league,
+        )
+        return Response(TeamDetailSerializer(team).data)
+
 
 class RoleViewSet(viewsets.ReadOnlyModelViewSet):
     """

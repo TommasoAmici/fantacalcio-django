@@ -5,6 +5,7 @@ import { StringsDashboard } from "../../localization/Strings";
 import avatar from "../../images/avatar_test.png";
 import teamLogo from "../../images/logo.png";
 import Link from "react-router-dom/Link";
+import _ from "lodash";
 
 class TeamList extends React.Component {
   render() {
@@ -52,21 +53,29 @@ class TeamList extends React.Component {
 class Teams extends React.Component {
   render() {
     const league = this.props.league;
-    //const teams = league.data.teams;
-    const teams = Array(20).fill(league.data.teams[0]);
-    console.log(teams);
-    const listTeams = teams.map(team => <TeamList team={team} />);
-    return (
-      <div>
-        <h1>{StringsDashboard.teams}</h1>
-        <div
-          className="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-flex-center uk-text-center"
-          uk-grid="true"
-        >
-          {listTeams}
+    if (_.isEmpty(league.teams)) {
+      return (
+        <div>
+          <h1>{StringsDashboard.teams}</h1>
+          <div>{StringsDashboard.noTeams}</div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      const teams = Array(20).fill(league.data.teams[0]);
+      console.log(teams);
+      const listTeams = teams.map(team => <TeamList team={team} />);
+      return (
+        <div>
+          <h1>{StringsDashboard.teams}</h1>
+          <div
+            className="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-flex-center uk-text-center"
+            uk-grid="true"
+          >
+            {listTeams}
+          </div>
+        </div>
+      );
+    }
   }
 }
 
