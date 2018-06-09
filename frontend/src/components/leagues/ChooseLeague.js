@@ -27,7 +27,7 @@ class ListItem extends React.Component {
         className={"no-underline"}
         onClick={this.toLeague}
       >
-        <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+        <div className="uk-card uk-card-default uk-card-hover uk-card-body">
           <h3 className={"uk-card-title league-name"}>{this.props.name}</h3>
         </div>
       </a>
@@ -46,7 +46,10 @@ class RenderList extends React.Component {
       />
     ));
     return (
-      <div class="uk-align-center uk-grid-match uk-width-1-3@s" uk-grid={true}>
+      <div
+        className="uk-align-center uk-grid-match uk-width-1-3@s"
+        uk-grid={true}
+      >
         {listItems}
       </div>
     );

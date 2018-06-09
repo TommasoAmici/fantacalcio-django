@@ -35,7 +35,7 @@ class TeamList extends React.Component {
 
               <div>
                 <Link to={`/dashboard/user/${user.username}/${team.slug}`}>
-                  <h3 class="uk-card-title">{team.name}</h3>
+                  <h3 className="uk-card-title">{team.name}</h3>
                 </Link>
                 <p className="uk-text-meta uk-margin-remove-top">
                   {user.username}
@@ -43,7 +43,7 @@ class TeamList extends React.Component {
               </div>
             </div>
           </div>
-          <div class="uk-card-body" />
+          <div className="uk-card-body" />
         </div>
       </div>
     );

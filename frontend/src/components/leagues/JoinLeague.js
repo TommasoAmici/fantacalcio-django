@@ -44,7 +44,7 @@ class FindLeague extends React.Component {
     } = this.props;
     return (
       <form className="uk-form-stacked">
-        <div class="uk-inline uk-width-1-1">
+        <div className="uk-inline uk-width-1-1">
           <input
             name="accessCode"
             value={accessCode}

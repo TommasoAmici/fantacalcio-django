@@ -86,7 +86,7 @@ class NavBarLoggedIn extends React.Component {
               {leagueSelected.selected ? (
                 <NavBarDropDown title={leagueSelected.data.name}>
                   {listLeagues}
-                  <li class="uk-nav-divider" />
+                  <li className="uk-nav-divider" />
                   <li>
                     <Link to="/dashboard/leagues/new">
                       <PlusIcon size={20} />
