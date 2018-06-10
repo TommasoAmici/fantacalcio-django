@@ -3,7 +3,7 @@ import "./style/App.css";
 import { Provider, connect } from "react-redux";
 import { Router, Route, Redirect } from "react-router-dom";
 import axios from "axios";
-import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED } from "./actions/types";
+import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED, USER } from "./actions/types";
 import { errorHandler } from "./actions/index";
 
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -32,6 +32,18 @@ class App extends React.Component {
         .then(response => {
           localStorage.setItem("token", response.data.token);
           this.props.store.dispatch({ type: AUTH_USER });
+        })
+        .catch(error => {
+          errorHandler(this.props.store.dispatch, error.response, AUTH_ERROR);
+        });
+      axios
+        .get("/users/" + localStorage.getItem("pk") + "/", {
+          headers: {
+            Authorization: "JWT " + localStorage.getItem("token")
+          }
+        })
+        .then(response => {
+          this.props.store.dispatch({ type: USER, payload: response.data });
         })
         .catch(error => {
           errorHandler(this.props.store.dispatch, error.response, AUTH_ERROR);

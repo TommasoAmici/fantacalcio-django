@@ -32,9 +32,10 @@ class NavBar extends React.Component {
     this.state = {};
   }
   render() {
+    const user = this.props.user;
     const authenticated = this.props.authenticated;
     if (authenticated) {
-      return <NavBarLoggedIn />;
+      return <NavBarLoggedIn id={user.info.id} />;
     } else {
       return <NavBarLoggedOut />;
     }
@@ -51,7 +52,8 @@ export function NavBarLogo() {
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
+    user: state.user
   };
 }
 

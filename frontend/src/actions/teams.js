@@ -4,12 +4,12 @@ import axios from "axios";
 
 function newTeam({ name, logo, history }, browserHistory) {
   return function(dispatch) {
-    const username = localStorage.getItem("username");
+    const pk = localStorage.getItem("pk");
     const access_code = localStorage.getItem("league");
     axios
       .post(
         "/teams/",
-        { name, logo, history, username, access_code },
+        { name, logo, history, pk, access_code },
         {
           headers: { Authorization: "JWT " + localStorage.getItem("token") }
         }

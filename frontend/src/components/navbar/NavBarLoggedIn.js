@@ -15,7 +15,7 @@ import {
 import LoadingSpinner from "../LoadingSpinner";
 import { NavBarDropDown, NavBarSection, NavBarLogo } from "./NavBar";
 import NavBarLeagueLi from "./NavBarLeagueLi";
-import UIkit from "uikit";
+import { modal } from "uikit";
 import { PlusIcon, LogoutVariantIcon, SettingsIcon } from "mdi-react";
 
 class NavBarLoggedIn extends React.Component {
@@ -53,7 +53,7 @@ class NavBarLoggedIn extends React.Component {
   handleLogout() {
     this.props.logoutUser(this.props.history);
     this.props.history.push("/");
-    UIkit.modal.alert(StringsActions.logout);
+    modal.alert(StringsActions.logout);
   }
 
   render() {
@@ -140,13 +140,16 @@ class NavBarLoggedIn extends React.Component {
   }
 
   _loadAsyncData(id) {
-    const headers = {
-      headers: { Authorization: "JWT " + localStorage.getItem("token") }
-    };
-    this._asyncRequest = axios.get("/users/", headers).then(externalData => {
-      this._asyncRequest = null;
-      this.setState({ externalData: externalData.data[0] });
-    });
+    this._asyncRequest = axios
+      .get("/users/" + localStorage.getItem("pk"), {
+        headers: {
+          Authorization: "JWT " + localStorage.getItem("token")
+        }
+      })
+      .then(externalData => {
+        this._asyncRequest = null;
+        this.setState({ externalData: externalData.data });
+      });
   }
 }
 

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from .models import League, Role, Player, Season, Performance, Team
+from .models import League, Role, Player, Season, Performance, Team, Membership
 from .serializers import (
     LeagueSerializer,
     UserSerializer,
@@ -17,12 +17,8 @@ from .serializers import (
     PerformanceSerializer,
     TeamSerializer,
     UserDetailSerializer,
-    LeagueDetailSerializer,
-    TeamDetailSerializer,
 )
 from .custom_permissions import IsOwnerOrReadOnly
-import operator
-from functools import reduce
 
 
 User = get_user_model()
@@ -34,27 +30,17 @@ class LeagueViewSet(viewsets.ModelViewSet):
     `update` and `destroy` actions.
     """
     queryset = League.objects.all()
-    serializer_class = LeagueDetailSerializer
+    serializer_class = LeagueSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
 
-    @detail_route()
-    def teams(self, request, pk=None):
-        print("ue")
-        league = self.get_object()
-        teams = Team.objects.filter(league=league)
-        teams_json = TeamDetailSerializer(
-            teams, many=True, context={"request": request}
-        )
-        return Response(teams_json.data)
-
     def update(self, request, *args, **kwargs):
         league = self.get_object()
         league.name = request.data["name"]
         league.save()
-        return Response(LeagueDetailSerializer(league).data)
+        return Response(LeagueSerializer(league).data)
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -62,7 +48,7 @@ class LeagueViewSet(viewsets.ModelViewSet):
 
         else:
             return League.objects.filter(
-                Q(teams__username=self.request.user.username)
+                Q(users__username=self.request.user.username)
                 | Q(creator=self.request.user)
             ).distinct()
 
@@ -72,7 +58,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     This viewset automatically provides `list` and `detail` actions.
     """
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserDetailSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_serializer_class(self):
@@ -96,39 +82,17 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = User.objects.filter(id=self.request.user.id)
         serializer = UserSerializer(queryset, many=True)
         data = serializer.data
-        for d in data:
-            # merge leagues created and leagues a user is in
-            leagues_created = d.pop("leagues_created")
-            leagues = d.pop("leagues")
-            d["leagues"] = reduce(operator.concat, [leagues_created, leagues])
-        return Response(data)
-
-    def retrieve(self, request, pk=None):
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = UserSerializer(user)
-        data = serializer.data
-        # merge leagues created and leagues a user is in
-        leagues_created = data.pop("leagues_created")
-        leagues = data.pop("leagues")
-        data["leagues"] = reduce(operator.concat, [leagues_created, leagues])
         return Response(data)
 
 
 class TeamViewSet(viewsets.ModelViewSet):
-    serializer_class = TeamDetailSerializer
+    serializer_class = TeamSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Team.objects.all()
-
-        else:
-            return Team.objects.filter(user=self.request.user)
+    queryset = Team.objects.all()
 
     def create(self, request):
         print(request.data)
-        user = User.objects.get(username=request.data["username"])
+        user = User.objects.get(pk=request.data["pk"])
         league = League.objects.get(access_code=request.data["access_code"])
         # remove headers from base64
         try:

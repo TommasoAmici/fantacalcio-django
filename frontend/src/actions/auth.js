@@ -39,7 +39,6 @@ function loginUser({ email, password }, history) {
       .post("/login/", { email, password })
       .then(response => {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("username", response.data.user.username);
         localStorage.setItem("pk", response.data.user.pk);
         dispatch({ type: AUTH_USER });
         history.push("/dashboard");
