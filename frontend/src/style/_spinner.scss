@@ -21,13 +21,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: $modal-background;
 }
 
 .spinner>div {
     width: 18px;
     height: 18px;
-    background-color: #333;
+    background-color: $global-emphasis-color;
     border-radius: 100%;
     display: inline-block;
     -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;

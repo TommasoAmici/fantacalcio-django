@@ -151,4 +151,4 @@ yarn-debug.log*
 yarn-error.log*
 
 /avatars
-.css
+*.css

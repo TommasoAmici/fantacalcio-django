@@ -12,12 +12,13 @@
   -webkit-border-radius: 60;
   -moz-border-radius: 60;
   border-radius: 60px;
-  background-color: #eee;
-  box-shadow: 2px 2px 1px #bbb;
+  background-color: $global-border;
+  box-shadow: 2px 2px 1px $modal-background;
 }
 
-.collapse-toggle:hover {
-  box-shadow: 3px 3px 2px #aaa;
+.collapse-toggle:hover,
+.rotate-toggle:hover {
+  box-shadow: 3px 3px 2px $offcanvas-overlay-background;
   cursor: pointer;
 }
 
@@ -25,11 +26,6 @@
   transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
-}
-
-.rotate-toggle:hover {
-  box-shadow: 3px 3px 2px #aaa;
-  cursor: pointer;
 }
 
 .accordion-content {

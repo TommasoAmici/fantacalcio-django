@@ -1,8 +1,10 @@
 .form-label-error {
-  color: #d32f2f;
+  max-width: 200px;
+  color: $global-danger-background !important;
 }
+
 .error {
-  border: 1px solid red;
+  border: 1px solid $global-danger-background !important;
 }
 
 .login-form {
@@ -10,13 +12,13 @@
 }
 
 .valid-style {
-  fill: #43a047;
+  fill: $global-success-background !important;
 }
 
 .valid-style:hover {
-  fill: #1b5e20;
+  fill: $success-hover !important;
 }
 
 .error-style {
-  fill: #d32f2f;
+  fill: $global-danger-background !important;
 }

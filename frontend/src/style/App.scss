@@ -1,3 +1,7 @@
+$global-primary-background: #178B9C;
+$global-danger-background:#d32f2f;
+$global-success-background:#43a047;
+$success-hover:#1b5e20;
 @import "../../node_modules/uikit/src/scss/variables-theme.scss";
 @import "../../node_modules/uikit/src/scss/mixins-theme.scss";
 @import "_competitions";
@@ -27,11 +31,11 @@ body {
 }
 
 .mdi-icon {
-  fill: #999;
+  fill: $global-muted-color;
 }
 
 .mdi-icon:hover {
-  fill: #666;
+  fill: $global-color;
 }
 
 @import "../../node_modules/uikit/src/scss/uikit-theme.scss";

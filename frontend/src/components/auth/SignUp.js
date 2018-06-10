@@ -92,6 +92,7 @@ class SignUp extends React.Component {
                 type="text"
                 component={RenderField}
                 label="Username"
+                size={"1-1"}
                 icon={<AccountCircleIcon />}
               />
             </FormFields>
@@ -102,12 +103,14 @@ class SignUp extends React.Component {
                 type="text"
                 component={RenderField}
                 label="Email"
+                size={"1-1"}
                 icon={<AlternateEmailIcon />}
               />
             </FormFields>
             <FormFields>
               <Field
                 label="Password"
+                size={"1-1"}
                 name="password1"
                 password={true}
                 type={showPassword ? "text" : "password"}
@@ -151,6 +154,7 @@ class SignUp extends React.Component {
             <FormFields>
               <Field
                 label={StringsLogin.repeatPassword}
+                size={"1-1"}
                 name="password2"
                 password={true}
                 type={showPassword ? "text" : "password"}
