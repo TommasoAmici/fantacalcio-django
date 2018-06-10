@@ -1,12 +1,12 @@
 import React from "react";
-import "./App.css";
+import "./style/App.css";
 import { Provider, connect } from "react-redux";
 import { Router, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED } from "./actions/types";
 import { errorHandler } from "./actions/index";
 
-import LoadingSpinner from "./components/spinner/LoadingSpinner";
+import LoadingSpinner from "./components/LoadingSpinner";
 import NavBar from "./components/navbar/NavBar";
 import PageNotFound from "./components/PageNotFound";
 import Home from "./components/home/Home";

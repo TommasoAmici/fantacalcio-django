@@ -6,7 +6,6 @@ import { isLength } from "validator";
 import Strings, { StringsTeams } from "../../localization/Strings";
 import { EditIcon } from "mdi-react";
 import { newTeam } from "../../actions/index";
-import "./Teams.css";
 
 function validate(formProps) {
   const errors = {};

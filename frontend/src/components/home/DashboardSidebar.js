@@ -10,7 +10,6 @@ import {
   AccountGroupIcon,
   AccountIcon
 } from "mdi-react";
-import "./Dashboard.css";
 
 function SidebarHeader(props) {
   return <li className="uk-nav-header">{props.title}</li>;

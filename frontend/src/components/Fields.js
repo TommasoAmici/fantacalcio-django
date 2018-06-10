@@ -1,5 +1,4 @@
 import React from "react";
-import "./Fields.css";
 import { ErrorIcon } from "mdi-react";
 
 export class FormFields extends React.Component {

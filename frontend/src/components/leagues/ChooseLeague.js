@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { StringsDashboard } from "../../localization/Strings";
 import axios from "axios";
-import LoadingSpinner from "../spinner/LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 import { selectLeague } from "../../actions/index";
 
 /*

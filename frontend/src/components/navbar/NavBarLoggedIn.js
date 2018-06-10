@@ -5,7 +5,6 @@ import { getUser, logoutUser } from "../../actions";
 import axios from "axios";
 // avatar test
 import avatarDev from "../../images/avatar_test.png";
-import "./NavBar.css";
 import {
   StringsLogin,
   StringsActions,
@@ -13,7 +12,7 @@ import {
   StringsSettings
 } from "../../localization/Strings";
 
-import LoadingSpinner from "../spinner/LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 import { NavBarDropDown, NavBarSection, NavBarLogo } from "./NavBar";
 import NavBarLeagueLi from "./NavBarLeagueLi";
 import UIkit from "uikit";

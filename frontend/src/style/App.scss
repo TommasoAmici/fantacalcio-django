@@ -1,0 +1,37 @@
+@import "../../node_modules/uikit/src/scss/variables-theme.scss";
+@import "../../node_modules/uikit/src/scss/mixins-theme.scss";
+@import "_competitions";
+@import "_navbar";
+@import "_league";
+@import "_dashboard";
+@import "_teams";
+@import "_fields";
+@import "_spinner";
+$font-stack: sans-serif;
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  font-family: $font-stack;
+}
+
+.no-underline:hover {
+  text-decoration: none !important;
+}
+
+.mdi-icon {
+  fill: #999;
+}
+
+.mdi-icon:hover {
+  fill: #666;
+}
+
+@import "../../node_modules/uikit/src/scss/uikit-theme.scss";

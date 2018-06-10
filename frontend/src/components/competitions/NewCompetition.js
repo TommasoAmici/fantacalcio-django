@@ -11,7 +11,6 @@ import {
   ChevronDownIcon,
   ChevronUpIcon
 } from "mdi-react";
-import "./Competitions.css";
 
 function validate(formProps) {
   const errors = {};

@@ -8,8 +8,7 @@ import {
   StringsLeagueSettings
 } from "../../localization/Strings";
 import { isLength } from "validator";
-import LoadingSpinner from "../spinner/LoadingSpinner";
-import "./League.css";
+import LoadingSpinner from "../LoadingSpinner";
 import { EditIcon } from "mdi-react";
 
 /*
