@@ -1,27 +1,15 @@
 // https://github.com/stefalda/react-localization
 import LocalizedStrings from "react-localization";
 
-import StringsDate from "./StringsDate";
-import StringsNewLeague from "./StringsNewLeague";
-import StringsActions from "./StringsActions";
-import StringsDashboard from "./StringsDashboard";
-import StringsLogin from "./StringsLogin";
-import StringsLeagueSettings from "./StringsLeagueSettings";
-import StringsSettings from "./StringsSettings";
-import StringsNewCompetition from "./StringsNewCompetition";
-import StringsTeams from "./StringsTeams";
-
-export {
-  StringsDashboard,
-  StringsNewLeague,
-  StringsActions,
-  StringsDate,
-  StringsLogin,
-  StringsLeagueSettings,
-  StringsSettings,
-  StringsNewCompetition,
-  StringsTeams
-};
+export { default as StringsDate } from "./StringsDate";
+export { default as StringsNewLeague } from "./StringsNewLeague";
+export { default as StringsActions } from "./StringsActions";
+export { default as StringsDashboard } from "./StringsDashboard";
+export { default as StringsLeagueSettings } from "./StringsLeagueSettings";
+export { default as StringsSettings } from "./StringsSettings";
+export { default as StringsNewCompetition } from "./StringsNewCompetition";
+export { default as StringsTeams } from "./StringsTeams";
+export { default as StringsLogin } from "./StringsLogin";
 
 const Strings = new LocalizedStrings({
   en: {
