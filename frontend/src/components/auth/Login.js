@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions";
-import { FormFields, RenderField, validatePassword } from "../Fields";
+import { FormFields, RenderField } from "../Fields";
 import UIkit from "uikit";
 import { StringsLogin } from "../../localization/Strings";
 import { isEmail } from "validator";
@@ -21,12 +21,6 @@ function validate(formProps) {
     errors.email = StringsLogin.noEmail;
   } else if (!isEmail(formProps.email)) {
     errors.email = StringsLogin.invalidEmail;
-  }
-
-  if (!formProps.password) {
-    errors.password = StringsLogin.noPassword;
-  } else if (!validatePassword(formProps.password)) {
-    errors.password = StringsLogin.invalidPassword;
   }
 
   return errors;
