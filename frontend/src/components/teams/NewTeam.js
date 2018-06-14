@@ -6,6 +6,7 @@ import { isLength } from "validator";
 import Strings, { StringsTeams } from "../../localization/Strings";
 import { EditIcon } from "mdi-react";
 import { newTeam } from "../../actions/index";
+import { resizeDataUri, getBase64 } from "../imageManipulation";
 
 function validate(formProps) {
   const errors = {};
@@ -30,22 +31,16 @@ class NewTeam extends Component {
     this.props.newTeam(values, this.props.history);
   };
 
-  // returns base64 encoding of image
-  getBase64 = file => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-  };
-
-  // parses file input
+  // get data URI from image and resize before POST
   onFileChange = e => {
+    // create alias for this because I can't seem to bind it properly
+    var thisAlias = this;
     const targetFile = e.target.files[0];
     if (targetFile) {
-      this.getBase64(targetFile).then(img => {
-        this.setState({ image: img });
+      getBase64(targetFile).then(img => {
+        resizeDataUri(img, 150, 150, function(result) {
+          thisAlias.setState({ image: result });
+        });
       });
     }
   };
