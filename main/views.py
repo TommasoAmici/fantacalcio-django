@@ -94,6 +94,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         print(request.data)
         user = User.objects.get(pk=request.data["pk"])
         league = League.objects.get(access_code=request.data["access_code"])
+        membership = Membership.objects.get(user=user, league=league)
         # remove headers from base64
         try:
             logo = request.data["logo"].split("base64,")[1]
@@ -107,10 +108,9 @@ class TeamViewSet(viewsets.ModelViewSet):
             name=request.data["name"],
             history=history,
             logo=logo,
-            user=user,
-            league=league,
         )
-        return Response(TeamDetailSerializer(team).data)
+        membership.teams.add(team)
+        return Response(TeamSerializer(team).data)
 
 
 class RoleViewSet(viewsets.ReadOnlyModelViewSet):
