@@ -5,7 +5,7 @@ import { StringsDashboard } from "../../localization/Strings";
 import avatar from "../../images/avatar_test.png";
 import teamLogo from "../../images/logo.png";
 import Link from "react-router-dom/Link";
-import _ from "lodash";
+import { isEmpty } from "lodash/isEmpty";
 
 class TeamList extends React.Component {
   render() {
@@ -53,7 +53,7 @@ class TeamList extends React.Component {
 class Teams extends React.Component {
   render() {
     const league = this.props.league;
-    if (_.isEmpty(league.teams)) {
+    if (isEmpty(league.teams)) {
       return (
         <div>
           <h1>{StringsDashboard.teams}</h1>

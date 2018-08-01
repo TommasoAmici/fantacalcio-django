@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { FormFields, RenderField } from "../Fields";
-import { isLength } from "validator";
+import { isLength } from "validator/lib/isLength";
 import Strings, { StringsTeams } from "../../localization/Strings";
-import { EditIcon } from "mdi-react";
+import { EditIcon } from "mdi-react/EditIcon";
 import { newTeam } from "../../actions/index";
 import { resizeDataUri, getBase64 } from "../imageManipulation";
 

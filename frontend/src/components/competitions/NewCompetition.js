@@ -4,7 +4,8 @@ import { Field, reduxForm } from "redux-form";
 import { newLeague } from "../../actions";
 import { FormFields, RenderField } from "../Fields";
 import { StringsNewCompetition } from "../../localization/Strings";
-import { isNumeric, isLength } from "validator";
+import { isNumeric } from "validator/lib/isNumeric";
+import { isLength } from "validator/lib/isLength";
 import {
   KeyboardArrowDownIcon,
   EditIcon,

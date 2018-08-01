@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom/Route";
+import { Switch } from "react-router-dom/Switch";
 import HomeLoggedIn from "./HomeLoggedIn";
 import HomeLoggedOut from "./HomeLoggedOut";
 import NewLeague from "../leagues/NewLeague";

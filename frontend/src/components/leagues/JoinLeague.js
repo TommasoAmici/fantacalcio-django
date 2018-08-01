@@ -6,8 +6,9 @@ import { FormFields, RenderField } from "../Fields";
 import { StringsNewLeague } from "../../localization/Strings";
 import { VpnKeyIcon, ErrorIcon } from "mdi-react";
 import axios from "axios";
-import UIkit from "uikit";
-import { isUUID, isLength } from "validator";
+import { notification } from "uikit/src/js/components/notification";
+import { isUUID } from "validator/lib/isUUID";
+import { isLength } from "validator/lib/isLength";
 
 /*
  * View to join a league using access code
@@ -166,7 +167,7 @@ class JoinLeague extends React.Component {
           this.setState({ name: response.data.name });
         })
         .catch(error => {
-          UIkit.notification(StringsNewLeague.errorJoin, "danger");
+          notification(StringsNewLeague.errorJoin, "danger");
         });
     } else {
       this.setState({ invalidCode: true, accessCode: "" });

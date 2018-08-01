@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+//TODO avoid moment if possible
 import moment from "moment";
 import { StringsDashboard, StringsDate } from "../../localization/Strings";
 
@@ -71,4 +72,7 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, {})(Overview);
+export default connect(
+  mapStateToProps,
+  {}
+)(Overview);

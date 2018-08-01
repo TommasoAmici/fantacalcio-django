@@ -4,8 +4,8 @@ import { Field, reduxForm } from "redux-form";
 import { newLeague } from "../../actions";
 import { FormFields, RenderField } from "../Fields";
 import { StringsNewLeague } from "../../localization/Strings";
-import { isLength } from "validator";
-import { EditIcon } from "mdi-react";
+import { isLength } from "validator/lib/isLength";
+import { EditIcon } from "mdi-react/EditIcon";
 
 function validate(formProps) {
   const errors = {};

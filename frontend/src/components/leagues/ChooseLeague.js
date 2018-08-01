@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom/withRouter";
 import { StringsDashboard } from "../../localization/Strings";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner";

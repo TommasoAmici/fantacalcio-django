@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom/withRouter";
 import DashboardSidebar from "./DashboardSidebar";
 import Dashboard from "./Dashboard";
-import _ from "lodash";
+import { isEmpty } from "lodash/isEmpty";
 
 class HomeLoggedIn extends React.Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class HomeLoggedIn extends React.Component {
       this.props.history.push(`${this.props.match.url}/welcome`);
     } else if (
       this.props.league.selected === false ||
-      _.isEmpty(this.props.league)
+      isEmpty(this.props.league)
     ) {
       this.props.history.push(`/choose-league`);
     }

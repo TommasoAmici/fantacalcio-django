@@ -1,12 +1,13 @@
 import React from "react";
 //import TelegramLoginButton from 'react-telegram-login';
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom/Link";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { registerUser } from "../../actions";
 import { FormFields, RenderField, validatePassword } from "../Fields";
 import { StringsLogin } from "../../localization/Strings";
-import { isEmail, isLength } from "validator";
+import { isEmail } from "validator/lib/isEmail";
+import { isLength } from "validator/lib/isLength";
 import {
   AccountCircleIcon,
   AlternateEmailIcon,

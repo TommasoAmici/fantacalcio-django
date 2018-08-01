@@ -1,5 +1,5 @@
 import React from "react";
-import { ErrorIcon } from "mdi-react";
+import { ErrorIcon } from "mdi-react/ErrorIcon";
 
 export class FormFields extends React.Component {
   render() {

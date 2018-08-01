@@ -1,5 +1,7 @@
 import React from "react";
-import { Link, NavLink, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom/Link";
+import { NavLink } from "react-router-dom/NavLink";
+import { withRouter } from "react-router-dom/withRouter";
 import { connect } from "react-redux";
 import { getUser, logoutUser } from "../../actions";
 import axios from "axios";
@@ -15,7 +17,7 @@ import {
 import LoadingSpinner from "../LoadingSpinner";
 import { NavBarDropDown, NavBarSection, NavBarLogo } from "./NavBar";
 import NavBarLeagueLi from "./NavBarLeagueLi";
-import { modal } from "uikit";
+import { modal } from "uikit/src/js/core/modal";
 import { PlusIcon, LogoutVariantIcon, SettingsIcon } from "mdi-react";
 
 class NavBarLoggedIn extends React.Component {

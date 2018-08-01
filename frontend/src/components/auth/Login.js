@@ -1,14 +1,14 @@
 import React from "react";
 //import TelegramLoginButton from 'react-telegram-login';
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom/Link";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions";
 import { FormFields, RenderField } from "../Fields";
-import UIkit from "uikit";
+import { notification } from "uikit/dist/js/components/notification";
 import { StringsLogin } from "../../localization/Strings";
-import { isEmail } from "validator";
+import { isEmail } from "validator/lib/isEmail";
 import {
   AlternateEmailIcon,
   VisibilityOffIcon,
@@ -47,7 +47,7 @@ class LoginForm extends React.Component {
 
   errorMessage() {
     if (this.props.errorMessage) {
-      return UIkit.notification(this.props.errorMessage, "danger");
+      return notification(this.props.errorMessage, "danger");
     }
   }
 

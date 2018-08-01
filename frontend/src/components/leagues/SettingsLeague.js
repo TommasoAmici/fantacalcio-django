@@ -7,9 +7,9 @@ import {
   StringsNewLeague,
   StringsLeagueSettings
 } from "../../localization/Strings";
-import { isLength } from "validator";
+import { isLength } from "validator/lib/isLength";
 import LoadingSpinner from "../LoadingSpinner";
-import { EditIcon } from "mdi-react";
+import { EditIcon } from "mdi-react/EditIcon";
 
 /*
  * league settings view

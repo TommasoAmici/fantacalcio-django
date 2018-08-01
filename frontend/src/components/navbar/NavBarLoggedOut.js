@@ -1,11 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom/NavLink";
 import { connect } from "react-redux";
 
 import { StringsLogin } from "../../localization/Strings";
 
 import { NavBarSection, NavBarLogo } from "./NavBar";
-import { LoginVariantIcon } from "mdi-react";
+import { LoginVariantIcon } from "mdi-react/LoginVariantIcon";
 
 class NavBarLoggedOut extends React.Component {
   render() {

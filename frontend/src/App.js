@@ -1,7 +1,9 @@
 import React from "react";
 import "./style/App.css";
 import { Provider, connect } from "react-redux";
-import { Router, Route, Redirect } from "react-router-dom";
+import { Router } from "react-router-dom/Router";
+import { Route } from "react-router-dom/Route";
+import { Redirect } from "react-router-dom/Redirect";
 import axios from "axios";
 import { AUTH_USER, AUTH_ERROR, LEAGUE_SELECTED, USER } from "./actions/types";
 import { errorHandler } from "./actions/index";
@@ -14,7 +16,7 @@ import ChooseLeague from "./components/leagues/ChooseLeague";
 
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
-import Switch from "react-router-dom/Switch";
+import { Switch } from "react-router-dom/Switch";
 import HomeLoggedOut from "./components/home/HomeLoggedOut";
 
 class App extends React.Component {

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import NavBarLoggedIn from "./NavBarLoggedIn";
 import NavBarLoggedOut from "./NavBarLoggedOut";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom/Link";
 import logo from "../../images/logo.png";
 
 export function NavBarDropDown(props) {

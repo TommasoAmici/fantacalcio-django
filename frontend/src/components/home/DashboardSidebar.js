@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StringsDashboard } from "../../localization/Strings";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom/Link";
 import {
   SettingsIcon,
   HomeIcon,
